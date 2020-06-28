@@ -92,38 +92,14 @@ public class HomeFrag_WebdocDashboadActivity extends Fragment implements VolleyL
         tvFeedBack = view.findViewById(R.id.tvFeedback_HomeFrag_WebdocDashboardActivity);
     }
 
-    private void getPrescriptionHistory()
-    {
+    private void getPrescriptionHistory() {
         Global.utils.showProgressDialog(getActivity(), getActivity().getString(R.string.loading_prescription));
-
-        /*com.wmalick.webdoc_library.ServerManager serverManager = new com.wmalick.webdoc_library.ServerManager(getActivity());
-
-        Map<String, Object> postParams = new HashMap<String, Object>();
-        postParams.put("CustomerId", Constants.prescriptionHistoryKey);
-
-        serverManager.jsonParse(Constants.CUSTOMER_CONSULTATION_API, Constants.CUSTOMER_CONSULTATION_API, postParams);*/
-
         serverManager.GetPrescriptionHistory(Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getApplicationUserId());
-
-
     }
 
-    private void getDoctorsList()
-    {
+    private void getDoctorsList() {
         Global.utils.showProgressDialog(getActivity(), getActivity().getString(R.string.loading_doctors));
-
-        /*com.wmalick.webdoc_library.ServerManager serverManager = new com.wmalick.webdoc_library.ServerManager(getActivity());
-
-        Map<String, Object> postParams = new HashMap<String, Object>();
-        postParams.put("Key", Constants.doctorsKey);
-        postParams.put("City", Constants.patientCity);
-
-        serverManager.jsonParse(Constants.DOCTORS_LIST_API, Constants.DOCTORS_LIST_API, postParams);*/
-
-        //myController.GETDETAILS(Constants.detailsKey);
-
         serverManager.GetDoctorsList();
-
     }
 
     private void FeedBackDialog() {

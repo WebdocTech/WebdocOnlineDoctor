@@ -9,22 +9,36 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.sinch.android.rtc.ClientRegistration;
+import com.sinch.android.rtc.PushTokenRegistrationCallback;
+import com.sinch.android.rtc.Sinch;
+import com.sinch.android.rtc.SinchError;
+import com.sinch.android.rtc.UserController;
+import com.sinch.android.rtc.UserRegistrationCallback;
 import com.wmalick.webdoc_library.Dashboard.Fragments.HomeFrag_WebdocDashboadActivity;
+import com.wmalick.webdoc_library.Essentials.Global;
 import com.wmalick.webdoc_library.R;
 import com.wmalick.webdoc_library.ServerManager.VolleyListener;
+import com.wmalick.webdoc_library.Sinch.SinchBaseActivity;
+import com.wmalick.webdoc_library.Sinch.SinchService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.security.MessageDigest;
 
-public class WebdocDashboardActivity extends /*SinchBaseActivity*/AppCompatActivity implements /*SinchService.StartFailedListener, PushTokenRegistrationCallback, UserRegistrationCallback,*/  VolleyListener {
+import static com.wmalick.webdoc_library.Sinch.SinchService.APP_KEY;
+import static com.wmalick.webdoc_library.Sinch.SinchService.APP_SECRET;
+import static com.wmalick.webdoc_library.Sinch.SinchService.ENVIRONMENT;
+
+public class WebdocDashboardActivity extends SinchBaseActivity/*AppCompatActivity*/ implements SinchService.StartFailedListener, PushTokenRegistrationCallback, UserRegistrationCallback,  VolleyListener {
 
     public static Toolbar toolbar;
     private String mSinchUserId;
     private long mSigningSequence = 1;
-    /*FirebaseAuth mAuth;*/
+    FirebaseAuth mAuth;
 
     ProgressBar progressBar;
 
@@ -34,8 +48,10 @@ public class WebdocDashboardActivity extends /*SinchBaseActivity*/AppCompatActiv
         setContentView(R.layout.activity_webdoc_dashboard);
 
         //this is test code to commitg
+
+        FirebaseApp.initializeApp(this);
         progressBar = findViewById(R.id.progressBar_WebdocDashboardActivity);
-        /*mAuth = FirebaseAuth.getInstance();*/
+        mAuth = FirebaseAuth.getInstance();
         toolbar = findViewById(R.id.toolbar_WebdocDashboardActivity);
         setSupportActionBar(toolbar);
 
@@ -50,10 +66,10 @@ public class WebdocDashboardActivity extends /*SinchBaseActivity*/AppCompatActiv
                 onBackPressed();
             }
         });
-        progressBar.setVisibility(View.GONE);
+        /*progressBar.setVisibility(View.GONE);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer_WebdocDashboardActivity, new HomeFrag_WebdocDashboadActivity())
-                .commit();
+                .commit();*/
     }
 
     @Override
@@ -62,7 +78,7 @@ public class WebdocDashboardActivity extends /*SinchBaseActivity*/AppCompatActiv
 
     }
 
-   /* @Override
+    @Override
     protected void onServiceConnected() {
         if (getSinchServiceInterface().isStarted()) {
             SinchLogin(Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getMobileNumber());
@@ -149,5 +165,5 @@ public class WebdocDashboardActivity extends /*SinchBaseActivity*/AppCompatActiv
                 .environmentHost(ENVIRONMENT)
                 .build();
         uc.registerUser(this, this);
-    }*/
+    }
 }
