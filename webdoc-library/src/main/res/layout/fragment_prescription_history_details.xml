@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:clickable="true"
+    tools:context=".Dashboard.Fragments.PrescriptionHistoryFragment.PrescriptionHistoryDetailsFragment">
+
+    <TextView
+        android:id="@+id/tv_drName"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:background="@android:color/holo_red_dark"
+        android:gravity="center"
+        android:text="Amber Dildaar"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/textSize_15"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/hGuideline10Per_Consult"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_drImage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/ic_userimage"
+        app:civ_border_color="@android:color/darker_gray"
+        app:civ_border_width="1dp"
+        app:civ_circle_background_color="#ffffff"
+        app:layout_constraintBottom_toTopOf="@+id/hGuideline10Per_Consult"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/hGuideline10Per_Consult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/hGuideline10" />
+
+    <TextView
+        android:id="@+id/tv_Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:padding="2dp"
+        android:text="03:39 PM"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/textSize_10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hGuideline10Per_Consult" />
+
+    <TextView
+        android:id="@+id/tv_Date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:text="DATE:"
+        android:padding="2dp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/textSize_10"
+        app:layout_constraintEnd_toStartOf="@+id/tv_Time"
+        app:layout_constraintTop_toTopOf="@+id/hGuideline10Per_Consult" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ComplainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/buttonborder_white_red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Date">
+
+        <TextView
+            android:id="@+id/textView24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Complaint"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize_11"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_Complaints"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_Complaints" />
+
+        <TextView
+            android:id="@+id/textView25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diagonsis"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize_11"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_Diagnosis"
+            app:layout_constraintStart_toStartOf="@+id/textView24"
+            app:layout_constraintTop_toTopOf="@+id/tv_Diagnosis" />
+
+        <TextView
+            android:id="@+id/textView26"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Consultation Type"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize_11"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_ConsultationType"
+            app:layout_constraintStart_toStartOf="@+id/textView25"
+            app:layout_constraintTop_toTopOf="@+id/tv_ConsultationType" />
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize_11"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_Test"
+            app:layout_constraintStart_toStartOf="@+id/textView26"
+            app:layout_constraintTop_toTopOf="@+id/tv_Test" />
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="24dp"
+            android:background="@android:color/transparent"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView26"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_Complaints"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Label"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize_11"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/view1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_Diagnosis"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="null"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize_11"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/tv_Complaints"
+            app:layout_constraintStart_toStartOf="@+id/tv_Complaints"
+            app:layout_constraintTop_toBottomOf="@+id/tv_Complaints" />
+
+        <TextView
+            android:id="@+id/tv_ConsultationType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Label"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize_11"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/tv_Diagnosis"
+            app:layout_constraintStart_toStartOf="@+id/tv_Diagnosis"
+            app:layout_constraintTop_toBottomOf="@+id/tv_Diagnosis" />
+
+        <TextView
+            android:id="@+id/tv_Test"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Label"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize_11"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_ConsultationType"
+            app:layout_constraintStart_toStartOf="@+id/tv_ConsultationType"
+            app:layout_constraintTop_toBottomOf="@+id/tv_ConsultationType" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyclerViewConsults"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ComplainLayout" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/docList"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="@string/drname"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/textSize_13"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textDegree"
+        app:layout_constraintEnd_toEndOf="@+id/textDegree"
+        app:layout_constraintStart_toStartOf="@+id/textDegree"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textDegree"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/degree"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/textSize_11"
+        app:layout_constraintBottom_toTopOf="@+id/tv_speciality"
+        app:layout_constraintEnd_toEndOf="@+id/tv_speciality"
+        app:layout_constraintStart_toStartOf="@+id/tv_speciality"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+    <TextView
+        android:id="@+id/tv_speciality"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="10dp"
+        android:hint="@string/speciality"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/textSize_11"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/user_image"
+        app:layout_constraintTop_toBottomOf="@+id/textDegree" />
+
+
+    <TextView
+        android:id="@+id/text_City"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="8dp"
+        android:hint="@string/city_name"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/textSize_11"
+        app:layout_constraintEnd_toStartOf="@+id/view1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <RatingBar
+        android:id="@+id/ratingBar_WebdocRating"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="8dp"
+        android:numStars="5"
+        android:rating="2.0"
+        android:scaleX="0.5"
+        android:scaleY="0.5"
+        android:stepSize="0.1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/view1"
+        app:layout_constraintTop_toBottomOf="@+id/text_City" />
+
+    <View
+        android:layout_height="62dp"
+        android:layout_width="1dp"
+        android:id="@+id/view1"
+        android:layout_marginRight="8dp"
+        android:orientation="vertical"
+        android:background="#c0c0c0"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/btn_Profile"/>
+
+    <Button
+        android:id="@+id/btn_Profile"
+        android:layout_width="65dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/buttonborder_white_red"
+        android:padding="5dp"
+        android:text="@string/profile"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="@dimen/textSize_11"
+        app:layout_constraintBottom_toTopOf="@+id/btn_Consult"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_Consult"
+        android:layout_width="65dp"
+        android:layout_height="28dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/buttonborder_white_red"
+        android:padding="5dp"
+        android:text="@string/consult"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="@dimen/textSize_11"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_image"
+        android:layout_width="54dp"
+        android:layout_height="57dp"
+        android:layout_marginLeft="5dp"
+        android:src="@drawable/doctor"
+        app:civ_border_color="@android:color/darker_gray"
+        app:civ_border_width="1dp"
+        app:civ_circle_background_color="#ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

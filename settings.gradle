@@ -1,0 +1,3 @@
+include ':webdoc-library'
+include ':app'
+rootProject.name = "WebdocAndroidLibrary"

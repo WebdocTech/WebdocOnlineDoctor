@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".Dashboard.Fragments.ConsultDoctorFragments.DoctorConsult.DoctorConsultFragment">
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/MainConstraintlayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/hGuideline8Per_Consult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="@dimen/hGuideline7" />
+
+            <ImageView
+                android:id="@+id/imageViewBackground"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:contentDescription="TODO"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="w, 1:4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/drbackground" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/user_image"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="52dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/doctor"
+                app:civ_border_color="@android:color/darker_gray"
+                app:civ_border_width="2dp"
+                app:civ_circle_background_color="#ffffff"
+                app:layout_constraintBottom_toTopOf="@+id/hGuideline19Per_Consult"
+                app:layout_constraintDimensionRatio="w, 0:4"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hGuideline8Per_Consult"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/hGuideline19Per_Consult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.23" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/Drname"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSize_13"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hGuideline19Per_Consult" />
+
+
+            <TextView
+                android:id="@+id/tv_speciality"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/speciality"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSize_11"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+
+            <!-- <View
+                 android:id="@+id/view1"
+                 android:layout_width="match_parent"
+                 android:layout_height="2dp"
+                 android:background="#c0c0c0"
+                 app:layout_constraintTop_toTopOf="@+id/hGuideline35Per_Consult" />-->
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/hGuideline35Per_Consult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="@dimen/hGuideline35" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ConstraintMain"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/qa_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hGuideline35Per_Consult">
+
+                <TextView
+                    android:id="@+id/textConsult"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Consultation"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize_15"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/hGuideline20Per_Consult"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/hGuideline20Per_Consult"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.10" />
+
+                <Button
+                    android:id="@+id/btn_Text"
+                    android:layout_width="190dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/buttonborder_black_gray"
+                    android:drawableStart="@drawable/ic_iconfinder_work"
+                    android:drawablePadding="0dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="0dp"
+                    android:text="@string/TextConsultation"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize_12"
+                    app:layout_constraintBottom_toTopOf="@+id/btn_Video"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/hGuideline20Per_Consult" />
+
+                <Button
+                    android:id="@+id/btn_Video"
+                    android:layout_width="190dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/buttonborder_black_gray"
+                    android:drawableStart="@drawable/ic_videocam_black_24dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="0dp"
+                    android:text="@string/VideoConsultation"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize_12"
+                    app:layout_constraintBottom_toTopOf="@+id/btn_Audio"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_Text" />
+
+                <Button
+                    android:id="@+id/btn_Audio"
+                    android:layout_width="190dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/buttonborder_black_gray"
+                    android:drawableStart="@drawable/ic_dialer"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
+                    android:text="@string/AudioConsultation"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize_12"
+                    app:layout_constraintBottom_toTopOf="@+id/hGuideline70Per_Consult"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_Video" />
+
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/hGuideline70Per_Consult"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="@dimen/hGuideline70" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <View
+                android:id="@+id/viewEnd"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#c0c0c0"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="@+id/hGuideline80Per_Consult" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/hGuideline80Per_Consult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="@dimen/hGuideline80" />
+
+            <!-- <androidx.constraintlayout.widget.ConstraintLayout
+                 android:id="@+id/ConstraintLayoutDoctor"
+                 android:layout_width="0dp"
+                 android:layout_height="0dp"
+                 android:layout_marginStart="5dp"
+                 android:layout_marginTop="5dp"
+                 android:layout_marginEnd="5dp"
+                 android:layout_marginBottom="5dp"
+                 android:visibility="visible"
+                 app:layout_constraintBottom_toBottomOf="parent"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintTop_toBottomOf="@+id/hGuideline80Per_Consult">
+
+                 <TextView
+                     android:id="@+id/textSuggestedDoc"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_marginStart="2dp"
+                     android:text="@string/SuggestedDoctors"
+                     android:textColor="@android:color/black"
+                     app:layout_constraintBottom_toTopOf="@+id/RecylcerViewActiveDocList"
+                     app:layout_constraintStart_toStartOf="parent"
+                     app:layout_constraintTop_toTopOf="parent" />
+
+                 <androidx.recyclerview.widget.RecyclerView
+                     android:id="@+id/RecylcerViewActiveDocList"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentEnd="true"
+                     android:layout_alignParentBottom="true"
+                     android:foregroundGravity="center"
+                     android:layout_marginTop="8dp"
+                     app:layout_constraintEnd_toEndOf="parent"
+                     app:layout_constraintStart_toStartOf="parent"
+                     app:layout_constraintTop_toBottomOf="@+id/textSuggestedDoc" />
+             </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ConstraintLayoutDoctor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hGuideline80Per_Consult">
+
+                <TextView
+                    android:id="@+id/textSuggestedDoc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:text="@string/SuggestedDoctors"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintBottom_toTopOf="@+id/RecylcerViewActiveDocList"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecylcerViewActiveDocList"
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="2dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textSuggestedDoc" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

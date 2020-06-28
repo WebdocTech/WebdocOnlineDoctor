@@ -1,0 +1,53 @@
+<resources>
+<dimen name="fab_margin">16dp</dimen>
+
+ <!-- TEXT SIZES-->
+    <dimen name="textSize_10">10sp</dimen>
+    <dimen name="textSize_11">11sp</dimen>
+    <dimen name="textSize_12">12sp</dimen>
+    <dimen name="textSize_13">13sp</dimen>
+    <dimen name="textSize_15">15sp</dimen>
+    <dimen name="textSize_20">20sp</dimen>
+    <dimen name="textSize_23">23sp</dimen>
+    <dimen name="textSize_40">40sp</dimen>
+
+<!--MARGIN-->
+    <dimen name="btn_margin_xsmall">5sp</dimen>
+    <dimen name="btn_margin_small">10sp</dimen>
+    <dimen name="btn_margin_medium">13sp</dimen>
+    <dimen name="btn_margin_large">16sp</dimen>
+    <dimen name="btn_margin_xlarge">20sp</dimen>
+
+<!--PADDING-->
+    <dimen name="padding_xxxsmall">3sp</dimen>
+    <dimen name="padding_xxsmall">5sp</dimen>
+    <dimen name="padding_xsmall">7.5sp</dimen>
+    <dimen name="padding_small">10sp</dimen>
+    <dimen name="padding_standard">12sp</dimen>
+    <dimen name="padding_large">14sp</dimen>
+    <dimen name="padding_xlarge">16sp</dimen>
+    <dimen name="padding_xxlarge">20sp</dimen>
+    <dimen name="padding_xxxlarge">22sp</dimen>
+
+<!--GUIDLINES-->
+    <dimen name="hGuideline3">0.03</dimen>
+    <dimen name="hGuideline7">0.07</dimen>
+    <dimen name="hGuideline10">0.1</dimen>
+    <dimen name="hGuideline15">0.15</dimen>
+    <dimen name="hGuideline20">0.20</dimen>
+    <dimen name="hGuideline25">0.25</dimen>
+    <dimen name="hGuideline30">0.30</dimen>
+    <dimen name="hGuideline35">0.35</dimen>
+    <dimen name="hGuideline40">0.4</dimen>
+    <dimen name="hGuideline50">0.5</dimen>
+    <dimen name="hGuideline60">0.60</dimen>
+    <dimen name="hGuideline65">0.65</dimen>
+    <dimen name="hGuideline70">0.70</dimen>
+    <dimen name="hGuideline75">0.75</dimen>
+    <dimen name="hGuideline80">0.80</dimen>
+    <dimen name="hGuideline85">0.85</dimen>
+    <dimen name="hGuideline88">0.88</dimen>
+    <dimen name="hGuideline90">0.90</dimen>
+    <dimen name="hGuideline92">0.92</dimen>
+
+</resources>

@@ -1,0 +1,24 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wmalick.webdoc_library">
+
+    <application>
+        <activity android:name=".Dashboard.WebdocDashboardActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <!--<activity
+            android:name=".Sinch.IncomingCallScreen"
+            android:showOnLockScreen="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Sinch.SinchCallScreen"
+            android:showOnLockScreen="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <service android:name=".Sinch.SinchService" />
+        <service android:name=".Services.FcmListenerService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>-->
+
+    </application>
+</manifest>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/MainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/buttonborder_black_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Medicine Name"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize_11"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Days"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize_11"
+            app:layout_constraintStart_toStartOf="@+id/textView12"
+            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+        <TextView
+            android:id="@+id/tv_MedicineName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Panadol 20mg"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize_11"
+            app:layout_constraintStart_toEndOf="@+id/view1"
+            app:layout_constraintTop_toTopOf="@+id/textView12" />
+
+        <TextView
+            android:id="@+id/tv_MedicineDays"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="7"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize_11"
+            app:layout_constraintStart_toStartOf="@+id/tv_MedicineName"
+            app:layout_constraintTop_toTopOf="@+id/textView13" />
+
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/textView13"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_Morning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="8dp"
+            android:text="Morning"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize_11"
+            app:layout_constraintEnd_toStartOf="@+id/tv_day"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+        <TextView
+            android:id="@+id/tv_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Noon"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize_11"
+            app:layout_constraintEnd_toStartOf="@+id/tv_Night"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tv_Morning"
+            app:layout_constraintTop_toTopOf="@+id/tv_Morning" />
+
+        <TextView
+            android:id="@+id/tv_Night"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Evening"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize_11"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tv_day"
+            app:layout_constraintTop_toTopOf="@+id/tv_day" />
+
+        <TextView
+            android:id="@+id/tv_qntyMorning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="1"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize_11"
+            app:layout_constraintEnd_toEndOf="@+id/tv_Morning"
+            app:layout_constraintStart_toStartOf="@+id/tv_Morning"
+            app:layout_constraintTop_toBottomOf="@+id/tv_Morning" />
+
+        <TextView
+            android:id="@+id/tv_qntyNoon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="1"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize_11"
+            app:layout_constraintEnd_toEndOf="@+id/tv_day"
+            app:layout_constraintStart_toStartOf="@+id/tv_day"
+            app:layout_constraintTop_toBottomOf="@+id/tv_day" />
+
+        <TextView
+            android:id="@+id/tv_qntyEvening"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="1"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize_11"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/tv_Night"
+            app:layout_constraintStart_toStartOf="@+id/tv_Night"
+            app:layout_constraintTop_toBottomOf="@+id/tv_Night" />
+
+        <TextView
+            android:id="@+id/textView34"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Note: "
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="@dimen/textSize_11"
+            app:layout_constraintStart_toStartOf="@+id/textView13"
+            app:layout_constraintTop_toBottomOf="@+id/tv_qntyMorning" />
+
+
+        <TextView
+            android:id="@+id/textView35"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize_11"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_qntyMorning"
+            app:layout_constraintEnd_toStartOf="@+id/tv_qntyNoon"
+            app:layout_constraintStart_toEndOf="@+id/tv_qntyMorning"
+            app:layout_constraintTop_toTopOf="@+id/tv_qntyMorning" />
+
+        <TextView
+            android:id="@+id/textView36"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize_11"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_qntyNoon"
+            app:layout_constraintEnd_toStartOf="@+id/tv_qntyEvening"
+            app:layout_constraintStart_toEndOf="@+id/tv_qntyNoon"
+            app:layout_constraintTop_toTopOf="@+id/tv_qntyNoon" />
+
+
+        <com.ms.square.android.expandabletextview.ExpandableTextView
+            android:id="@+id/expand_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:animDuration="200"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView34"
+            app:maxCollapsedLines="3">
+
+            <TextView
+                android:id="@id/expandable_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="8dp"
+                android:textColor="#666666"
+                android:textSize="11sp" />
+
+            <ImageButton
+                android:id="@id/expand_collapse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:background="@android:color/transparent"
+                android:padding="8dp" />
+        </com.ms.square.android.expandabletextview.ExpandableTextView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
