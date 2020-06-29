@@ -4,12 +4,18 @@ group='com.github.WebdocTech.WebdocOnlineDoctor'*/
 
 apply plugin: 'maven-publish'
 
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier "sources"
+}
+
 publishing {
     publications {
         mavenAar(MavenPublication) {
             groupId 'com.wmalick'
             artifactId 'webdoc_library'
             version project.getVersion()
+            artifact(sourceJar)
             artifact("$buildDir/outputs/aar/sinch-android-rtc-3.17.4.aar")
         }
     }
