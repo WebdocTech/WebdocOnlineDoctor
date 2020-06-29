@@ -1,7 +1,12 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.WebdocTech.WebdocOnlineDoctor'
+group='com.wmalick.webdocandroidlibrary'
 /*apply plugin: 'maven-publish'*/
+
+apply plugin: 'maven-publish'
+
+def artifactId = 'webdoc_library'
+def groupId = 'com.wmalick.webdocandroidlibrary'
 
 /*task sourceJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
@@ -62,19 +67,19 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation ('com.google.android.material:material:1.0.0'){
+    api ('com.google.android.material:material:1.0.0'){
         transitive=true
     }
-    implementation ('de.hdodenhof:circleimageview:3.1.0'){
+    api ('de.hdodenhof:circleimageview:3.1.0'){
         transitive=true
     }
-    implementation ('com.squareup.picasso:picasso:2.71828'){
+    api ('com.squareup.picasso:picasso:2.71828'){
         transitive=true
     }
-    implementation ('com.google.code.gson:gson:2.8.2'){
+    api ('com.google.code.gson:gson:2.8.2'){
         transitive=true
     }
-    implementation ('com.ms-square:expandableTextView:0.1.4'){
+    api ('com.ms-square:expandableTextView:0.1.4'){
         transitive=true
     }
     implementation ('com.github.wangjiegulu:ShadowViewHelper:1.0.2'){
@@ -103,3 +108,21 @@ dependencies {
     implementation(name:'sinch-android-rtc', version:'3.17.4', ext:'aar')
 }
 apply plugin: 'com.google.gms.google-services'
+
+project.afterEvaluate {
+    publishing {
+        publications {
+            library(MavenPublication) {
+                setGroupId groupId
+                setArtifactId artifactId
+                version android.defaultConfig.versionName
+
+                artifact bundleReleaseAar
+
+                println "publishing: " + groupId
+                println "publishing: " + artifactId
+                println "publishing: " + bundleReleaseAar
+            }
+        }
+    }
+}
