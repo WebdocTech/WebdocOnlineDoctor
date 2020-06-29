@@ -1,6 +1,25 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.WebdocTech.WebdocOnlineDoctor'
+/*apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.WebdocTech.WebdocOnlineDoctor'*/
+
+apply plugin: 'maven-publish'
+
+publishing {
+    publications {
+        mavenAar(MavenPublication) {
+            groupId 'com.wmalick'
+            artifactId 'webdoc_library'
+            version project.getVersion()
+            artifact("$buildDir/outputs/aar/sinch-android-rtc-3.17.4.aar")
+        }
+    }
+
+    repositories {
+        maven {
+            url "$buildDir/repo"
+        }
+    }
+}
 
 android {
     compileSdkVersion 29
@@ -10,7 +29,6 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -55,6 +73,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:20.2.0'
 
     implementation(name:'sinch-android-rtc', version:'3.17.4', ext:'aar')
-
 }
 apply plugin: 'com.google.gms.google-services'
