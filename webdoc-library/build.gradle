@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
-/*apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.WebdocTech.WebdocOnlineDoctor'*/
-
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.WebdocTech.WebdocOnlineDoctor'
 apply plugin: 'maven-publish'
 
 task sourceJar(type: Jar) {
