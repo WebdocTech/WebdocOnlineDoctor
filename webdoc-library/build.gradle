@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 /*apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.WebdocTech.WebdocOnlineDoctor'*/
-apply plugin: 'digital.wup.android-maven-publish'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion 29
@@ -58,10 +58,35 @@ dependencies {
 }
 apply plugin: 'com.google.gms.google-services'
 
+
 publishing {
     publications {
-        mavenAar(MavenPublication) {
-            from components.android
+        maven(MavenPublication) {
+            groupId 'com.wmalick.webdoc_library' //You can either define these here or get them from project conf elsewhere
+            artifactId 'sinch-android-rtc'
+            version '3.17.4'
+            artifact "$buildDir/libs/app-sinch-android-rtc-3.17.4.aar" //aar artifact you want to publish
+
+            System.out.println("Here are the details: \n")
+
+            //generate pom nodes for dependencies
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                configurations.Implementation.allDependencies.each { dependency ->
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', dependency.group)
+                    dependencyNode.appendNode('artifactId', dependency.name)
+                    dependencyNode.appendNode('version', dependency.version)
+                }
+            }
+        }
+    }
+
+    //publish to filesystem repo
+    repositories{
+        maven {
+            url "$buildDir/libs"
         }
     }
 }
+
