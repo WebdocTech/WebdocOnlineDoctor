@@ -1,6 +1,7 @@
 package com.wmalick.webdoc_library.Adapters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,6 @@ public class ConsultDoctorListAdapter extends RecyclerView.Adapter<ConsultDoctor
 
     public void onBindViewHolder(@NonNull ConsultDoctorListAdapter.ViewHolder holder, final int position) {
         final Doctorprofile item = Global.doctorsList.get(position);
-
         final String docName = item.getFirstName() + " " + item.getLastName();
         final String imageUrl = item.getImgLink();
         final String speciality = item.getDoctorSpecialty();
@@ -65,9 +65,7 @@ public class ConsultDoctorListAdapter extends RecyclerView.Adapter<ConsultDoctor
         holder.btn_Profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Global.selectedDoctor = item;
-
                 fragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer_WebdocDashboardActivity, new DoctorProfileFargment())
                         .addToBackStack(null)
@@ -80,11 +78,11 @@ public class ConsultDoctorListAdapter extends RecyclerView.Adapter<ConsultDoctor
             public void onClick(View view) {
 
                 Global.selectedDoctor = item;
-
-                fragmentManager.beginTransaction()
+                /*fragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer_WebdocDashboardActivity, new DoctorConsultFragment())
                         .addToBackStack(null)
-                        .commit();
+                        .commit();*/
+                context.startActivity(new Intent(context,  DoctorConsultFragment.class));
             }
         });
     }

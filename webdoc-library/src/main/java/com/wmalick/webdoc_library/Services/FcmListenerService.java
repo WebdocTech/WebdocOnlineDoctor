@@ -16,12 +16,8 @@ import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.sinch.android.rtc.NotificationResult;
-import com.sinch.android.rtc.SinchHelpers;
-import com.sinch.android.rtc.calling.CallNotificationResult;
 import com.wmalick.webdoc_library.Dashboard.WebdocDashboardActivity;
 import com.wmalick.webdoc_library.R;
-import com.wmalick.webdoc_library.Sinch.SinchService;
 
 import java.util.Map;
 
@@ -35,7 +31,7 @@ public class FcmListenerService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage){
         Map data = remoteMessage.getData();
-        if (SinchHelpers.isSinchPushPayload(data)) {
+        /*if (SinchHelpers.isSinchPushPayload(data)) {
             new ServiceConnection() {
                 private Map payload;
 
@@ -83,7 +79,7 @@ public class FcmListenerService extends FirebaseMessagingService {
                     getApplicationContext().bindService(new Intent(getApplicationContext(), SinchService.class), this, BIND_AUTO_CREATE);
                 }
             }.relayMessageData(data);
-        }
+        }*/
     }
 
     private void createNotificationChannel(int importance) {

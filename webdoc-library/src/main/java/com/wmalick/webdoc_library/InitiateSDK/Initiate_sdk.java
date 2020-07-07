@@ -8,10 +8,11 @@ import com.google.gson.Gson;
 import com.wmalick.webdoc_library.Dashboard.WebdocDashboardActivity;
 import com.wmalick.webdoc_library.Essentials.Constants;
 import com.wmalick.webdoc_library.Essentials.Global;
-import com.wmalick.webdoc_library.ResponseModels.GetCustomerData.GetCustomerDataApiResponse;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.wmalick.webdoc_library.ResponseModels.GetCustomerData.GetCustomerDataApiResponse;
 import com.wmalick.webdoc_library.ServerManager.ServerManager;
 import com.wmalick.webdoc_library.ServerManager.VolleyListener;
 
@@ -43,6 +44,7 @@ public class Initiate_sdk implements VolleyListener {
         if(responseModel.getGetcustomerDataResult().getResponseCode().equals(Constants.SUCCESSCODE)){
             Global.getCustomerDataApiResponse = responseModel;
             ctx.startActivity(new Intent(ctx, WebdocDashboardActivity.class));
+            ctx.finish();
         }else{
             Toast.makeText(ctx, responseModel.getGetcustomerDataResult().getMessage(), Toast.LENGTH_SHORT).show();
         }

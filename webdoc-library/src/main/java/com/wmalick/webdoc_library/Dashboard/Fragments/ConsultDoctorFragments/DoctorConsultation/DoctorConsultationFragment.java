@@ -45,5 +45,4 @@ public class DoctorConsultationFragment extends Fragment {
 
         return view;
     }
-
 }

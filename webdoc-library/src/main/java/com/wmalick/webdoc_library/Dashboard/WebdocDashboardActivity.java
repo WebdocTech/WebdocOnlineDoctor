@@ -1,40 +1,28 @@
 package com.wmalick.webdoc_library.Dashboard;
 
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.sinch.android.rtc.ClientRegistration;
-import com.sinch.android.rtc.PushTokenRegistrationCallback;
-import com.sinch.android.rtc.Sinch;
-import com.sinch.android.rtc.SinchError;
-import com.sinch.android.rtc.UserController;
-import com.sinch.android.rtc.UserRegistrationCallback;
+import com.google.firebase.database.FirebaseDatabase;
 import com.wmalick.webdoc_library.Dashboard.Fragments.HomeFrag_WebdocDashboadActivity;
-import com.wmalick.webdoc_library.Essentials.Global;
 import com.wmalick.webdoc_library.R;
 import com.wmalick.webdoc_library.ServerManager.VolleyListener;
-import com.wmalick.webdoc_library.Sinch.SinchBaseActivity;
-import com.wmalick.webdoc_library.Sinch.SinchService;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.MessageDigest;
+import java.util.HashMap;
 
-import static com.wmalick.webdoc_library.Sinch.SinchService.APP_KEY;
-import static com.wmalick.webdoc_library.Sinch.SinchService.APP_SECRET;
-import static com.wmalick.webdoc_library.Sinch.SinchService.ENVIRONMENT;
-
-public class WebdocDashboardActivity extends SinchBaseActivity/*AppCompatActivity*/ implements SinchService.StartFailedListener, PushTokenRegistrationCallback, UserRegistrationCallback,  VolleyListener {
-
+public class WebdocDashboardActivity extends AppCompatActivity implements  VolleyListener {
     public static Toolbar toolbar;
     private String mSinchUserId;
     private long mSigningSequence = 1;
@@ -50,6 +38,27 @@ public class WebdocDashboardActivity extends SinchBaseActivity/*AppCompatActivit
         //this is test code to commitg
 
         FirebaseApp.initializeApp(this);
+
+        /*HashMap<String, String> abc = new HashMap<>();
+        abc.put("name", "Waleed");
+        abc.put("id", "12345");
+
+        FirebaseDatabase.getInstance().getReference().child("test").setValue(abc).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    //String abc = task.getResult().toString();
+                    Toast.makeText(WebdocDashboardActivity.this, "Success", Toast.LENGTH_SHORT).show();
+
+                }else{
+                    String xy = task.getException().getMessage();
+                    Toast.makeText(WebdocDashboardActivity.this, task.getException().getMessage()+"", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });*/
+
+
         progressBar = findViewById(R.id.progressBar_WebdocDashboardActivity);
         mAuth = FirebaseAuth.getInstance();
         toolbar = findViewById(R.id.toolbar_WebdocDashboardActivity);
@@ -66,104 +75,14 @@ public class WebdocDashboardActivity extends SinchBaseActivity/*AppCompatActivit
                 onBackPressed();
             }
         });
-        /*progressBar.setVisibility(View.GONE);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainer_WebdocDashboardActivity, new HomeFrag_WebdocDashboadActivity())
-                .commit();*/
-    }
 
-    @Override
-    public void getRequestResponse(JSONObject response, String requestType) throws JSONException
-    {
-
-    }
-
-    @Override
-    protected void onServiceConnected() {
-        if (getSinchServiceInterface().isStarted()) {
-            SinchLogin(Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getMobileNumber());
-            Toast.makeText(this, "sinch started msg on onServiceConnected ", Toast.LENGTH_SHORT).show();
-        } else {
-            getSinchServiceInterface().setStartListener(this);
-            startClientAndOpenPlaceCallActivity();
-        }
-    }
-
-    @Override
-    public void tokenRegistered() {
-        openPlaceCallActivity();
-    }
-
-    @Override
-    public void tokenRegistrationFailed(SinchError sinchError) {
-        Toast.makeText(this, "Push token registration failed - incoming calls can't be received!", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onCredentialsRequired(ClientRegistration clientRegistration) {
-        String toSign = mSinchUserId + APP_KEY + mSigningSequence + APP_SECRET;
-        String signature;
-        MessageDigest messageDigest;
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-1");
-            byte[] hash = messageDigest.digest(toSign.getBytes("UTF-8"));
-            signature = Base64.encodeToString(hash, Base64.DEFAULT).trim();
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e.getCause());
-        }
-
-        clientRegistration.register(signature, mSigningSequence++);
-    }
-
-    @Override
-    public void onUserRegistered() {
-        openPlaceCallActivity();
-    }
-
-    @Override
-    public void onUserRegistrationFailed(SinchError sinchError) {
-        Toast.makeText(this, "Registration failed!", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onStartFailed(SinchError error) {
-        Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onStarted() {
-        SinchLogin(Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getMobileNumber());
-    }
-
-    private void startClientAndOpenPlaceCallActivity() {
-        // start Sinch Client, it'll result onStarted() callback from where the place call activity will be started
-        if (!getSinchServiceInterface().isStarted()) {
-            getSinchServiceInterface().setUsername(Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getMobileNumber());
-            getSinchServiceInterface().startClient();
-        }
-    }
-
-    private void openPlaceCallActivity() {
-        Global.utils.hideProgressDialog();
         progressBar.setVisibility(View.GONE);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer_WebdocDashboardActivity, new HomeFrag_WebdocDashboadActivity())
                 .commit();
     }
 
-    private void SinchLogin(String username) {
-        getSinchServiceInterface().setUsername(username);
-        if (!username.equals(getSinchServiceInterface().getUsername())) {
-            getSinchServiceInterface().stopClient();
-        }
-
-        mSinchUserId = username;
-        UserController uc = Sinch.getUserControllerBuilder()
-                .context(getApplicationContext())
-                .applicationKey(APP_KEY)
-                .userId(mSinchUserId)
-                .environmentHost(ENVIRONMENT)
-                .build();
-        uc.registerUser(this, this);
+    @Override
+    public void getRequestResponse(JSONObject response, String requestedApi) throws JSONException {
     }
 }

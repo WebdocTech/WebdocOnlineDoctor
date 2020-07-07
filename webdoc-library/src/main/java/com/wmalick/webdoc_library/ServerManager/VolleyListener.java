@@ -10,5 +10,5 @@ import org.json.JSONObject;
 public interface VolleyListener {
 
     /* These methods will be called when you implement interface on activity at top */
-    public void getRequestResponse(JSONObject response, String requestType) throws JSONException;
+    public void getRequestResponse(JSONObject response, String requestedApi) throws JSONException;
 }
