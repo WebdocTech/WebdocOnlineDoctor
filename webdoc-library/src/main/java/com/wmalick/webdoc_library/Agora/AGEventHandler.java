@@ -1,11 +1,20 @@
 package com.wmalick.webdoc_library.Agora;
 
+import io.agora.rtc.IRtcEngineEventHandler;
+
 public interface AGEventHandler {
     void onJoinChannelSuccess(String channel, int uid, int elapsed);
 
     void onUserOffline(int uid, int reason);
 
     void onExtraCallback(int type, Object... data);
+
+    void onUserLeaveChannel(IRtcEngineEventHandler.RtcStats stats);
+
+    void onUserJoinChannel(int uid, int elapsed);
+
+    void onRtcStatsChangeEveryTwoSeconds(IRtcEngineEventHandler.RtcStats stats);
+
 
     int EVENT_TYPE_ON_USER_AUDIO_MUTED = 7;
 

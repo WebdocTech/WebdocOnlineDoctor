@@ -1,6 +1,5 @@
 package com.wmalick.webdoc_library.Agora;
 
-
 import android.app.Application;
 
 public class AGApplication extends Application {

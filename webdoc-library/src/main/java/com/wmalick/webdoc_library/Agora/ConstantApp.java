@@ -12,6 +12,9 @@ public class ConstantApp {
     }
 
     public static final String ACTION_KEY_CHANNEL_NAME = "ecHANEL";
+    public static final String ACTION_KEY_USER_TOKEN = "etOKEN";
+    public static final String ACTION_KEY_USER_ACCOUNT = "euSERACCOUNT";
+    public static final String CALLED_USER = "called_User";
 
     public static class AppError {
         public static final int NO_NETWORK_CONNECTION = 3;

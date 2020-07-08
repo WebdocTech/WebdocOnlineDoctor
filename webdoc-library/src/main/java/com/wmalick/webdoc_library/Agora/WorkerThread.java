@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import io.agora.rtc.Constants;
 import io.agora.rtc.RtcEngine;
+import io.agora.rtc.models.UserInfo;
 
 public class WorkerThread extends Thread{
     private final static Logger log = LoggerFactory.getLogger(WorkerThread.class);
@@ -28,14 +29,15 @@ public class WorkerThread extends Thread{
 
     private static final int ACTION_WORKER_LEAVE_CHANNEL = 0X2011;
 
+    private static final int ACTION_WORKER_JOIN_CHANNEL_WITH_LOCAL_ACCOUNT = 0X2012;
+
+    private static final int ACTION_WORKER_GET_USER_INFO_BY_UID = 0X2013;
+
     private static final class WorkerThreadHandler extends Handler {
-
         private WorkerThread mWorkerThread;
-
         WorkerThreadHandler(WorkerThread thread) {
             this.mWorkerThread = thread;
         }
-
         public void release() {
             mWorkerThread = null;
         }
@@ -58,6 +60,16 @@ public class WorkerThread extends Thread{
                 case ACTION_WORKER_LEAVE_CHANNEL:
                     String channel = (String) msg.obj;
                     mWorkerThread.leaveChannel(channel);
+                    break;
+
+                case ACTION_WORKER_JOIN_CHANNEL_WITH_LOCAL_ACCOUNT:
+                    String[] localUserData = (String[]) msg.obj;
+                    mWorkerThread.joinChannelWithUserAccount(localUserData[0], localUserData[1], localUserData[2]);
+                    break;
+
+                case ACTION_WORKER_GET_USER_INFO_BY_UID:
+                    UserInfo userInfo = (UserInfo) msg.obj;
+                    mWorkerThread.getUserInfoByUid(msg.arg1, userInfo);
                     break;
             }
         }
@@ -82,13 +94,9 @@ public class WorkerThread extends Thread{
     public void run() {
         log.trace("start to run");
         Looper.prepare();
-
         mWorkerHandler = new WorkerThreadHandler(this);
-
         ensureRtcEngineReadyLock();
-
         mReady = true;
-
         // enter thread looper
         Looper.loop();
     }
@@ -109,9 +117,44 @@ public class WorkerThread extends Thread{
         ensureRtcEngineReadyLock();
         mRtcEngine.joinChannel(null, channel, "OpenVCall", uid);
 
-        mEngineConfig.mChannel = channel;
 
+        mEngineConfig.mChannel = channel;
         log.debug("joinChannel " + channel + " " + uid);
+    }
+
+    public final void getUserInfoByUid(int uid, UserInfo userInfo){
+        if (Thread.currentThread() != this) {
+            log.warn("getUserInfoByUid() - worker thread asynchronously " + userInfo.userAccount + " " + uid);
+            Message envelop = new Message();
+            envelop.what = ACTION_WORKER_GET_USER_INFO_BY_UID;
+            envelop.obj = new UserInfo();
+            envelop.obj = userInfo;
+            envelop.arg1 = uid;
+            mWorkerHandler.sendMessage(envelop);
+            return;
+        }
+
+        ensureRtcEngineReadyLock();
+        mRtcEngine.joinChannel(null, userInfo.userAccount, "OpenVCall", uid);
+        mRtcEngine.getUserInfoByUid(uid, userInfo);
+    }
+
+    public final void joinChannelWithUserAccount(String token, String channelName, String userAccount){
+        if (Thread.currentThread() != this) {
+            log.warn("joinChannelWithUserAccount() - worker thread asynchronously " + channelName + " " + userAccount);
+            Message envelop = new Message();
+            envelop.what = ACTION_WORKER_JOIN_CHANNEL_WITH_LOCAL_ACCOUNT;
+            envelop.obj = new String[]{token,channelName,userAccount};
+            mWorkerHandler.sendMessage(envelop);
+            return;
+        }
+        ensureRtcEngineReadyLock();
+        mRtcEngine.joinChannelWithUserAccount(token, channelName, userAccount)  ;
+
+        mEngineConfig.mChannel = channelName;
+        mEngineConfig.mUserAccount = userAccount;
+        mEngineConfig.mToken = token;
+        log.debug("joinChannelWithUserAccount " + channelName + " " + userAccount);
     }
 
     public final void leaveChannel(String channel) {
@@ -167,7 +210,6 @@ public class WorkerThread extends Thread{
               video call, and prioritizes video quality for a video broadcast.
              */
             mRtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_COMMUNICATION);
-
             /*
               Enables the onAudioVolumeIndication callback at a set time interval to report on which
               users are speaking and the speakers' volume.
@@ -202,26 +244,19 @@ public class WorkerThread extends Thread{
         }
 
         mReady = false;
-
         // TODO should remove all pending(read) messages
-
         log.debug("exit() > start");
-
         // exit thread looper
         Looper.myLooper().quit();
-
         mWorkerHandler.release();
-
         log.debug("exit() > end");
     }
 
     public WorkerThread(Context context) {
         this.mContext = context;
-
         this.mEngineConfig = new EngineConfig();
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         this.mEngineConfig.mUid = pref.getInt(ConstantApp.PrefManager.PREF_PROPERTY_UID, 0);
-
         this.mEngineEventHandler = new MyEngineEventHandler(mContext, this.mEngineConfig);
     }
 }

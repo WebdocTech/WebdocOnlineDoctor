@@ -6,6 +6,7 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wmalick.webdoc_library.R;
 
@@ -23,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
+import io.agora.rtc.models.UserInfo;
 
 public class AudioCallScreenActivity extends BaseActivity implements AGEventHandler{
 
@@ -31,6 +34,8 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
     private volatile boolean mAudioMuted = false;
 
     private volatile int mAudioRouting = -1; // Default
+
+    String userName, channelName, calledUser;
 
 
     @Override
@@ -55,7 +60,10 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
 
         Intent i = getIntent();
 
-        String channelName = i.getStringExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME);
+        channelName = i.getStringExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME);
+        userName = i.getStringExtra(ConstantApp.ACTION_KEY_USER_ACCOUNT);
+        calledUser = i.getStringExtra(ConstantApp.CALLED_USER);
+        String token = i.getStringExtra(ConstantApp.ACTION_KEY_USER_TOKEN);
 
         /*
           Allows a user to join a channel.
@@ -69,7 +77,8 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
           successfully rejoins the channel, the SDK triggers the onRejoinChannelSuccess callback
           on the local client.
          */
-        worker().joinChannel(channelName, config().mUid);
+        //worker().joinChannel(channelName, config().mUid);
+        worker().joinChannelWithUserAccount(token, channelName, userName);
 
         TextView textChannelName = (TextView) findViewById(R.id.channel_name);
         textChannelName.setText(channelName);
@@ -108,7 +117,6 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
                         @Override
                         public void handleMessage(Message msg) {
                             super.handleMessage(msg);
-
                             if (isFinishing()) {
                                 return;
                             }
@@ -123,13 +131,10 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
                                 default:
                                     break;
                             }
-
                         }
                     };
-
                     mMessageList = (EditText) findViewById(R.id.msg_list);
                 }
-
                 mMainHandler.removeMessages(UPDATE_UI_MESSAGE);
                 Message envelop = new Message();
                 envelop.what = UPDATE_UI_MESSAGE;
@@ -142,7 +147,6 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
     private void optional() {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-
         setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
     }
 
@@ -151,9 +155,7 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
 
     public void onSwitchSpeakerClicked(View view) {
         log.info("onSwitchSpeakerClicked " + view + " " + mAudioMuted + " " + mAudioRouting);
-
         RtcEngine rtcEngine = rtcEngine();
-
         /*
           Enables/Disables the audio playback route to the speakerphone.
           This method sets whether the audio is routed to the speakerphone or earpiece.
@@ -166,7 +168,6 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
     @Override
     protected void deInitUIandEvent() {
         optionalDestroy();
-
         doLeaveChannel();
         event().removeEventHandler(this);
     }
@@ -193,34 +194,27 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
 
     public void onEndCallClicked(View view) {
         log.info("onEndCallClicked " + view);
-
         quitCall();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
         log.info("onBackPressed");
-
         quitCall();
     }
 
     private void quitCall() {
         /*Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);*/
-
         finish();
     }
 
     public void onVoiceMuteClicked(View view) {
         log.info("onVoiceMuteClicked " + view + " audio_status: " + mAudioMuted);
-
         RtcEngine rtcEngine = rtcEngine();
         rtcEngine.muteLocalAudioStream(mAudioMuted = !mAudioMuted);
-
         ImageView iv = (ImageView) view;
-
         if (mAudioMuted) {
             iv.setColorFilter(getResources().getColor(R.color.webdoc_main), PorterDuff.Mode.MULTIPLY);
         } else {
@@ -230,18 +224,16 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
 
     @Override
     public void onJoinChannelSuccess(String channel, final int uid, int elapsed) {
-        String msg = "onJoinChannelSuccess " + channel + " " + (uid & 0xFFFFFFFFL) + " " + elapsed;
+        String msg = "onJoinChannelSuccess " + channel + " " + (uid & 0xFFFFFFFFL) + " " + elapsed + " CALLING USER ->" + userName + " CALLED USER ->" + calledUser;
+        Toast.makeText(this, String.valueOf(uid), Toast.LENGTH_LONG).show();
         log.debug(msg);
-
         notifyMessageChanged(msg);
-
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (isFinishing()) {
                     return;
                 }
-
                 rtcEngine().muteLocalAudioStream(mAudioMuted);
             }
         });
@@ -251,38 +243,54 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
     public void onUserOffline(int uid, int reason) {
         String msg = "onUserOffline " + (uid & 0xFFFFFFFFL) + " " + reason;
         log.debug(msg);
-
         notifyMessageChanged(msg);
         deInitUIandEvent();
         quitCall();
-
-
     }
+
+
 
     @Override
     public void onExtraCallback(final int type, final Object... data) {
-
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (isFinishing()) {
                     return;
                 }
-
                 doHandleExtraCallback(type, data);
             }
         });
     }
 
+    @Override
+    public void onUserLeaveChannel(IRtcEngineEventHandler.RtcStats stats) {
+        
+    }
+
+    @Override
+    public void onUserJoinChannel(int uid, int elapsed) {
+
+        int a= uid;
+        UserInfo userInfo = new UserInfo();
+        userInfo.uid = uid;
+        String abc = worker().getUserInfoByUid(uid,  userInfo);
+
+    }
+
+    @Override
+    public void onRtcStatsChangeEveryTwoSeconds(IRtcEngineEventHandler.RtcStats stats) {
+        //Toast.makeText(this, "onRtcStatsChangeEveryTwoSeconds", Toast.LENGTH_SHORT).show();
+        /*Log.e( "Coming in", String.valueOf(stats.));*/
+    }
+
     private void doHandleExtraCallback(int type, Object... data) {
         int peerUid;
         boolean muted;
-
         switch (type) {
             case AGEventHandler.EVENT_TYPE_ON_USER_AUDIO_MUTED: {
                 peerUid = (Integer) data[0];
                 muted = (boolean) data[1];
-
                 notifyMessageChanged("mute: " + (peerUid & 0xFFFFFFFFL) + " " + muted);
                 break;
             }
@@ -308,18 +316,15 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
                 for (IRtcEngineEventHandler.AudioVolumeInfo each : infos) {
                     peerUid = each.uid;
                     int peerVolume = each.volume;
-
                     if (peerUid == 0) {
                         continue;
                     }
-
                     volumeCache.append("volume: ").append(peerUid & 0xFFFFFFFFL).append(" ").append(peerVolume).append("\n");
                 }
 
                 if (volumeCache.length() > 0) {
                     String volumeMsg = volumeCache.substring(0, volumeCache.length() - 1);
                     notifyMessageChanged(volumeMsg);
-
                     if ((System.currentTimeMillis() / 1000) % 10 == 0) {
                         log.debug(volumeMsg);
                     }
@@ -329,26 +334,21 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
 
             case AGEventHandler.EVENT_TYPE_ON_APP_ERROR: {
                 int subType = (int) data[0];
-
                 if (subType == ConstantApp.AppError.NO_NETWORK_CONNECTION) {
                     showLongToast(getString(R.string.msg_no_network_connection));
                 }
-
                 break;
             }
 
             case AGEventHandler.EVENT_TYPE_ON_AGORA_MEDIA_ERROR: {
                 int error = (int) data[0];
                 String description = (String) data[1];
-
                 notifyMessageChanged(error + " " + description);
-
                 break;
             }
 
             case AGEventHandler.EVENT_TYPE_ON_AUDIO_ROUTE_CHANGED: {
                 notifyHeadsetPlugged((int) data[0]);
-
                 break;
             }
         }
@@ -356,9 +356,7 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
 
     public void notifyHeadsetPlugged(final int routing) {
         log.info("notifyHeadsetPlugged " + routing);
-
         mAudioRouting = routing;
-
         ImageView iv = (ImageView) findViewById(R.id.switch_speaker_id);
         if (mAudioRouting == 3) { // Speakerphone
             iv.setColorFilter(getResources().getColor(R.color.webdoc_main), PorterDuff.Mode.MULTIPLY);

@@ -52,7 +52,18 @@ public class MyEngineEventHandler {
          */
         @Override
         public void onUserJoined(int uid, int elapsed) {
+            log.debug("onUserJoined " + (uid & 0xFFFFFFFFL) + " " + elapsed);
+
+            // FIXME this callback may return times
+            Iterator<AGEventHandler> it = mEventHandlerList.keySet().iterator();
+            while (it.hasNext()) {
+                AGEventHandler handler = it.next();
+                handler.onUserJoinChannel(uid, elapsed);
+            }
         }
+
+
+
 
         /**
          * Occurs when a remote user (Communication)/host (Live Broadcast) leaves the channel.
@@ -81,12 +92,22 @@ public class MyEngineEventHandler {
             }
         }
 
+
+
         /**
          * Reports the statistics of the RtcEngine once every two seconds.
          * @param stats RTC engine statistics: RtcStats.
          */
         @Override
         public void onRtcStats(RtcStats stats) {
+            log.debug("onRtcStats " + stats);
+
+            // FIXME this callback may return times
+            Iterator<AGEventHandler> it = mEventHandlerList.keySet().iterator();
+            while (it.hasNext()) {
+                AGEventHandler handler = it.next();
+                handler.onRtcStatsChangeEveryTwoSeconds(stats);
+            }
         }
 
         /**
@@ -143,7 +164,14 @@ public class MyEngineEventHandler {
          */
         @Override
         public void onLeaveChannel(RtcStats stats) {
+            log.debug("onLeaveChannel " + stats);
 
+            // FIXME this callback may return times
+            Iterator<AGEventHandler> it = mEventHandlerList.keySet().iterator();
+            while (it.hasNext()) {
+                AGEventHandler handler = it.next();
+                handler.onUserLeaveChannel(stats);
+            }
         }
 
         /**
@@ -163,6 +191,8 @@ public class MyEngineEventHandler {
         public void onLastmileQuality(int quality) {
             log.debug("onLastmileQuality " + quality);
         }
+
+
 
         /**
          * Reports an error during SDK runtime.
@@ -258,9 +288,7 @@ public class MyEngineEventHandler {
         @Override
         public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
             log.debug("onJoinChannelSuccess " + channel + " " + (uid & 0xFFFFFFFFL) + " " + elapsed);
-
             mConfig.mUid = uid;
-
             Iterator<AGEventHandler> it = mEventHandlerList.keySet().iterator();
             while (it.hasNext()) {
                 AGEventHandler handler = it.next();
@@ -317,5 +345,7 @@ public class MyEngineEventHandler {
             }
 
         }
+
+
     };
 }

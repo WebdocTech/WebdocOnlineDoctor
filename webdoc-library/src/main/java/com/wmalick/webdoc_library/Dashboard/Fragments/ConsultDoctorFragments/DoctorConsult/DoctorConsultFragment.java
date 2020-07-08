@@ -71,7 +71,13 @@ public class DoctorConsultFragment extends BaseActivity {
 
         Intent i = new Intent(this, AudioCallScreenActivity.class);
         i.putExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME, callingID);
+        i.putExtra(ConstantApp.ACTION_KEY_USER_ACCOUNT, "waleed@webdoc.com.pk");
+        i.putExtra(ConstantApp.CALLED_USER, "saif@webdoc.com.pk");
+        i.putExtra(ConstantApp.ACTION_KEY_USER_TOKEN, "");
         startActivity(i);
+
+        /*abcToKen@1H0gtJl4Etd*/
+        /*waleed@webdoc.com.pk*/
     }
 
     @Override
