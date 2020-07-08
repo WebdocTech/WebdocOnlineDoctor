@@ -274,7 +274,7 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
         int a= uid;
         UserInfo userInfo = new UserInfo();
         userInfo.uid = uid;
-        String abc = worker().getUserInfoByUid(uid,  userInfo);
+        //String abc = worker().getUserInfoByUid(uid,  userInfo);
 
     }
 

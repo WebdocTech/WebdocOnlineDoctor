@@ -10,7 +10,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.wmalick.webdoc_library.Agora.AudioCallScreenActivity;
 import com.wmalick.webdoc_library.Agora.BaseActivity;
@@ -27,6 +35,9 @@ public class DoctorConsultFragment extends BaseActivity {
     CircleImageView profile_image;
     Button btn_Text,btn_Video,btn_Audio;
     String callingID = "";
+
+    DatabaseReference reference;
+    String token;
 
     public DoctorConsultFragment() {
         // Required empty public constructor
@@ -85,6 +96,23 @@ public class DoctorConsultFragment extends BaseActivity {
     }
 
     private void ActionControl() {
+
+        reference = FirebaseDatabase.getInstance().getReference().child("Tokens").child("Doctors");
+
+        reference.child(Global.selectedDoctor.getEmail().replace(".","")).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                token = dataSnapshot.child("token").getValue().toString();
+                Toast.makeText(DoctorConsultFragment.this, token, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
         tv_name.setText(Global.selectedDoctor.getFirstName() + " " + Global.selectedDoctor.getLastName());
         tv_speciality.setText(Global.selectedDoctor.getDoctorSpecialty());
         Picasso.get().load(Global.selectedDoctor.getImgLink()).placeholder(R.color.gray_btn_bg_color).error(R.drawable.doctor).into(profile_image);
