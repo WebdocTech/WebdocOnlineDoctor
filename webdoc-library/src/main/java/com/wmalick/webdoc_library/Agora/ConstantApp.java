@@ -3,6 +3,8 @@ package com.wmalick.webdoc_library.Agora;
 public class ConstantApp {
     public static final String APP_BUILD_DATE = "today";
 
+    public static final String AGORA_APP_ID = "5588953ca8cd42379c15b372f06ec202";
+
     public static final int BASE_VALUE_PERMISSION = 0X0001;
     public static final int PERMISSION_REQ_ID_RECORD_AUDIO = BASE_VALUE_PERMISSION + 1;
     public static final int PERMISSION_REQ_ID_WRITE_EXTERNAL_STORAGE = BASE_VALUE_PERMISSION + 3;

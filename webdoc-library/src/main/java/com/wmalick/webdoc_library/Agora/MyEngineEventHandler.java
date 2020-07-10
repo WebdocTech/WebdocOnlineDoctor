@@ -62,9 +62,6 @@ public class MyEngineEventHandler {
             }
         }
 
-
-
-
         /**
          * Occurs when a remote user (Communication)/host (Live Broadcast) leaves the channel.
          *
@@ -80,6 +77,7 @@ public class MyEngineEventHandler {
          *     USER_OFFLINE_DROPPED(1): The SDK timed out and the user dropped offline because no data packet was received within a certain period of time. If a user quits the call and the message is not passed to the SDK (due to an unreliable channel), the SDK assumes the user dropped offline.
          *     USER_OFFLINE_BECOME_AUDIENCE(2): (Live broadcast only.) The client role switched from the host to the audience.
          */
+
         @Override
         public void onUserOffline(int uid, int reason) {
             log.debug("onUserOffline " + (uid & 0xFFFFFFFFL) + " " + reason);
@@ -138,6 +136,7 @@ public class MyEngineEventHandler {
          *     In the local user’s callback, totalVolume is the sum of the voice volume and audio-mixing volume of the local user.
          *     In the remote speakers' callback, totalVolume is the sum of the voice volume and audio-mixing volume of all remote speakers.
          */
+
         @Override
         public void onAudioVolumeIndication(AudioVolumeInfo[] speakerInfos, int totalVolume) {
             if (speakerInfos == null) {
@@ -162,6 +161,7 @@ public class MyEngineEventHandler {
          *
          * @param stats Statistics of the call: RtcStats
          */
+
         @Override
         public void onLeaveChannel(RtcStats stats) {
             log.debug("onLeaveChannel " + stats);
@@ -187,6 +187,7 @@ public class MyEngineEventHandler {
          *     QUALITY_DOWN(6): The network is disconnected and users cannot communicate at all.
          *     QUALITY_DETECTING(8): The SDK is detecting the network quality.
          */
+
         @Override
         public void onLastmileQuality(int quality) {
             log.debug("onLastmileQuality " + quality);

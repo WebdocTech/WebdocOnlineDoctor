@@ -21,4 +21,12 @@ public class Constants {
 
     public static final String SUCCESSCODE = "0000";
     public static final String FAILURECODE = "0001";
+
+
+    /*TODO: FIREBASE NOTIFICATIONS KEYS */
+    public static final String FIREBASE_SERVER_KEY = "key=AAAAlaKRvi4:APA91bE3dXivguMI7ENzztZjd9vNx256Zx-h8-LsfNwFTl-nL6gZMNVKLTJ-Kkh4N7jTs_BVhnx0BV78cKCxU5XtSEOiS3lbJQKn0rfzRlhduMGC049iCJ9S3QUh_J-lKuX_1GQG4PmH";
+    public static final String  FIREBASE_NOTIFICATION_URL = "https://fcm.googleapis.com/fcm/send";
+
+
+
 }

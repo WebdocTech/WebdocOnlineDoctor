@@ -191,7 +191,7 @@ public class WorkerThread extends Thread{
 
     private RtcEngine ensureRtcEngineReadyLock() {
         if (mRtcEngine == null) {
-            String appId = mContext.getString(R.string.private_app_id);
+            String appId = ConstantApp.AGORA_APP_ID;
             if (TextUtils.isEmpty(appId)) {
                 throw new RuntimeException("NEED TO use your App ID, get your own ID at https://dashboard.agora.io/");
             }

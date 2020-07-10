@@ -11,6 +11,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.IBinder;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
@@ -23,6 +24,7 @@ import java.util.Map;
 
 public class FcmListenerService extends FirebaseMessagingService {
 
+    private static final String TAG = "FCM Service";
     public static String CHANNEL_ID = "Sinch Push Notification Channel";
 
     private final String PREFERENCE_FILE = "com.sinch.android.rtc.sample.push.shared_preferences";
@@ -31,6 +33,14 @@ public class FcmListenerService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage){
         Map data = remoteMessage.getData();
+
+        Log.d(TAG, "From: " + remoteMessage.getFrom()+"");
+        Log.d(TAG, "Notification Title: " + remoteMessage.getNotification().getTitle()+"");
+        //Log.d(TAG, "Notification Title: " + remoteMessage.getNotification().get()+"");
+        Log.d(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody()+"");
+
+
+
         /*if (SinchHelpers.isSinchPushPayload(data)) {
             new ServiceConnection() {
                 private Map payload;

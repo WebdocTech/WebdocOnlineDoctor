@@ -11,4 +11,7 @@
     <color name="lightGray">#f6f6f6</color>
     <color name="dark_black">#CC262626</color>
 
+    <color name="localBackground">#827b92</color>
+    <color name="remoteBackground">#484258</color>
+
 </resources>

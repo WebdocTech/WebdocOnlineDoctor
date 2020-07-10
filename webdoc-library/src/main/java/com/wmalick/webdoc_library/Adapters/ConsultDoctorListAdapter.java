@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
-import com.wmalick.webdoc_library.Dashboard.Fragments.ConsultDoctorFragments.DoctorConsult.DoctorConsultFragment;
+import com.wmalick.webdoc_library.Dashboard.Fragments.ConsultDoctorFragments.DoctorConsult.DoctorConsultActivity;
 import com.wmalick.webdoc_library.Dashboard.Fragments.ConsultDoctorFragments.DoctorProfile.DoctorProfileFargment;
 import com.wmalick.webdoc_library.Essentials.Global;
 import com.wmalick.webdoc_library.R;
@@ -82,7 +82,7 @@ public class ConsultDoctorListAdapter extends RecyclerView.Adapter<ConsultDoctor
                         .replace(R.id.fragmentContainer_WebdocDashboardActivity, new DoctorConsultFragment())
                         .addToBackStack(null)
                         .commit();*/
-                context.startActivity(new Intent(context,  DoctorConsultFragment.class));
+                context.startActivity(new Intent(context,  DoctorConsultActivity.class));
             }
         });
     }

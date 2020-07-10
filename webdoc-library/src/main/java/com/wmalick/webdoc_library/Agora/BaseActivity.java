@@ -21,9 +21,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 
 public abstract class BaseActivity extends AppCompatActivity {
-
     private final static Logger log = LoggerFactory.getLogger(BaseActivity.class);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,22 +43,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected abstract void initUIandEvent();
-
     protected abstract void deInitUIandEvent();
-
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (isFinishing()) {
                     return;
                 }
-
                 boolean checkPermissionResult = checkSelfPermissions();
-
                 if ((Build.VERSION.SDK_INT < Build.VERSION_CODES.M)) {
                     // so far we do not use OnRequestPermissionsResultCallback
                 }
@@ -154,7 +147,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected int virtualKeyHeight() {
         boolean hasPermanentMenuKey = ViewConfigurationCompat.hasPermanentMenuKey(ViewConfiguration.get(getApplication()));
-
         DisplayMetrics metrics = new DisplayMetrics();
         Display display = getWindowManager().getDefaultDisplay();
 
@@ -165,9 +157,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
         int fullHeight = metrics.heightPixels;
-
         display.getMetrics(metrics);
-
         return fullHeight - metrics.heightPixels;
     }
 
