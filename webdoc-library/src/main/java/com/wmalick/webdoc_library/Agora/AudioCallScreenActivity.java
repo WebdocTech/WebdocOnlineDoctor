@@ -64,9 +64,7 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
     @Override
     protected void initUIandEvent() {
         event().addEventHandler(this);
-
         Intent i = getIntent();
-
         channelName = i.getStringExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME);
         userName = i.getStringExtra(ConstantApp.ACTION_KEY_USER_ACCOUNT);
         calledUser = i.getStringExtra(ConstantApp.CALLED_USER);
@@ -86,7 +84,6 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
          */
         //worker().joinChannel(channelName, config().mUid);
         worker().joinChannelWithUserAccount(token, channelName, userName);
-
         TextView textChannelName = (TextView) findViewById(R.id.channel_name);
         textChannelName.setText(channelName);
 
@@ -289,6 +286,11 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
     public void onRtcStatsChangeEveryTwoSeconds(IRtcEngineEventHandler.RtcStats stats) {
         //Toast.makeText(this, "onRtcStatsChangeEveryTwoSeconds", Toast.LENGTH_SHORT).show();
         /*Log.e( "Coming in", String.valueOf(stats.));*/
+    }
+
+    @Override
+    public void onFirstRemoteVideoDecoded(int uid, int width, int height, int elapsed) {
+
     }
 
     private void doHandleExtraCallback(int type, Object... data) {

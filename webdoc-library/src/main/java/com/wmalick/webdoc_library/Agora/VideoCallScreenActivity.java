@@ -24,7 +24,7 @@ import io.agora.rtc.RtcEngine;
 import io.agora.rtc.video.VideoCanvas;
 import io.agora.rtc.video.VideoEncoderConfiguration;
 
-public class VideoCallScreenActivity extends BaseActivity {
+public class VideoCallScreenActivity extends BaseActivity implements AGEventHandler {
 
     public static final String TAG = VideoCallScreenActivity.class.getSimpleName();
 
@@ -87,7 +87,6 @@ public class VideoCallScreenActivity extends BaseActivity {
 
 
     public void setupRemoteVideo(int uid) {
-
         int count = mRemoteContainer.getChildCount();
         View view = null;
         for (int i = 0; i < count; i++) {
@@ -153,6 +152,13 @@ public class VideoCallScreenActivity extends BaseActivity {
         mCallBtn = findViewById(R.id.btn_call);
         mMuteBtn = findViewById(R.id.btn_mute);
         mSwitchCameraBtn = findViewById(R.id.btn_switch_camera);
+
+        mCallBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                endCall();
+            }
+        });
 
         //     mLogView = findViewById(R.id.log_recycler_view);
 
@@ -278,6 +284,7 @@ public class VideoCallScreenActivity extends BaseActivity {
 
     public void leaveChannel() {
         rtcEngine().leaveChannel();
+        finish();
 
     }
 
@@ -300,5 +307,50 @@ public class VideoCallScreenActivity extends BaseActivity {
         mSwitchCameraBtn.setVisibility(visibility);
     }
 
+    @Override
+    public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
 
+    }
+
+    @Override
+    public void onUserOffline(int uid, int reason) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //    mLogView.logI("User offline, uid: " + (uid & 0xFFFFFFFFL));
+                onRemoteUserLeft();
+            }
+        });
+    }
+
+    @Override
+    public void onExtraCallback(int type, Object... data) {
+
+    }
+
+    @Override
+    public void onUserLeaveChannel(IRtcEngineEventHandler.RtcStats stats) {
+
+    }
+
+    @Override
+    public void onUserJoinChannel(int uid, int elapsed) {
+
+    }
+
+    @Override
+    public void onRtcStatsChangeEveryTwoSeconds(IRtcEngineEventHandler.RtcStats stats) {
+
+    }
+
+    @Override
+    public void onFirstRemoteVideoDecoded(final int uid, int width, int height, int elapsed) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //  mLogView.logI("First remote video decoded, uid: " + (uid & 0xFFFFFFFFL));
+                setupRemoteVideo(uid);
+            }
+        });
+    }
 }

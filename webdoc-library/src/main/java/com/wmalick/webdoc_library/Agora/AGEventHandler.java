@@ -15,6 +15,8 @@ public interface AGEventHandler {
 
     void onRtcStatsChangeEveryTwoSeconds(IRtcEngineEventHandler.RtcStats stats);
 
+    void onFirstRemoteVideoDecoded(final int uid, int width, int height, int elapsed);
+
 
     int EVENT_TYPE_ON_USER_AUDIO_MUTED = 7;
 

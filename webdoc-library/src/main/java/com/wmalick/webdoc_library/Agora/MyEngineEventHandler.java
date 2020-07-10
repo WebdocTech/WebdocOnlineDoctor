@@ -108,6 +108,15 @@ public class MyEngineEventHandler {
             }
         }
 
+        @Override
+        public void onFirstRemoteVideoDecoded(final int uid, int width, int height, int elapsed) {
+            Iterator<AGEventHandler> it = mEventHandlerList.keySet().iterator();
+            while (it.hasNext()) {
+                AGEventHandler handler = it.next();
+                handler.onFirstRemoteVideoDecoded(uid, width, height, elapsed);
+            }
+        }
+
         /**
          * Reports which users are speaking and the speakers' volume, and whether the local user is speaking.
          *
