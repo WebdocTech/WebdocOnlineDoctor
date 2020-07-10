@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -17,6 +19,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.ViewCompat;
 
 import com.wmalick.webdoc_library.R;
 
@@ -40,8 +45,10 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audio_call_screen);
+
     }
 
     @Override
@@ -83,11 +90,11 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
         TextView textChannelName = (TextView) findViewById(R.id.channel_name);
         textChannelName.setText(channelName);
 
-        optional();
+        //optional();
 
-        LinearLayout bottomContainer = (LinearLayout) findViewById(R.id.bottom_container);
-        FrameLayout.MarginLayoutParams fmp = (FrameLayout.MarginLayoutParams) bottomContainer.getLayoutParams();
-        fmp.bottomMargin = virtualKeyHeight() + 16;
+        /*ConstraintLayout bottomContainer = (ConstraintLayout) findViewById(R.id.bottom_container);
+        ConstraintLayout.MarginLayoutParams fmp = (ConstraintLayout.MarginLayoutParams) bottomContainer.getLayoutParams();
+        fmp.bottomMargin = virtualKeyHeight() + 16;*/
     }
 
     private Handler mMainHandler;
