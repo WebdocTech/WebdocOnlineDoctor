@@ -17,6 +17,7 @@
             android:layout_height="match_parent"
             android:layout_above="@id/icon_padding">
             <ImageView
+                android:visibility="gone"
                 android:layout_width="@dimen/remote_back_icon_size"
                 android:layout_height="@dimen/remote_back_icon_size"
                 android:layout_centerInParent="true"
@@ -44,6 +45,7 @@
         android:background="@color/localBackground">
 
         <ImageView
+            android:visibility="gone"
             android:layout_width="@dimen/local_back_icon_size"
             android:layout_height="@dimen/local_back_icon_size"
             android:layout_gravity="center"

@@ -41,7 +41,7 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
 
     private volatile int mAudioRouting = -1; // Default
 
-    String userName, channelName, calledUser;
+    String userName, channelName;
 
 
     @Override
@@ -68,7 +68,7 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
         Intent i = getIntent();
         channelName = i.getStringExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME);
         userName = i.getStringExtra(ConstantApp.ACTION_KEY_USER_ACCOUNT);
-        calledUser = i.getStringExtra(ConstantApp.CALLED_USER);
+        //calledUser = i.getStringExtra(ConstantApp.CALLED_USER);
         String token = i.getStringExtra(ConstantApp.ACTION_KEY_USER_TOKEN);
 
         /*
@@ -229,7 +229,7 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
 
     @Override
     public void onJoinChannelSuccess(String channel, final int uid, int elapsed) {
-        String msg = "onJoinChannelSuccess " + channel + " " + (uid & 0xFFFFFFFFL) + " " + elapsed + " CALLING USER ->" + userName + " CALLED USER ->" + calledUser;
+        String msg = "onJoinChannelSuccess " + channel + " " + (uid & 0xFFFFFFFFL) + " " + elapsed + " CALLING USER ->" + userName + " CALLED USER ->"+channelName;
         Toast.makeText(this, String.valueOf(uid), Toast.LENGTH_LONG).show();
         log.debug(msg);
         notifyMessageChanged(msg);

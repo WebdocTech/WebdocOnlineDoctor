@@ -21,9 +21,15 @@ public class CustomerData {
     @SerializedName("Disease")
     @Expose
     private String disease;
+    @SerializedName("Email")
+    @Expose
+    private String email;
     @SerializedName("FirstName")
     @Expose
     private String firstName;
+    @SerializedName("Freecall")
+    @Expose
+    private String freecall;
     @SerializedName("Gender")
     @Expose
     private String gender;
@@ -98,12 +104,28 @@ public class CustomerData {
         this.disease = disease;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getFirstName() {
         return firstName;
     }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public String getFreecall() {
+        return freecall;
+    }
+
+    public void setFreecall(String freecall) {
+        this.freecall = freecall;
     }
 
     public String getGender() {

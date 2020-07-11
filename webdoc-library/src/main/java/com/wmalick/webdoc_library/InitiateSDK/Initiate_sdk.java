@@ -44,7 +44,7 @@ public class Initiate_sdk implements VolleyListener {
         if(responseModel.getGetcustomerDataResult().getResponseCode().equals(Constants.SUCCESSCODE)){
             Global.getCustomerDataApiResponse = responseModel;
             ctx.startActivity(new Intent(ctx, WebdocDashboardActivity.class));
-            ctx.finish();
+            /*ctx.finish();*/
         }else{
             Toast.makeText(ctx, responseModel.getGetcustomerDataResult().getMessage(), Toast.LENGTH_SHORT).show();
         }

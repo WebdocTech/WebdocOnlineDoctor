@@ -52,7 +52,9 @@ dependencies {
     implementation 'com.airbnb.android:lottie:3.4.0'
 
     implementation 'org.slf4j:slf4j-api:1.7.21'
-    implementation 'io.agora.rtc:voice-sdk:3.0.1'
+    implementation 'io.agora.rtc:full-sdk:2.9.2'
+    implementation 'io.agora.rtm:rtm-sdk:1.1.0'
+    //implementation 'io.agora.rtc:voice-sdk:3.0.1'
 }
 apply plugin: 'com.google.gms.google-services'
 

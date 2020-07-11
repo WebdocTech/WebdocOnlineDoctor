@@ -2,15 +2,20 @@ package com.wmalick.webdoc_library.Dashboard.Fragments.ConsultDoctorFragments.Do
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,6 +28,7 @@ import com.wmalick.webdoc_library.Agora.ConstantApp;
 import com.wmalick.webdoc_library.Agora.VideoCallScreenActivity;
 import com.wmalick.webdoc_library.Essentials.Global;
 import com.wmalick.webdoc_library.Essentials.Utils;
+import com.wmalick.webdoc_library.FormModels.SubmitWebdocFeedbackFormModel;
 import com.wmalick.webdoc_library.R;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +43,7 @@ public class DoctorConsultActivity extends BaseActivity {
     String callingID = "";
     DatabaseReference reference;
     String token;
+    AlertDialog alertDialog;
 
     public DoctorConsultActivity() {
         // Required empty public constructor
@@ -50,22 +57,10 @@ public class DoctorConsultActivity extends BaseActivity {
         ActionControl();
     }
 
-   /* @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_doctor_consult, container, false);
-        InitControl(view);
-        ActionControl(view);
-        return view;
-    }*/
-
     @Override
     protected void initUIandEvent() {
         String lastChannelName = vSettings().mChannelName;
         if (!TextUtils.isEmpty(lastChannelName)) {
-            /*v_channel.setText(lastChannelName);
-            v_channel.setSelection(lastChannelName.length());*/
         }
     }
 
@@ -73,33 +68,35 @@ public class DoctorConsultActivity extends BaseActivity {
     }
 
     public void forwardToAudioRoom() {
-        /*EditText v_channel = (EditText) findViewById(R.id.channel_name);
-        String channel = v_channel.getText().toString();*/
-        JSONObject params = new JSONObject();
-        try {
-            params.put("to", token);
-            params.put("notification", new JSONObject().put("title", "Agora Calling").put("body", "Incoming Audio Call")).put("sound", "default")
-            .put("from", Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getMobileNumber()).put("click_action",".Dashboard");
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if((!(Integer.parseInt(Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getFreecall()) <1))
+        || (!Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getPackageSubscribed().equalsIgnoreCase("none"))){
+            JSONObject params = new JSONObject();
+            try {
+                params.put("to", token);
+                params.put("notification", new JSONObject().put("title", "Agora Calling").put("body", "Incoming Audio Call")).put("sound", "default")
+                        .put("from", Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getMobileNumber()).put("click_action",".Dashboard");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Global.utils.sendNotification(this, token, params);
+            vSettings().mChannelName = callingID;
+            Intent i = new Intent(this, AudioCallScreenActivity.class);
+            i.putExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME, callingID);
+            i.putExtra(ConstantApp.ACTION_KEY_USER_ACCOUNT, Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getEmail());
+            //i.putExtra(ConstantApp.CALLED_USER, "waleed@webdoc.com.pk");
+            i.putExtra(ConstantApp.ACTION_KEY_USER_TOKEN, "");
+            startActivity(i);
+        }else{
+            FeedBackDialog();
         }
 
-        Global.utils.sendNotification(this, token, params);
-        vSettings().mChannelName = callingID;
-        Intent i = new Intent(this, AudioCallScreenActivity.class);
-        i.putExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME, callingID);
-        i.putExtra(ConstantApp.ACTION_KEY_USER_ACCOUNT, "saif@webdoc.com.pk");
-        i.putExtra(ConstantApp.CALLED_USER, "waleed@webdoc.com.pk");
-        i.putExtra(ConstantApp.ACTION_KEY_USER_TOKEN, "");
-        startActivity(i);
 
-        /*abcToKen@1H0gtJl4Etd*/
-        /*waleed@webdoc.com.pk*/
     }
 
     public void forwardToVideoRoom() {
-        /*EditText v_channel = (EditText) findViewById(R.id.channel_name);
-        String channel = v_channel.getText().toString();*/
+        if((!(Integer.parseInt(Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getFreecall()) <1))
+                || (!Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getPackageSubscribed().equalsIgnoreCase("none"))){
         JSONObject params = new JSONObject();
         try {
             params.put("to", token);
@@ -113,12 +110,13 @@ public class DoctorConsultActivity extends BaseActivity {
         vSettings().mChannelName = callingID;
         Intent i = new Intent(this, VideoCallScreenActivity.class);
         i.putExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME, callingID);
-        i.putExtra(ConstantApp.ACTION_KEY_USER_ACCOUNT, "saif@webdoc.com.pk");
-        i.putExtra(ConstantApp.CALLED_USER, "waleed@webdoc.com.pk");
+        i.putExtra(ConstantApp.ACTION_KEY_USER_ACCOUNT, Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getEmail());
+        //i.putExtra(ConstantApp.CALLED_USER, "waleed@webdoc.com.pk");
         i.putExtra(ConstantApp.ACTION_KEY_USER_TOKEN, "");
         startActivity(i);
-        /*abcToKen@1H0gtJl4Etd*/
-        /*waleed@webdoc.com.pk*/
+        }else{
+            FeedBackDialog();
+        }
     }
 
     @Override
@@ -169,10 +167,6 @@ public class DoctorConsultActivity extends BaseActivity {
                                         Global.utils.startMediaPlayer(DoctorConsultActivity.this, R.raw.dialing_tone);
                                         forwardToAudioRoom();
                                         pDialog.dismiss();
-                                        /*if (callingID.isEmpty()) {
-                                            Toast.makeText(getActivity(), "Please enter a user to call", Toast.LENGTH_LONG).show();
-                                            return;
-                                        }*/
                                     }
                                 })
                         .addButton(
@@ -220,10 +214,6 @@ public class DoctorConsultActivity extends BaseActivity {
                                     public void onClick() {
                                         forwardToVideoRoom();
                                         pDialog.dismiss();
-                                        /*if (callingID.isEmpty()) {
-                                            Toast.makeText(DoctorConsultActivity.this, "Please enter a user to call", Toast.LENGTH_LONG).show();
-                                            return;
-                                        }*/
                                     }
                                 } )
                         .addButton(
@@ -259,4 +249,26 @@ public class DoctorConsultActivity extends BaseActivity {
         btn_Video = findViewById(R.id.btn_Video);
         btn_Audio = findViewById(R.id.btn_Audio);
     }
+
+    private void FeedBackDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        View v = getLayoutInflater().inflate(R.layout.alert_no_package_consult_doctor, null);
+        dialogBuilder.setView(v);
+
+        alertDialog = dialogBuilder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+
+        Button btnOkay = v.findViewById(R.id.btnDismiss_AlertNoPackage);
+        btnOkay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+    }//alert
 }

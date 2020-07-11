@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WebdocAndroidSdk</string>
+    <string name="app_name">Health Services</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 
@@ -28,8 +28,7 @@
     <string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
     <string name="experience">Experience</string>
     <string name="ten_years">10 Years</string>
-    <string name="consultation">Consultation</string>
-
+    <string name="consult_now">Consult Now</string>
     <string name="loading_doctors">Loading Doctors...</string>
     <string name="loading_prescription">Loading Prescription...</string>
     <string name="submitting_feedback">Submitting Your Feedback...</string>
@@ -48,6 +47,11 @@
     <string name="VideoConsultation">Video </string>
     <string name="AudioConsultation">Audio </string>
     <string name="SuggestedDoctors">Suggested Doctors</string>
+    <string name="message">Message</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="no_package_message">To continue using the service, please subscribe for Alfa Health Packages</string>
 
     <string name="msg_no_network_connection">No network connection, please check the network settings</string>
+
+
 </resources>

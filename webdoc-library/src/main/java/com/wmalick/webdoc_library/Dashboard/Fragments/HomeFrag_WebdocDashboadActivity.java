@@ -33,11 +33,6 @@ import com.wmalick.webdoc_library.ServerManager.VolleyListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class HomeFrag_WebdocDashboadActivity extends Fragment implements VolleyListener {
 
     TextView tvConsultDoctor, tvPrescriptionHistory, tvFeedBack;

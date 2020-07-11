@@ -18,7 +18,7 @@
     <dimen name="hGuideline20">0.20</dimen>
     <dimen name="hGuideline30">0.30</dimen>
     <dimen name="hGuideline35">0.35</dimen>
-    <dimen name="hGuideline70">0.70</dimen>
+    <dimen name="hGuideline60">0.60</dimen>
     <dimen name="hGuideline80">0.80</dimen>
     <dimen name="hGuideline92">0.92</dimen>
 
@@ -26,9 +26,6 @@
     <dimen name="call_button_size">60dp</dimen>
     <dimen name="other_button_size">54dp</dimen>
 
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="local_preview_margin_top">28dp</dimen>
     <dimen name="local_preview_margin_right">24dp</dimen>
 

@@ -135,7 +135,7 @@ public class WorkerThread extends Thread{
         }
 
         ensureRtcEngineReadyLock();
-        mRtcEngine.joinChannel(null, userInfo.userAccount, "OpenVCall", uid);
+        //mRtcEngine.joinChannel(null, userInfo.userAccount, "OpenVCall", uid);
         mRtcEngine.getUserInfoByUid(uid, userInfo);
     }
 
@@ -175,6 +175,8 @@ public class WorkerThread extends Thread{
         log.debug("leaveChannel " + channel);
     }
 
+
+
     private EngineConfig mEngineConfig;
 
     public final EngineConfig getEngineConfig() {
@@ -189,7 +191,7 @@ public class WorkerThread extends Thread{
         return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 
-    private RtcEngine ensureRtcEngineReadyLock() {
+    public RtcEngine ensureRtcEngineReadyLock() {
         if (mRtcEngine == null) {
             String appId = ConstantApp.AGORA_APP_ID;
             if (TextUtils.isEmpty(appId)) {

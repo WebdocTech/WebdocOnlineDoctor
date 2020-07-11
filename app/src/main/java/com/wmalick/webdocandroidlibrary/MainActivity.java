@@ -3,11 +3,13 @@ package com.wmalick.webdocandroidlibrary;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.wmalick.webdoc_library.Agora.VideoCallScreenActivity;
 import com.wmalick.webdoc_library.InitiateSDK.Initiate_sdk;
 
 import java.util.HashMap;
@@ -23,7 +25,8 @@ public class MainActivity extends AppCompatActivity {
         btnWOD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Initiate_sdk initiate_sdk = new Initiate_sdk(MainActivity.this, "03165121519", "Alfa");
+                Initiate_sdk initiate_sdk = new Initiate_sdk(MainActivity.this, "+923165121519", "Alfa");
+                /*startActivity(new Intent(MainActivity.this, VideoCallScreenActivity.class));*/
 
 
             }

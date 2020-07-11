@@ -57,7 +57,7 @@ public class ConsultDoctorListAdapter extends RecyclerView.Adapter<ConsultDoctor
         holder.text_name.setText(docName);
         holder.text_degree.setText(degree);
         holder.text_speciality.setText(speciality);
-        Picasso.get().load(imageUrl).placeholder(R.drawable.doctor).error(R.drawable.doctor).into(holder.profile_image);
+        Picasso.get().load(imageUrl).placeholder(R.drawable.ic_placeholder_doctor).error(R.drawable.ic_placeholder_doctor).into(holder.profile_image);
         holder.textCity.setText(city);
         holder.ratingBar.setRating(stepSize);
 
@@ -78,10 +78,6 @@ public class ConsultDoctorListAdapter extends RecyclerView.Adapter<ConsultDoctor
             public void onClick(View view) {
 
                 Global.selectedDoctor = item;
-                /*fragmentManager.beginTransaction()
-                        .replace(R.id.fragmentContainer_WebdocDashboardActivity, new DoctorConsultFragment())
-                        .addToBackStack(null)
-                        .commit();*/
                 context.startActivity(new Intent(context,  DoctorConsultActivity.class));
             }
         });
