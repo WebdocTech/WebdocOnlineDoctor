@@ -49,6 +49,7 @@ dependencies {
     implementation "com.google.firebase:firebase-auth:19.3.0"
     implementation 'com.google.firebase:firebase-messaging:20.2.0'
     implementation 'com.google.firebase:firebase-database:19.2.1'
+    implementation 'com.airbnb.android:lottie:3.4.0'
 
     implementation 'org.slf4j:slf4j-api:1.7.21'
     implementation 'io.agora.rtc:voice-sdk:3.0.1'

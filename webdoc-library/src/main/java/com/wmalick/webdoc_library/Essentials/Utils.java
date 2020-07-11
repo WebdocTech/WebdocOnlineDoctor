@@ -2,7 +2,10 @@ package com.wmalick.webdoc_library.Essentials;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -28,6 +31,8 @@ import java.util.Map;
 public class Utils {
 
     public ProgressDialog progressDialog;
+    public MediaPlayer mediaPlayer;
+    public AudioManager audioManager;
 
     public void showProgressDialog(Activity activity, String message)
     {
@@ -91,6 +96,19 @@ public class Utils {
             }
         };
         requestQueue.add(request);
+    }
+
+    public void startMediaPlayer(Activity activity, int tone)
+    {
+        mediaPlayer = MediaPlayer.create(activity, tone);
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer.start();
+    }
+
+
+    public void stopMediaPlayer()
+    {
+        mediaPlayer.stop();
     }
 
 }

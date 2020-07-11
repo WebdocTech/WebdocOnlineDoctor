@@ -2,6 +2,8 @@ package com.wmalick.webdoc_library.Dashboard.Fragments.ConsultDoctorFragments.Do
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -20,6 +22,7 @@ import com.wmalick.webdoc_library.Agora.BaseActivity;
 import com.wmalick.webdoc_library.Agora.ConstantApp;
 import com.wmalick.webdoc_library.Agora.VideoCallScreenActivity;
 import com.wmalick.webdoc_library.Essentials.Global;
+import com.wmalick.webdoc_library.Essentials.Utils;
 import com.wmalick.webdoc_library.R;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -110,8 +113,8 @@ public class DoctorConsultActivity extends BaseActivity {
         vSettings().mChannelName = callingID;
         Intent i = new Intent(this, VideoCallScreenActivity.class);
         i.putExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME, callingID);
-        i.putExtra(ConstantApp.ACTION_KEY_USER_ACCOUNT, "waleed@webdoc.com.pk");
-        i.putExtra(ConstantApp.CALLED_USER, "saif@webdoc.com.pk");
+        i.putExtra(ConstantApp.ACTION_KEY_USER_ACCOUNT, "saif@webdoc.com.pk");
+        i.putExtra(ConstantApp.CALLED_USER, "waleed@webdoc.com.pk");
         i.putExtra(ConstantApp.ACTION_KEY_USER_TOKEN, "");
         startActivity(i);
         /*abcToKen@1H0gtJl4Etd*/
@@ -163,6 +166,7 @@ public class DoctorConsultActivity extends BaseActivity {
                                 new PrettyDialogCallback() {
                                     @Override
                                     public void onClick() {
+                                        Global.utils.startMediaPlayer(DoctorConsultActivity.this, R.raw.dialing_tone);
                                         forwardToAudioRoom();
                                         pDialog.dismiss();
                                         /*if (callingID.isEmpty()) {

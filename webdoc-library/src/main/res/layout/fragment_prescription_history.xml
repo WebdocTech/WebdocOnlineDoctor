@@ -72,17 +72,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/constraintLayout_Top">
 
-        <ImageView
+        <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/iv_QA"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
-            android:src="@drawable/ic_no_consult"
-            app:layout_constraintDimensionRatio="w, 0.9:4"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="no_consultation.json"
+            app:lottie_loop="true"
+            app:layout_constraintDimensionRatio="w, 1.2:4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/textView8"

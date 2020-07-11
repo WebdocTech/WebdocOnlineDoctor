@@ -23,6 +23,7 @@ import android.widget.Toast;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.ViewCompat;
 
+import com.wmalick.webdoc_library.Essentials.Global;
 import com.wmalick.webdoc_library.R;
 
 import org.slf4j.Logger;
