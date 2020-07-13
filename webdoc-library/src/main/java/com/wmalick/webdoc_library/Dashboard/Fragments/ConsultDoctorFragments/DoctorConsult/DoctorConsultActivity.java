@@ -70,6 +70,9 @@ public class DoctorConsultActivity extends BaseActivity {
     public void forwardToAudioRoom() {
         if((!(Integer.parseInt(Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getFreecall()) <1))
         || (!Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getPackageSubscribed().equalsIgnoreCase("none"))){
+
+            Global.utils.startMediaPlayer(DoctorConsultActivity.this, R.raw.dialing_tone);
+
             JSONObject params = new JSONObject();
             try {
                 params.put("to", token);
@@ -164,7 +167,6 @@ public class DoctorConsultActivity extends BaseActivity {
                                 new PrettyDialogCallback() {
                                     @Override
                                     public void onClick() {
-                                        Global.utils.startMediaPlayer(DoctorConsultActivity.this, R.raw.dialing_tone);
                                         forwardToAudioRoom();
                                         pDialog.dismiss();
                                     }
