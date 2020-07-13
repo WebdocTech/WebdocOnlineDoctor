@@ -212,6 +212,7 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
     private void quitCall() {
         /*Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);*/
+        Global.utils.stopMediaPlayer();
         finish();
     }
 
