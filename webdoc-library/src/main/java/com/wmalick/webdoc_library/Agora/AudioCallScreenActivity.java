@@ -6,22 +6,14 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.ViewCompat;
 
 import com.wmalick.webdoc_library.Essentials.Global;
 import com.wmalick.webdoc_library.R;
@@ -43,12 +35,20 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
 
     String userName, channelName;
 
+    TextView tv_call_status, tv_call_time;
+    int call_seconds = 0;
+
+    Handler call_time_handler = new Handler();
+    Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audio_call_screen);
+
+        tv_call_status =  (TextView) findViewById(R.id.tv_call_status);
+        tv_call_time =  (TextView) findViewById(R.id.tv_call_time);
 
     }
 
@@ -65,6 +65,7 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
     @Override
     protected void initUIandEvent() {
         event().addEventHandler(this);
+
         Intent i = getIntent();
         channelName = i.getStringExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME);
         userName = i.getStringExtra(ConstantApp.ACTION_KEY_USER_ACCOUNT);
@@ -213,6 +214,7 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
         /*Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);*/
         Global.utils.stopMediaPlayer();
+        call_time_handler.removeCallbacks(null);
         finish();
     }
 
@@ -234,6 +236,7 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
         Toast.makeText(this, String.valueOf(uid), Toast.LENGTH_LONG).show();
         log.debug(msg);
         notifyMessageChanged(msg);
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -282,6 +285,28 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
         userInfo.uid = uid;
         //String abc = worker().getUserInfoByUid(uid,  userInfo);
 
+        call_time_handler.postDelayed( runnable = new Runnable() {
+            public void run() {
+                //do something
+
+                call_seconds++;
+
+                String call_duration = convertSeconds(call_seconds);
+
+                tv_call_time.setText(call_duration);
+
+                call_time_handler.postDelayed(runnable, 1000);
+            }
+        }, 1000);
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                tv_call_status.setText("Status : Connected");
+            }
+        });
+
+        Global.utils.stopMediaPlayer();
     }
 
     @Override
@@ -374,5 +399,21 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
         } else {
             iv.clearColorFilter();
         }
+    }
+
+
+    String convertSeconds(int sec) {
+        int seconds = sec % 60;
+        int minutes = sec / 60;
+        if (minutes >= 60) {
+            int hours = minutes / 60;
+            minutes %= 60;
+            if( hours >= 24) {
+                int days = hours / 24;
+                return String.format("%d days %02d:%02d:%02d", days,hours%24, minutes, seconds);
+            }
+            return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        }
+        return String.format("00:%02d:%02d", minutes, seconds);
     }
 }
