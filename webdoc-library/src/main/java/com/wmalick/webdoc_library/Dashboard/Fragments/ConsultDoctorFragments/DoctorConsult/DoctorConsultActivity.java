@@ -76,8 +76,10 @@ public class DoctorConsultActivity extends BaseActivity {
             JSONObject params = new JSONObject();
             try {
                 params.put("to", token);
-                params.put("notification", new JSONObject().put("title", "Agora Calling").put("body", "Incoming Audio Call")).put("sound", "default")
-                        .put("from", Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getMobileNumber()).put("click_action",".Dashboard");
+                params.put("data", new JSONObject()
+                        .put("title", "Incoming Audio Call")
+                        .put("channel", callingID)
+                        .put("body", Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getMobileNumber()));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -100,14 +102,18 @@ public class DoctorConsultActivity extends BaseActivity {
     public void forwardToVideoRoom() {
         if((!(Integer.parseInt(Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getFreecall()) <1))
                 || (!Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getPackageSubscribed().equalsIgnoreCase("none"))){
-        JSONObject params = new JSONObject();
-        try {
-            params.put("to", token);
-            params.put("notification", new JSONObject().put("title", "Agora Calling").put("body", "Incoming Video Call")).put("sound", "default")
-                    .put("from", Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getMobileNumber()).put("click_action",".Dashboard");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
+            Global.utils.startMediaPlayer(DoctorConsultActivity.this, R.raw.dialing_tone);
+
+            JSONObject params = new JSONObject();
+            try {
+                params.put("to", token);
+                params.put("data", new JSONObject()
+                        .put("title", "Incoming Video Call")
+                        .put("body", Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getMobileNumber()));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
         Global.utils.sendNotification(this, token, params);
         vSettings().mChannelName = callingID;

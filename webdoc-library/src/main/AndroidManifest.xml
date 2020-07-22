@@ -22,6 +22,7 @@
         android:name=".Agora.AGApplication"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Agora.VideoCallScreenActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>

@@ -9,12 +9,16 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.wmalick.webdoc_library.Essentials.Global;
 import com.wmalick.webdoc_library.R;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
@@ -47,6 +51,12 @@ public class VideoCallScreenActivity extends BaseActivity implements AGEventHand
     public ImageView mSwitchCameraBtn;
 
     String userName, channelName;
+
+    TextView tv_call_status, tv_call_time;
+    int call_seconds = 0;
+
+    Handler call_time_handler = new Handler();
+    Runnable runnable;
 
 
     public void setupRemoteVideo(int uid) {
@@ -90,6 +100,9 @@ public class VideoCallScreenActivity extends BaseActivity implements AGEventHand
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_call_screen);
+
+        tv_call_status =  (TextView) findViewById(R.id.tv_call_status);
+        tv_call_time =  (TextView) findViewById(R.id.tv_call_time);
 
         initUI();
         if (checkSelfPermission(REQUESTED_PERMISSIONS[0], PERMISSION_REQ_ID) &&
@@ -283,6 +296,10 @@ public class VideoCallScreenActivity extends BaseActivity implements AGEventHand
         removeLocalVideo();
         removeRemoteVideo();
         leaveChannel();
+        if(Global.utils.mediaPlayer != null) {
+            Global.utils.stopMediaPlayer();
+        }
+        call_time_handler.removeCallbacks(null);
     }
 
     public void removeLocalVideo() {
@@ -312,6 +329,14 @@ public class VideoCallScreenActivity extends BaseActivity implements AGEventHand
                 onRemoteUserLeft();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        endCall();
+        finish();
     }
 
     @Override
@@ -394,6 +419,30 @@ public class VideoCallScreenActivity extends BaseActivity implements AGEventHand
     @Override
     public void onUserJoinChannel(int uid, int elapsed) {
         int abc = uid;
+
+        call_time_handler.postDelayed( runnable = new Runnable() {
+            public void run() {
+                //do something
+
+                call_seconds++;
+
+                String call_duration = convertSeconds(call_seconds);
+
+                tv_call_time.setText(call_duration);
+
+                call_time_handler.postDelayed(runnable, 1000);
+            }
+        }, 1000);
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                tv_call_status.setText("Connected");
+            }
+        });
+
+        Global.utils.stopMediaPlayer();
+
     }
 
     @Override
@@ -411,4 +460,20 @@ public class VideoCallScreenActivity extends BaseActivity implements AGEventHand
             }
         });
     }
+
+    String convertSeconds(int sec) {
+        int seconds = sec % 60;
+        int minutes = sec / 60;
+        if (minutes >= 60) {
+            int hours = minutes / 60;
+            minutes %= 60;
+            if( hours >= 24) {
+                int days = hours / 24;
+                return String.format("%d days %02d:%02d:%02d", days,hours%24, minutes, seconds);
+            }
+            return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        }
+        return String.format("00:%02d:%02d", minutes, seconds);
+    }
+
 }

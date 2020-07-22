@@ -213,7 +213,10 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
     private void quitCall() {
         /*Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);*/
-        Global.utils.stopMediaPlayer();
+        if(Global.utils.mediaPlayer != null)
+        {
+            Global.utils.stopMediaPlayer();
+        }
         call_time_handler.removeCallbacks(null);
         finish();
     }
@@ -302,7 +305,7 @@ public class AudioCallScreenActivity extends BaseActivity implements AGEventHand
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                tv_call_status.setText("Status : Connected");
+                tv_call_status.setText("Connected");
             }
         });
 
