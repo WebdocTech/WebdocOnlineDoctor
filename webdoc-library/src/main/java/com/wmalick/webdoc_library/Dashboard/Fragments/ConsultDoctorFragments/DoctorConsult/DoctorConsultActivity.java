@@ -3,19 +3,14 @@ package com.wmalick.webdoc_library.Dashboard.Fragments.ConsultDoctorFragments.Do
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-
+import androidx.appcompat.widget.Toolbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +32,7 @@ import libs.mjn.prettydialog.PrettyDialog;
 import libs.mjn.prettydialog.PrettyDialogCallback;
 
 public class DoctorConsultActivity extends BaseActivity {
+    public static Toolbar toolbar;
     TextView tv_name, tv_speciality;
     CircleImageView profile_image;
     Button btn_Text,btn_Video,btn_Audio;
@@ -53,6 +49,22 @@ public class DoctorConsultActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_doctor_consult);
+        getWindow().setStatusBarColor(Color.parseColor(Global.THEME_COLOR_CODE));
+
+        toolbar = findViewById(R.id.toolbar_DoctorConsultActivity);
+        toolbar.setBackgroundColor(Color.parseColor(Global.THEME_COLOR_CODE));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back));
+        getSupportActionBar().setTitle(getString(R.string.consult_doctor));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         InitControl();
         ActionControl();
     }
@@ -140,7 +152,7 @@ public class DoctorConsultActivity extends BaseActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 token = dataSnapshot.child("token").getValue().toString();
-                Toast.makeText(DoctorConsultActivity.this, token, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(DoctorConsultActivity.this, token, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -152,24 +164,24 @@ public class DoctorConsultActivity extends BaseActivity {
 
         tv_name.setText(Global.selectedDoctor.getFirstName() + " " + Global.selectedDoctor.getLastName());
         tv_speciality.setText(Global.selectedDoctor.getDoctorSpecialty());
-        Picasso.get().load(Global.selectedDoctor.getImgLink()).placeholder(R.color.gray_btn_bg_color).error(R.drawable.doctor).into(profile_image);
-
+        Picasso.get().load(Global.selectedDoctor.getImgLink()).placeholder(R.drawable.ic_placeholder_doctor).error(R.drawable.ic_placeholder_doctor).into(profile_image);
         btn_Audio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 btn_Audio.setBackgroundResource(R.drawable.buttonborder_black_gray);
-                btn_Audio.setTextColor(Color.parseColor("#d32e33"));
+                btn_Audio.setTextColor(Color.parseColor(Global.THEME_COLOR_CODE));
                 btn_Video.setBackgroundResource(R.drawable.buttonborder_black);
-                btn_Video.setTextColor(Color.parseColor("#000000"));
+                btn_Video.setTextColor(getResources().getColor(R.color.black));
                 btn_Text.setBackgroundResource(R.drawable.buttonborder_black);
-                btn_Text.setTextColor(Color.parseColor("#000000"));
+                btn_Text.setTextColor(getResources().getColor(R.color.black));
                 final PrettyDialog pDialog = new PrettyDialog(DoctorConsultActivity.this);
+                Integer color = Color.parseColor(Global.THEME_COLOR_CODE);
                 pDialog.setMessage("Are you sure you want to audio call to the doctor?")
                         .setAnimationEnabled(true)
                         .addButton(
                                 "Yes",
                                 R.color.pdlg_color_white,
-                                R.color.pdlg_color_red,
+                                R.color.pdlg_color_gray,
                                 new PrettyDialogCallback() {
                                     @Override
                                     public void onClick() {
@@ -204,19 +216,18 @@ public class DoctorConsultActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 btn_Video.setBackgroundResource(R.drawable.buttonborder_black_gray);
-                btn_Video.setTextColor(Color.parseColor("#d32e33"));
+                btn_Video.setTextColor(Color.parseColor(Global.THEME_COLOR_CODE));
                 btn_Audio.setBackgroundResource(R.drawable.buttonborder_black);
-                btn_Audio.setTextColor(Color.parseColor("#000000"));
+                btn_Audio.setTextColor(getResources().getColor(R.color.black));
                 btn_Text.setBackgroundResource(R.drawable.buttonborder_black);
-                btn_Text.setTextColor(Color.parseColor("#000000"));
-
+                btn_Text.setTextColor(getResources().getColor(R.color.black));
                 final PrettyDialog pDialog = new PrettyDialog(DoctorConsultActivity.this);
                 pDialog.setMessage("Are you sure you want to video call to the doctor?")
                         .setAnimationEnabled(true)
                         .addButton(
                                 "Yes",
                                 R.color.pdlg_color_white,
-                                R.color.pdlg_color_red,
+                                R.color.pdlg_color_gray,
                                 new PrettyDialogCallback() {
                                     @Override
                                     public void onClick() {
@@ -267,8 +278,11 @@ public class DoctorConsultActivity extends BaseActivity {
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
 
+        TextView lblAlertTitle = v.findViewById(R.id.lblMessage_AlertNoPackageConsultDoctor);
+        lblAlertTitle.setTextColor(Color.parseColor(Global.THEME_COLOR_CODE));
 
         Button btnOkay = v.findViewById(R.id.btnDismiss_AlertNoPackage);
+        btnOkay.getBackground().setTint(Color.parseColor(Global.THEME_COLOR_CODE));
         btnOkay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

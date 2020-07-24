@@ -2,6 +2,10 @@ package com.wmalick.webdoc_library.Adapters;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,20 +43,14 @@ public class ConsultDoctorListAdapter extends RecyclerView.Adapter<ConsultDoctor
 
 
     public void onBindViewHolder(@NonNull ConsultDoctorListAdapter.ViewHolder holder, final int position) {
-        final Doctorprofile item = Global.doctorsList.get(position);
+        final Doctorprofile item = Global.doctorListResponse.getDoctorListResult().getDoctorprofiles().get(position);
+
         final String docName = item.getFirstName() + " " + item.getLastName();
         final String imageUrl = item.getImgLink();
         final String speciality = item.getDoctorSpecialty();
-        final String education = item.getAllqualifications();
         final String degree = item.getEducation();
-        final String college = item.getEducationInstitute();
-        final String experience = item.getExperience();
-        final String detail = item.getDetailedInformation();
         final float stepSize = Float.parseFloat(item.getRate());
-        final String availability = item.getDutytime();
         final String city = item.getCityId();
-        final String doctorID = item.getApplicationUserId();
-        final String doctorEmail = item.getEmail();
 
         holder.text_name.setText(docName);
         holder.text_degree.setText(degree);
@@ -85,7 +83,7 @@ public class ConsultDoctorListAdapter extends RecyclerView.Adapter<ConsultDoctor
 
     @Override
     public int getItemCount() {
-        return Global.doctorsList.size();
+        return Global.doctorListResponse.getDoctorListResult().getDoctorprofiles().size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -108,6 +106,11 @@ public class ConsultDoctorListAdapter extends RecyclerView.Adapter<ConsultDoctor
             textCity=itemView.findViewById(R.id.text_City);
             btn_Profile=itemView.findViewById(R.id.btn_Profile);
             ratingBar = itemView.findViewById(R.id.ratingBar_WebdocRating);
+            btn_Consult.setTextColor(Color.parseColor(Global.THEME_COLOR_CODE));
+            btn_Profile.setTextColor(Color.parseColor(Global.THEME_COLOR_CODE));
+            LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
+            stars.getDrawable(2).setColorFilter(Color.parseColor(Global.THEME_COLOR_CODE), PorterDuff.Mode.SRC_ATOP);
+            //ratingBar.setBackgroundColor(Color.parseColor(Global.THEME_COLOR_CODE));
         }
     }
 }

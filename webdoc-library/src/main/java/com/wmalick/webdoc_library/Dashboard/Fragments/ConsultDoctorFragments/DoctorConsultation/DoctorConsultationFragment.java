@@ -13,16 +13,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.wmalick.webdoc_library.Adapters.ConsultDoctorListAdapter;
+import com.wmalick.webdoc_library.Dashboard.WebdocDashboardActivity;
 import com.wmalick.webdoc_library.Essentials.Global;
 import com.wmalick.webdoc_library.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class DoctorConsultationFragment extends Fragment {
 
     RecyclerView recyclerViewConsult;
-    ConsultDoctorListAdapter doctorListConsultAdapter;
+    public static ConsultDoctorListAdapter doctorListConsultAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,11 +29,13 @@ public class DoctorConsultationFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_doctor_consultation, container, false);
 
-        Global.doctorsList.clear();
+        WebdocDashboardActivity.toolbar.setTitle(getString(R.string.consult_doctor));
+
+        /*Global.doctorsList.clear();
         for(int i = 0; i < Global.doctorListResponse.getDoctorListResult().getDoctorprofiles().size(); i++)
         {
             Global.doctorsList.add(Global.doctorListResponse.getDoctorListResult().getDoctorprofiles().get(i));
-        }
+        }*/
 
         recyclerViewConsult=(RecyclerView)view.findViewById(R.id.rvConsultDoctor_DoctorConsultationFrag);
         LinearLayoutManager layoutManager1= new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL,false);
@@ -45,5 +46,11 @@ public class DoctorConsultationFragment extends Fragment {
         recyclerViewConsult.setAdapter(doctorListConsultAdapter);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        doctorListConsultAdapter.notifyDataSetChanged();
     }
 }

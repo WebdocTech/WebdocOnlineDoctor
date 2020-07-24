@@ -41,7 +41,7 @@ public class Utils {
         progressDialog.setCancelable(false);
         progressDialog.show();
         ProgressBar progressbar = (ProgressBar) progressDialog.findViewById(android.R.id.progress);
-        progressbar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#d32e33"), android.graphics.PorterDuff.Mode.SRC_IN);
+        progressbar.getIndeterminateDrawable().setColorFilter(Color.parseColor(Global.THEME_COLOR_CODE), android.graphics.PorterDuff.Mode.SRC_IN);
     }
 
     public void hideProgressDialog()

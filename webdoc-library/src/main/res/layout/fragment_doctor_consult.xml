@@ -8,11 +8,28 @@
     android:background="@android:color/white"
     tools:context=".Dashboard.Fragments.ConsultDoctorFragments.DoctorConsult.DoctorConsultActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_DoctorConsultActivity"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/webdoc_main"
+        android:elevation="4dp"
+        app:titleTextColor="@color/white"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextAppearance="@style/ToolbarTitleTheme"
+        app:subtitleTextAppearance="@style/ToolbarSubtitleTheme"/>
+
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_DoctorConsultActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/MainConstraintlayout"
@@ -156,9 +173,9 @@
                     android:paddingStart="8dp"
                     android:paddingEnd="0dp"
                     android:text="@string/TextConsultation"
-                    android:visibility="gone"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/textSize_12"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/btn_Video"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -223,6 +240,7 @@
                 android:background="#c0c0c0"
                 android:visibility="gone"
                 app:layout_constraintTop_toTopOf="@+id/hGuideline80Per_Consult" />
+
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/hGuideline80Per_Consult"
                 android:layout_width="wrap_content"

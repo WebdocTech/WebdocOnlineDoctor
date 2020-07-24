@@ -9,7 +9,7 @@
     tools:context=".Dashboard.Fragments.PrescriptionHistoryFragment.PrescriptionHistoryDetailsFragment">
 
     <TextView
-        android:id="@+id/tv_drName"
+        android:id="@+id/tvDocName_PrescriptionHistoryDetailsFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"

@@ -1,26 +1,22 @@
 package com.wmalick.webdoc_library.Dashboard;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
 import com.wmalick.webdoc_library.Dashboard.Fragments.HomeFrag_WebdocDashboadActivity;
+import com.wmalick.webdoc_library.Essentials.Global;
 import com.wmalick.webdoc_library.R;
 import com.wmalick.webdoc_library.ServerManager.VolleyListener;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
 
 public class WebdocDashboardActivity extends AppCompatActivity implements  VolleyListener {
     public static Toolbar toolbar;
@@ -33,6 +29,8 @@ public class WebdocDashboardActivity extends AppCompatActivity implements  Volle
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setStatusBarColor(Color.parseColor(Global.THEME_COLOR_CODE));
+
         setContentView(R.layout.activity_webdoc_dashboard);
 
         //this is test code to commitg
@@ -62,6 +60,7 @@ public class WebdocDashboardActivity extends AppCompatActivity implements  Volle
         progressBar = findViewById(R.id.progressBar_WebdocDashboardActivity);
         mAuth = FirebaseAuth.getInstance();
         toolbar = findViewById(R.id.toolbar_WebdocDashboardActivity);
+        toolbar.setBackgroundColor(Color.parseColor(Global.THEME_COLOR_CODE));
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

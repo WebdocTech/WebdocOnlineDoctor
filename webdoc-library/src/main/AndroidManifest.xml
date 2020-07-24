@@ -16,7 +16,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTING" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
     <application
         android:name=".Agora.AGApplication"
@@ -24,11 +24,16 @@
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Agora.VideoCallScreenActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
-        <activity android:name=".Agora.AudioCallScreenActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".Dashboard.Fragments.ConsultDoctorFragments.RateDoctorPopupActivity"
+            android:theme="@style/Theme.Transparent"></activity>
+        <activity
+            android:name=".Agora.VideoCallScreenActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".Agora.AudioCallScreenActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".Agora.BaseActivity" />
+
         <activity
             android:name=".Dashboard.WebdocDashboardActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />

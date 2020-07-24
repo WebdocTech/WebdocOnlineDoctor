@@ -86,7 +86,7 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/tvNoConsultation_PrescriptionHistoryFragment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -95,7 +95,7 @@
             android:gravity="center"
             android:padding="3dp"
             android:text="No Consultations yet!"
-            android:textColor="@android:color/holo_red_dark"
+            android:textColor="@android:color/black"
             android:textSize="@dimen/textSize_20"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -118,7 +118,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+            app:layout_constraintTop_toBottomOf="@+id/tvNoConsultation_PrescriptionHistoryFragment" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

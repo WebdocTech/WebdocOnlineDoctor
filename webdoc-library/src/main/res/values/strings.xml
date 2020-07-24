@@ -35,6 +35,7 @@
 
     <!--feedback-->
     <string name="RateWebdoc">Rate Webdoc</string>
+    <string name="RateDoctor">Rate Doctor</string>
     <string name="letUsKnow">Let us know what you think</string>
     <string name="feedbackHint">Please write your feedback here</string>
     <string name="ratingHint">Very Good</string>
@@ -50,8 +51,15 @@
     <string name="message">Message</string>
     <string name="dismiss">Dismiss</string>
     <string name="no_package_message">To continue using the service, please subscribe for Alfa Health Packages</string>
-
     <string name="msg_no_network_connection">No network connection, please check the network settings</string>
+
+
+    <!--TODO: RATING TAGS-->
+    <string name="rating_1">I hate it</string>
+    <string name="rating_2">I am really upset</string>
+    <string name="rating_3">Its Okay</string>
+    <string name="rating_4">Things are pretty good</string>
+    <string name="rating_5">Feeling Great</string>
 
 
 </resources>

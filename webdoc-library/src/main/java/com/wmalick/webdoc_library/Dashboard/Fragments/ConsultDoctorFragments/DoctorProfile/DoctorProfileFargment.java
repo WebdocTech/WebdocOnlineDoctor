@@ -2,6 +2,7 @@ package com.wmalick.webdoc_library.Dashboard.Fragments.ConsultDoctorFragments.Do
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,7 +62,6 @@ public class DoctorProfileFargment extends Fragment {
     }
 
     private void InitControl(View view) {
-
         tv_DocName = view.findViewById(R.id.tv_DocName);
         textView_Speciality = view.findViewById(R.id.textView_Speciality);
         textView_Education = view.findViewById(R.id.textView_Education);
@@ -70,7 +70,9 @@ public class DoctorProfileFargment extends Fragment {
         textView_Years = view.findViewById(R.id.textView_Years);
         text_ExpDetail = view.findViewById(R.id.text_ExpDetail);
         btnConsult = view.findViewById(R.id.btn_Consult);
+        btnConsult.getBackground().setTint(Color.parseColor(Global.THEME_COLOR_CODE));
         ivImgDoc = view.findViewById(R.id.user_image);
+
     }
 
 }

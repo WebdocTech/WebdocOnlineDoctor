@@ -18,14 +18,14 @@
 
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/lblMessage_AlertNoPackageConsultDoctor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:text="@string/message"
-            android:textColor="@color/webdoc_main"
+            android:textColor="@color/black"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,7 @@
             android:text="@string/no_package_message"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintTop_toBottomOf="@+id/lblMessage_AlertNoPackageConsultDoctor" />
 
         <Button
             android:id="@+id/btnDismiss_AlertNoPackage"
@@ -51,7 +51,6 @@
             android:layout_marginTop="32dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/border_oval_white_red"
-            android:backgroundTint="@android:color/holo_red_dark"
             android:text="@string/dismiss"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"

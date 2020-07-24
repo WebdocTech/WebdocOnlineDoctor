@@ -2,6 +2,8 @@ package com.wmalick.webdoc_library.InitiateSDK;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -22,7 +24,9 @@ public class Initiate_sdk implements VolleyListener {
     ServerManager serverManager;
 
 
-    public Initiate_sdk(Activity ctx, String MobileNumber, String Corporate) {
+    public Initiate_sdk(Activity ctx, String MobileNumber, String Corporate, String themeColorHexCode) {
+        Global.THEME_COLOR_CODE = themeColorHexCode;
+        Global.corporate = Corporate;
         this.ctx = ctx;
         this.UserMobileNumber = MobileNumber;
         this.Corporate = Corporate;

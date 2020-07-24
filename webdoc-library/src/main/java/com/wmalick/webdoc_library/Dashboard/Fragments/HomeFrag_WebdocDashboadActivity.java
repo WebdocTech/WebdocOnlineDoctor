@@ -1,8 +1,12 @@
 package com.wmalick.webdoc_library.Dashboard.Fragments;
 
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -18,7 +22,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
-import com.wmalick.webdoc_library.Dashboard.Fragments.ConsultDoctorFragments.ConsultDoctorFragment;
+import com.wmalick.webdoc_library.Dashboard.Fragments.ConsultDoctorFragments.DoctorConsultation.DoctorConsultationFragment;
+import com.wmalick.webdoc_library.Dashboard.Fragments.ConsultDoctorFragments.RateDoctorPopupActivity;
 import com.wmalick.webdoc_library.Dashboard.Fragments.PrescriptionHistoryFragment.PrescriptionHistoryFragment;
 import com.wmalick.webdoc_library.Dashboard.WebdocDashboardActivity;
 import com.wmalick.webdoc_library.Essentials.Constants;
@@ -75,6 +80,7 @@ public class HomeFrag_WebdocDashboadActivity extends Fragment implements VolleyL
             public void onClick(View v) {
 
                 FeedBackDialog();
+                /*getActivity().startActivity(new Intent(getActivity(), RateDoctorPopupActivity.class));*/
 
             }
         });
@@ -85,6 +91,10 @@ public class HomeFrag_WebdocDashboadActivity extends Fragment implements VolleyL
         tvConsultDoctor = view.findViewById(R.id.tvConsultDoctor_HomeFrag_WebdocDashboardActivity);
         tvPrescriptionHistory = view.findViewById(R.id.tvPrescriptionHistory_HomeFrag_WebdocDashboardActivity);
         tvFeedBack = view.findViewById(R.id.tvFeedback_HomeFrag_WebdocDashboardActivity);
+        tvConsultDoctor.getCompoundDrawables()[0].setColorFilter(Color.parseColor(Global.THEME_COLOR_CODE), PorterDuff.Mode.SRC_ATOP);
+        tvPrescriptionHistory.getCompoundDrawables()[0].setColorFilter(Color.parseColor(Global.THEME_COLOR_CODE), PorterDuff.Mode.SRC_ATOP);
+        tvFeedBack.getCompoundDrawables()[0].setColorFilter(Color.parseColor(Global.THEME_COLOR_CODE), PorterDuff.Mode.SRC_ATOP);
+
     }
 
     private void getPrescriptionHistory() {
@@ -106,12 +116,33 @@ public class HomeFrag_WebdocDashboadActivity extends Fragment implements VolleyL
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         final TextView rating = v.findViewById(R.id.tv_rating);
-        rating.setText("Very Good");
+        rating.setText(getString(R.string.rating_5));
 
         final EditText etFeedback = v.findViewById(R.id.edt_feedback);
         final RatingBar ratingBar = v.findViewById(R.id.ratingBar_WebdocRating);
+        rating.setTextColor(Color.parseColor(Global.THEME_COLOR_CODE));
+        //ratingBar.getBackground().setTint(Color.parseColor(Global.THEME_COLOR_CODE));
+        LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(Color.parseColor(Global.THEME_COLOR_CODE), PorterDuff.Mode.SRC_ATOP);
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                if(v <= 1){
+                    rating.setText(getString(R.string.rating_1));
+                }else if(v <= 2){
+                    rating.setText(getString(R.string.rating_2));
+                }else if(v <= 3){
+                    rating.setText(getString(R.string.rating_3));
+                }else if(v <= 4){
+                    rating.setText(getString(R.string.rating_4));
+                }else if(v <= 5){
+                    rating.setText(getString(R.string.rating_5));
+                }
+            }
+        });
 
         Button submit = v.findViewById(R.id.btn_Submit);
+        submit.getBackground().setTint(Color.parseColor(Global.THEME_COLOR_CODE));
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,6 +160,7 @@ public class HomeFrag_WebdocDashboadActivity extends Fragment implements VolleyL
             }
         });
         Button later = v.findViewById(R.id.btn_Later);
+        later.setTextColor(Color.parseColor(Global.THEME_COLOR_CODE));
         later.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,7 +185,7 @@ public class HomeFrag_WebdocDashboadActivity extends Fragment implements VolleyL
 
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragmentContainer_WebdocDashboardActivity, new ConsultDoctorFragment())
+                        .replace(R.id.fragmentContainer_WebdocDashboardActivity, new DoctorConsultationFragment())
                         .addToBackStack("")
                         .commit();
 

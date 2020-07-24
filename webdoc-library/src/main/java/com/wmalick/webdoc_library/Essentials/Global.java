@@ -12,6 +12,9 @@ import java.util.ArrayList;
 
 public class Global {
 
+    public static String corporate = "";
+    public static String THEME_COLOR_CODE = "#ffcc0000";
+
     /* TODO: Utils */
     public static Utils utils = new Utils();
 

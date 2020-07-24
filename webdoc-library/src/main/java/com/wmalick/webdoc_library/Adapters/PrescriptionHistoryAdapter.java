@@ -1,6 +1,7 @@
 package com.wmalick.webdoc_library.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,6 +110,8 @@ public class PrescriptionHistoryAdapter extends RecyclerView.Adapter<Prescriptio
             name=itemView.findViewById(R.id.tv_drName);
             next=itemView.findViewById(R.id.iv_next);
             constraintLayout=itemView.findViewById(R.id.Prescription_shadowLayout);
+
+            name.setTextColor(Color.parseColor(Global.THEME_COLOR_CODE));
         }
     }
 
