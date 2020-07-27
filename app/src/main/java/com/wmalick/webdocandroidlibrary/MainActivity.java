@@ -25,10 +25,7 @@ public class MainActivity extends AppCompatActivity {
         btnWOD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Initiate_sdk initiate_sdk = new Initiate_sdk(MainActivity.this, "+923165121519", "Alfa");
-                /*startActivity(new Intent(MainActivity.this, VideoCallScreenActivity.class));*/
-
-
+                Initiate_sdk initiate_sdk = new Initiate_sdk(MainActivity.this, "03165121519", "Alfa", "#F1A01F");
             }
         });
     }
