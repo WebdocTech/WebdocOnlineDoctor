@@ -50,7 +50,7 @@
     <string name="SuggestedDoctors">Suggested Doctors</string>
     <string name="message">Message</string>
     <string name="dismiss">Dismiss</string>
-    <string name="no_package_message">To continue using the service, please subscribe for Alfa Health Packages</string>
+    <string name="no_package_message">To continue using the service, please subscribe for Health Packages</string>
     <string name="msg_no_network_connection">No network connection, please check the network settings</string>
 
 
