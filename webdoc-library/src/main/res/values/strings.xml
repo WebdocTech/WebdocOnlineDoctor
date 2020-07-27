@@ -32,6 +32,7 @@
     <string name="loading_doctors">Loading Doctors...</string>
     <string name="loading_prescription">Loading Prescription...</string>
     <string name="submitting_feedback">Submitting Your Feedback...</string>
+    <string name="invalid_theme_code">Invalid Theme Code</string>
 
     <!--feedback-->
     <string name="RateWebdoc">Rate Webdoc</string>

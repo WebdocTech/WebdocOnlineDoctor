@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -25,13 +26,21 @@ public class Initiate_sdk implements VolleyListener {
 
     /*Initialize SDK*/
     public Initiate_sdk(Activity ctx, String MobileNumber, String Corporate, String themeColorHexCode) {
-        Global.THEME_COLOR_CODE = themeColorHexCode;
-        Global.corporate = Corporate;
-        this.ctx = ctx;
-        this.UserMobileNumber = MobileNumber;
-        this.Corporate = Corporate;
-        serverManager = new ServerManager(ctx, this);
-        InitiateConnection();
+        if(TextUtils.isEmpty(themeColorHexCode)){
+            Toast.makeText(ctx, "Invalid Theme Code", Toast.LENGTH_SHORT).show();
+        }else if(themeColorHexCode.charAt(0) != '#'){
+            Toast.makeText(ctx, "Invalid Theme Code", Toast.LENGTH_SHORT).show();
+        }else if(themeColorHexCode.length() < 7){
+            Toast.makeText(ctx, "Invalid Theme Code", Toast.LENGTH_SHORT).show();
+        }else{
+            Global.THEME_COLOR_CODE = themeColorHexCode;
+            Global.corporate = Corporate;
+            this.ctx = ctx;
+            this.UserMobileNumber = MobileNumber;
+            this.Corporate = Corporate;
+            serverManager = new ServerManager(ctx, this);
+            InitiateConnection();
+        }
     }
 
     private void InitiateConnection() {

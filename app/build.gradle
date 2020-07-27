@@ -37,4 +37,6 @@ dependencies {
 
     implementation project(path: ':webdoc-library')
 
+    /*implementation 'com.github.WebdocTech:WebdocOnlineDoctor:1.1.4'*/
+
 }
