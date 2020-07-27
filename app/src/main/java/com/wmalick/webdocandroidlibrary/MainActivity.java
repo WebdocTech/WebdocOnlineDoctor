@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         btnWOD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Initiate_sdk initiate_sdk = new Initiate_sdk(MainActivity.this, "03165121519", "Alfa", "#ffffff");
+                Initiate_sdk initiate_sdk = new Initiate_sdk(MainActivity.this, "", "", "");
             }
         });
     }
