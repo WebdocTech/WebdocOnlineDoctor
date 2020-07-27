@@ -23,7 +23,7 @@ public class Initiate_sdk implements VolleyListener {
     private String UserMobileNumber, Corporate;
     ServerManager serverManager;
 
-
+    /*Initialize SDK*/
     public Initiate_sdk(Activity ctx, String MobileNumber, String Corporate, String themeColorHexCode) {
         Global.THEME_COLOR_CODE = themeColorHexCode;
         Global.corporate = Corporate;
@@ -38,7 +38,6 @@ public class Initiate_sdk implements VolleyListener {
         Global.utils.showProgressDialog(ctx, "Initiating Connection");
         serverManager.GetCustomerData(UserMobileNumber, Corporate);
     }
-
 
     @Override
     public void getRequestResponse(JSONObject response, String requestType) throws JSONException {
