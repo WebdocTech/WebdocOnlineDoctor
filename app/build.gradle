@@ -35,8 +35,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    implementation project(path: ':webdoc-library')
+    //implementation project(path: ':webdoc-library')
 
-    /*implementation 'com.github.WebdocTech:WebdocOnlineDoctor:1.1.4'*/
+    //implementation 'com.github.WebdocTech:WebdocOnlineDoctor:1.1.5'
 
 }
