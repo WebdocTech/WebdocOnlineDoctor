@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+//import com.wmalick.webdoc_library.InitiateSDK.Initiate_sdk;
+
 public class MainActivity extends AppCompatActivity {
     Button btnWOD;
     
@@ -15,8 +17,8 @@ public class MainActivity extends AppCompatActivity {
         btnWOD = findViewById(R.id.btnWOD);
         btnWOD.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {/*
-                 new Initiate_sdk(MainActivity.this, "03165121519", "Alfa", "#F1A01F");*/
+            public void onClick(View view) {
+                //new Initiate_sdk(MainActivity.this, "03165121519", "Alfa", "#F1A01F");
             }
         });
     }
