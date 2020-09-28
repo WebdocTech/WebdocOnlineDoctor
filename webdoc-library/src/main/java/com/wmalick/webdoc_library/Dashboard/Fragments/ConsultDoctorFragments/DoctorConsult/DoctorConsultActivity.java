@@ -8,6 +8,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
@@ -122,6 +124,7 @@ public class DoctorConsultActivity extends BaseActivity {
                 params.put("to", token);
                 params.put("data", new JSONObject()
                         .put("title", "Incoming Video Call")
+                        .put("channel", callingID)
                         .put("body", Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getMobileNumber()));
             } catch (JSONException e) {
                 e.printStackTrace();
