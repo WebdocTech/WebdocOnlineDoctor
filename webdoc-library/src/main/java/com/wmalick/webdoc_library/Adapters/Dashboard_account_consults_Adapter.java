@@ -31,24 +31,13 @@ public class Dashboard_account_consults_Adapter extends RecyclerView.Adapter<Das
 
 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final Consultationdetail myListName = Global.customerConsultationDetailsList.get(position);
-
-        String medicineName = myListName.getMedicineName();
-        String medicineDays = myListName.getNoOfDays();
-        String medicineMorning = myListName.getMorning();
-        String medicineNoon = myListName.getNight();
-        String additionalNotes = myListName.getAdditionalNotes();
-
-        holder.MedicineName.setText(medicineName);
-
-        holder.MedicineDays.setText(medicineDays);
-
-        holder.MedicineQntyMorning.setText(medicineMorning);
-
-        holder.MedicineQntyEvening.setText(medicineNoon);
-
-        holder.expand_notes.setText(additionalNotes);
-
+        final Consultationdetail item = Global.customerConsultationDetailsList.get(position);
+        holder.MedicineName.setText(item.getMedicineName());
+        holder.MedicineDays.setText(item.getNoOfDays());
+        holder.MedicineQntyMorning.setText(item.getMorning());
+        holder.MedicineQntyEvening.setText(item.getDay());
+        holder.MedicineQntyNight.setText(item.getNight());
+        holder.expand_notes.setText(item.getAdditionalNotes());
     }
 
     @Override
@@ -57,7 +46,7 @@ public class Dashboard_account_consults_Adapter extends RecyclerView.Adapter<Das
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView MedicineName,MedicineDays,MedicineQntyMorning,MedicineQntyNoon,MedicineQntyEvening;
+        public TextView MedicineName,MedicineDays,MedicineQntyMorning,MedicineQntyNoon,MedicineQntyEvening, MedicineQntyNight;
         public ExpandableTextView expand_notes;
 
         public ViewHolder(@NonNull View itemView) {
@@ -68,6 +57,7 @@ public class Dashboard_account_consults_Adapter extends RecyclerView.Adapter<Das
             MedicineQntyNoon=itemView.findViewById(R.id.tv_qntyNoon);
             MedicineQntyEvening=itemView.findViewById(R.id.tv_qntyEvening);
             expand_notes=itemView.findViewById(R.id.expand_notes);
+            MedicineQntyNight = itemView.findViewById(R.id.tv_qntyNight);
         }
     }
 }

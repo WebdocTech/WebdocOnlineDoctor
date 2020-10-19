@@ -18,6 +18,9 @@ public class Consultationdetail {
     @SerializedName("morning")
     @Expose
     private String morning;
+    @SerializedName("day")
+    @Expose
+    private String day;
     @SerializedName("night")
     @Expose
     private String night;
@@ -73,4 +76,11 @@ public class Consultationdetail {
         this.noOfDays = noOfDays;
     }
 
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
+    }
 }

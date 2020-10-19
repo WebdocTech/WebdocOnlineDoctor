@@ -99,7 +99,7 @@ public class DoctorConsultActivity extends BaseActivity {
                     params.put("data", new JSONObject()
                             .put("title", "Incoming Audio Call")
                             .put("channel", callingID)
-                            .put("body", Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getMobileNumber()));
+                            .put("body", Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getEmail()));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -133,7 +133,7 @@ public class DoctorConsultActivity extends BaseActivity {
                 params.put("data", new JSONObject()
                         .put("title", "Incoming Video Call")
                         .put("channel", callingID)
-                        .put("body", Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getMobileNumber()));
+                        .put("body", Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getEmail()));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

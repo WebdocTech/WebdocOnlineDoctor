@@ -27,7 +27,8 @@ public class PrescriptionHistoryDetailsFragment extends Fragment {
     RecyclerView recyclerView;
     Dashboard_account_consults_Adapter adapter;
     CircleImageView iv_drImage;
-    TextView tv_Time, tv_Complaints, tv_Diagnosis, tv_ConsultationType, tv_Test, tvDocName;
+    TextView tvDocName;
+    TextView tv_Time, tv_Complaints, tv_Diagnosis, tv_ConsultationType, tv_Test;
 
     public PrescriptionHistoryDetailsFragment() {
         // Required empty public constructor
@@ -82,5 +83,6 @@ public class PrescriptionHistoryDetailsFragment extends Fragment {
         tv_Test = view.findViewById(R.id.tv_Test);
         tvDocName = view.findViewById(R.id.tvDocName_PrescriptionHistoryDetailsFragment);
         tvDocName.setBackgroundColor(Color.parseColor(Global.THEME_COLOR_CODE));
+        tvDocName.setText(Global.customerConsultationList.get(Global.selectedCustomerConsultationPosition).getDoctorName());
     }
 }
