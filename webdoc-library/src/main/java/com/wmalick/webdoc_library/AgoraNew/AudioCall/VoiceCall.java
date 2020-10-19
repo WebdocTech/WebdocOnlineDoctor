@@ -3,6 +3,7 @@ package com.wmalick.webdoc_library.AgoraNew.AudioCall;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
@@ -218,7 +219,7 @@ public class VoiceCall extends AppCompatActivity {
             iv.clearColorFilter();
         } else {
             iv.setSelected(true);
-            iv.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
+            iv.setColorFilter(Color.parseColor(Global.THEME_COLOR_CODE), PorterDuff.Mode.MULTIPLY);
         }
 
         // Stops/Resumes sending the local audio stream.
@@ -233,7 +234,7 @@ public class VoiceCall extends AppCompatActivity {
             iv.clearColorFilter();
         } else {
             iv.setSelected(true);
-            iv.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
+            iv.setColorFilter(Color.parseColor(Global.THEME_COLOR_CODE), PorterDuff.Mode.MULTIPLY);
         }
 
         // Enables/Disables the audio playback route to the speakerphone.

@@ -34,7 +34,7 @@
     <string name="submitting_feedback">Submitting Your Feedback...</string>
 
     <!--feedback-->
-    <string name="RateWebdoc">Rate Webdoc</string>
+    <string name="RateWebdoc">Rate Our Services</string>
     <string name="RateDoctor">Rate Doctor</string>
     <string name="letUsKnow">Let us know what you think</string>
     <string name="feedbackHint">Please write your feedback here</string>
