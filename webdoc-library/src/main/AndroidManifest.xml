@@ -34,6 +34,15 @@
         <activity android:name=".Agora.BaseActivity" />
 
         <activity
+            android:name=".AgoraNew.AudioCall.VoiceCall"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".AgoraNew.VideoCall.VideoCall"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
             android:name=".Dashboard.WebdocDashboardActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity

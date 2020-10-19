@@ -61,5 +61,8 @@
     <string name="rating_4">Things are pretty good</string>
     <string name="rating_5">Feeling Great</string>
 
+    <!--TODO: CALLING-->
+    <string name="agora_app_id">f0924810ffd04733b7a726cb961157cd</string>
+
 
 </resources>
