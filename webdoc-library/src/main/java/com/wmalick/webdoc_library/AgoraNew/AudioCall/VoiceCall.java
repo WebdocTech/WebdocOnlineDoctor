@@ -146,7 +146,7 @@ public class VoiceCall extends AppCompatActivity {
 
         textChannelName.setText(channelName);
 
-        //Picasso.get().load(Global.selectedDocImage).placeholder(R.color.gray_btn_bg_color).error(R.drawable.ic_user_black_24dp).into(profile_image);
+        Picasso.get().load(R.drawable.ic_placeholder_doctor).placeholder(R.color.gray_btn_bg_color).error(R.drawable.ic_user_black_24dp).into(profile_image);
 
 
         if (checkSelfPermission(Manifest.permission.RECORD_AUDIO, PERMISSION_REQ_ID_RECORD_AUDIO)) {

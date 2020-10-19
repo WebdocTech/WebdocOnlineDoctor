@@ -24,6 +24,8 @@ import com.wmalick.webdoc_library.Agora.AudioCallScreenActivity;
 import com.wmalick.webdoc_library.Agora.BaseActivity;
 import com.wmalick.webdoc_library.Agora.ConstantApp;
 import com.wmalick.webdoc_library.Agora.VideoCallScreenActivity;
+import com.wmalick.webdoc_library.AgoraNew.AudioCall.VoiceCall;
+import com.wmalick.webdoc_library.AgoraNew.VideoCall.VideoCall;
 import com.wmalick.webdoc_library.Essentials.Global;
 import com.wmalick.webdoc_library.Essentials.Utils;
 import com.wmalick.webdoc_library.FormModels.SubmitWebdocFeedbackFormModel;
@@ -104,11 +106,15 @@ public class DoctorConsultActivity extends BaseActivity {
 
                 Global.utils.sendNotification(this, token, params);
                 vSettings().mChannelName = callingID;
-                Intent i = new Intent(this, AudioCallScreenActivity.class);
+                /*Intent i = new Intent(this, AudioCallScreenActivity.class);
                 i.putExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME, callingID);
                 i.putExtra(ConstantApp.ACTION_KEY_USER_ACCOUNT, Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getEmail());
                 //i.putExtra(ConstantApp.CALLED_USER, "waleed@webdoc.com.pk");
                 i.putExtra(ConstantApp.ACTION_KEY_USER_TOKEN, "");
+                startActivity(i);*/
+
+                Intent i = new Intent(this, VoiceCall.class);
+                i.putExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME, callingID);
                 startActivity(i);
             }else{
                 FeedBackDialog();
@@ -134,12 +140,16 @@ public class DoctorConsultActivity extends BaseActivity {
 
         Global.utils.sendNotification(this, token, params);
         vSettings().mChannelName = callingID;
-        Intent i = new Intent(this, VideoCallScreenActivity.class);
+        /*Intent i = new Intent(this, VideoCallScreenActivity.class);
         i.putExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME, callingID);
         i.putExtra(ConstantApp.ACTION_KEY_USER_ACCOUNT, Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getEmail());
         //i.putExtra(ConstantApp.CALLED_USER, "waleed@webdoc.com.pk");
         i.putExtra(ConstantApp.ACTION_KEY_USER_TOKEN, "");
-        startActivity(i);
+        startActivity(i);*/
+
+            Intent i = new Intent(this, VideoCall.class);
+            i.putExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME, callingID);
+            startActivity(i);
         }else{
             FeedBackDialog();
         }
