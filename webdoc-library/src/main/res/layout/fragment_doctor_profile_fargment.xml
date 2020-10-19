@@ -52,6 +52,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/hGuideline10Per_profile" />
 
+            <ImageView
+                android:id="@+id/iv_onlineStatus_doctorProfile"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="-24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/user_image"
+                app:layout_constraintStart_toEndOf="@+id/user_image" />
+
             <TextView
                 android:id="@+id/tv_DocName"
                 android:layout_width="wrap_content"
