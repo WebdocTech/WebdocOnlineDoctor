@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -59,6 +60,12 @@ public class ConsultDoctorListAdapter extends RecyclerView.Adapter<ConsultDoctor
         holder.textCity.setText(city);
         holder.ratingBar.setRating(stepSize);
 
+        if (item.getOnlineDoctor().equalsIgnoreCase("online")) {
+            holder.iv_onlineStatus.setImageResource(R.drawable.online);
+        } else {
+            holder.iv_onlineStatus.setImageResource(R.drawable.ic_offline);
+        }
+
 
         holder.btn_Profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +102,7 @@ public class ConsultDoctorListAdapter extends RecyclerView.Adapter<ConsultDoctor
         public TextView textCity;
         public Button btn_Profile;
         public RatingBar ratingBar;
+        ImageView iv_onlineStatus;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -111,6 +119,7 @@ public class ConsultDoctorListAdapter extends RecyclerView.Adapter<ConsultDoctor
             LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
             stars.getDrawable(2).setColorFilter(Color.parseColor(Global.THEME_COLOR_CODE), PorterDuff.Mode.SRC_ATOP);
             //ratingBar.setBackgroundColor(Color.parseColor(Global.THEME_COLOR_CODE));
+            iv_onlineStatus = itemView.findViewById(R.id.iv_onlineStatus);
         }
     }
 }

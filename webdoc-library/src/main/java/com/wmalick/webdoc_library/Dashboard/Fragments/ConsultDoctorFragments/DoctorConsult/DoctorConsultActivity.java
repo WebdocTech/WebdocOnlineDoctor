@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,8 +41,10 @@ public class DoctorConsultActivity extends BaseActivity {
     Button btn_Text,btn_Video,btn_Audio;
     String callingID = "";
     DatabaseReference reference;
+    DatabaseReference databaseReference;
     String token;
     AlertDialog alertDialog;
+    ImageView ivOnlineStatus;
 
     public DoctorConsultActivity() {
         // Required empty public constructor
@@ -69,6 +72,7 @@ public class DoctorConsultActivity extends BaseActivity {
 
         InitControl();
         ActionControl();
+        doctorStatusRealTime();
     }
 
     @Override
@@ -82,35 +86,33 @@ public class DoctorConsultActivity extends BaseActivity {
     }
 
     public void forwardToAudioRoom() {
-        if((!(Integer.parseInt(Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getFreecall()) <1))
-        || (!Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getPackageSubscribed().equalsIgnoreCase("none"))){
+            if((!(Integer.parseInt(Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getFreecall()) <1))
+                    || (!Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getPackageSubscribed().equalsIgnoreCase("none"))){
 
-            Global.utils.startMediaPlayer(DoctorConsultActivity.this, R.raw.dialing_tone);
+                Global.utils.startMediaPlayer(DoctorConsultActivity.this, R.raw.dialing_tone);
 
-            JSONObject params = new JSONObject();
-            try {
-                params.put("to", token);
-                params.put("data", new JSONObject()
-                        .put("title", "Incoming Audio Call")
-                        .put("channel", callingID)
-                        .put("body", Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getMobileNumber()));
-            } catch (JSONException e) {
-                e.printStackTrace();
+                JSONObject params = new JSONObject();
+                try {
+                    params.put("to", token);
+                    params.put("data", new JSONObject()
+                            .put("title", "Incoming Audio Call")
+                            .put("channel", callingID)
+                            .put("body", Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getMobileNumber()));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Global.utils.sendNotification(this, token, params);
+                vSettings().mChannelName = callingID;
+                Intent i = new Intent(this, AudioCallScreenActivity.class);
+                i.putExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME, callingID);
+                i.putExtra(ConstantApp.ACTION_KEY_USER_ACCOUNT, Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getEmail());
+                //i.putExtra(ConstantApp.CALLED_USER, "waleed@webdoc.com.pk");
+                i.putExtra(ConstantApp.ACTION_KEY_USER_TOKEN, "");
+                startActivity(i);
+            }else{
+                FeedBackDialog();
             }
-
-            Global.utils.sendNotification(this, token, params);
-            vSettings().mChannelName = callingID;
-            Intent i = new Intent(this, AudioCallScreenActivity.class);
-            i.putExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME, callingID);
-            i.putExtra(ConstantApp.ACTION_KEY_USER_ACCOUNT, Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getEmail());
-            //i.putExtra(ConstantApp.CALLED_USER, "waleed@webdoc.com.pk");
-            i.putExtra(ConstantApp.ACTION_KEY_USER_TOKEN, "");
-            startActivity(i);
-        }else{
-            FeedBackDialog();
-        }
-
-
     }
 
     public void forwardToVideoRoom() {
@@ -147,10 +149,8 @@ public class DoctorConsultActivity extends BaseActivity {
     protected void deInitUIandEvent() {
     }
 
-    private void ActionControl() {
-
+    private void    ActionControl() {
         reference = FirebaseDatabase.getInstance().getReference().child("Tokens").child("Doctors");
-
         reference.child(Global.selectedDoctor.getEmail().replace(".","")).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -171,93 +171,102 @@ public class DoctorConsultActivity extends BaseActivity {
         btn_Audio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btn_Audio.setBackgroundResource(R.drawable.buttonborder_black_gray);
-                btn_Audio.setTextColor(Color.parseColor(Global.THEME_COLOR_CODE));
-                btn_Video.setBackgroundResource(R.drawable.buttonborder_black);
-                btn_Video.setTextColor(getResources().getColor(R.color.black));
-                btn_Text.setBackgroundResource(R.drawable.buttonborder_black);
-                btn_Text.setTextColor(getResources().getColor(R.color.black));
-                final PrettyDialog pDialog = new PrettyDialog(DoctorConsultActivity.this);
-                Integer color = Color.parseColor(Global.THEME_COLOR_CODE);
-                pDialog.setMessage("Are you sure you want to audio call to the doctor?")
-                        .setAnimationEnabled(true)
-                        .addButton(
-                                "Yes",
-                                R.color.pdlg_color_white,
-                                R.color.pdlg_color_gray,
-                                new PrettyDialogCallback() {
-                                    @Override
-                                    public void onClick() {
-                                        forwardToAudioRoom();
-                                        pDialog.dismiss();
-                                    }
-                                })
-                        .addButton(
-                                "No",
-                                R.color.pdlg_color_white,
-                                R.color.pdlg_color_gray,
-                                new PrettyDialogCallback() {
-                                    @Override
-                                    public void onClick() {
-                                        pDialog.dismiss();
-                                    }
-                                } )
-                        .setIcon(
-                                R.drawable.ic_dialer,     // icon resource
-                                R.color.pdlg_color_green,     // icon tint
-                                new PrettyDialogCallback() {   // icon OnClick listener
-                                    @Override
-                                    public void onClick() {
-                                        // Do what you gotta do
-                                    }
-                                })
-                        .show();
+                if(Global.selectedDoctor.getOnlineDoctor().equalsIgnoreCase("online")){
+                    btn_Audio.setBackgroundResource(R.drawable.buttonborder_black_gray);
+                    btn_Audio.setTextColor(Color.parseColor(Global.THEME_COLOR_CODE));
+                    btn_Video.setBackgroundResource(R.drawable.buttonborder_black);
+                    btn_Video.setTextColor(getResources().getColor(R.color.black));
+                    btn_Text.setBackgroundResource(R.drawable.buttonborder_black);
+                    btn_Text.setTextColor(getResources().getColor(R.color.black));
+                    final PrettyDialog pDialog = new PrettyDialog(DoctorConsultActivity.this);
+                    Integer color = Color.parseColor(Global.THEME_COLOR_CODE);
+                    pDialog.setMessage("Are you sure you want to audio call to the doctor?")
+                            .setAnimationEnabled(true)
+                            .addButton(
+                                    "Yes",
+                                    R.color.pdlg_color_white,
+                                    R.color.pdlg_color_gray,
+                                    new PrettyDialogCallback() {
+                                        @Override
+                                        public void onClick() {
+                                            forwardToAudioRoom();
+                                            pDialog.dismiss();
+                                        }
+                                    })
+                            .addButton(
+                                    "No",
+                                    R.color.pdlg_color_white,
+                                    R.color.pdlg_color_gray,
+                                    new PrettyDialogCallback() {
+                                        @Override
+                                        public void onClick() {
+                                            pDialog.dismiss();
+                                        }
+                                    } )
+                            .setIcon(
+                                    R.drawable.ic_dialer,     // icon resource
+                                    R.color.pdlg_color_green,     // icon tint
+                                    new PrettyDialogCallback() {   // icon OnClick listener
+                                        @Override
+                                        public void onClick() {
+                                            // Do what you gotta do
+                                        }
+                                    })
+                            .show();
+                }else{
+                    Toast.makeText(DoctorConsultActivity.this, "Doctor is busy please wait for your turn.", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
         btn_Video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btn_Video.setBackgroundResource(R.drawable.buttonborder_black_gray);
-                btn_Video.setTextColor(Color.parseColor(Global.THEME_COLOR_CODE));
-                btn_Audio.setBackgroundResource(R.drawable.buttonborder_black);
-                btn_Audio.setTextColor(getResources().getColor(R.color.black));
-                btn_Text.setBackgroundResource(R.drawable.buttonborder_black);
-                btn_Text.setTextColor(getResources().getColor(R.color.black));
-                final PrettyDialog pDialog = new PrettyDialog(DoctorConsultActivity.this);
-                pDialog.setMessage("Are you sure you want to video call to the doctor?")
-                        .setAnimationEnabled(true)
-                        .addButton(
-                                "Yes",
-                                R.color.pdlg_color_white,
-                                R.color.pdlg_color_gray,
-                                new PrettyDialogCallback() {
-                                    @Override
-                                    public void onClick() {
-                                        forwardToVideoRoom();
-                                        pDialog.dismiss();
-                                    }
-                                } )
-                        .addButton(
-                                "No",
-                                R.color.pdlg_color_white,
-                                R.color.pdlg_color_gray,
-                                new PrettyDialogCallback() {
-                                    @Override
-                                    public void onClick() {
-                                        pDialog.dismiss();
-                                    }
-                                } )
-                        .setIcon(
-                                R.drawable.ic_videocam_black_24dp,     // icon resource
-                                R.color.pdlg_color_green,      // icon tint
-                                new PrettyDialogCallback() {   // icon OnClick listener
-                                    @Override
-                                    public void onClick() {
-                                        // Do what you gotta do
-                                    }
-                                })
-                        .show();
+                if (Global.selectedDoctor.getOnlineDoctor().equalsIgnoreCase("online")) {
+                    btn_Video.setBackgroundResource(R.drawable.buttonborder_black_gray);
+                    btn_Video.setTextColor(Color.parseColor(Global.THEME_COLOR_CODE));
+                    btn_Audio.setBackgroundResource(R.drawable.buttonborder_black);
+                    btn_Audio.setTextColor(getResources().getColor(R.color.black));
+                    btn_Text.setBackgroundResource(R.drawable.buttonborder_black);
+                    btn_Text.setTextColor(getResources().getColor(R.color.black));
+                    final PrettyDialog pDialog = new PrettyDialog(DoctorConsultActivity.this);
+                    pDialog.setMessage("Are you sure you want to video call to the doctor?")
+                            .setAnimationEnabled(true)
+                            .addButton(
+                                    "Yes",
+                                    R.color.pdlg_color_white,
+                                    R.color.pdlg_color_gray,
+                                    new PrettyDialogCallback() {
+                                        @Override
+                                        public void onClick() {
+                                            forwardToVideoRoom();
+                                            pDialog.dismiss();
+                                        }
+                                    } )
+                            .addButton(
+                                    "No",
+                                    R.color.pdlg_color_white,
+                                    R.color.pdlg_color_gray,
+                                    new PrettyDialogCallback() {
+                                        @Override
+                                        public void onClick() {
+                                            pDialog.dismiss();
+                                        }
+                                    } )
+                            .setIcon(
+                                    R.drawable.ic_videocam_black_24dp,     // icon resource
+                                    R.color.pdlg_color_green,      // icon tint
+                                    new PrettyDialogCallback() {   // icon OnClick listener
+                                        @Override
+                                        public void onClick() {
+                                            // Do what you gotta do
+                                        }
+                                    })
+                            .show();
+                } else {
+                    Toast.makeText(DoctorConsultActivity.this, "Doctor is Busy", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -270,6 +279,7 @@ public class DoctorConsultActivity extends BaseActivity {
         btn_Text = findViewById(R.id.btn_Text);
         btn_Video = findViewById(R.id.btn_Video);
         btn_Audio = findViewById(R.id.btn_Audio);
+        ivOnlineStatus = findViewById(R.id.iv_onlineStatus_ConsultDoctor);
     }
 
     private void FeedBackDialog() {
@@ -296,4 +306,27 @@ public class DoctorConsultActivity extends BaseActivity {
         alertDialog.setCancelable(false);
         alertDialog.show();
     }//alert
+
+    private void doctorStatusRealTime() {
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Doctors").child(Global.selectedDoctor.getEmail().replace(".", ""));
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    if(dataSnapshot.child("status").getValue() != null){
+                        Global.selectedDoctor.setOnlineDoctor(dataSnapshot.child("status").getValue().toString());
+                        if(dataSnapshot.child("status").getValue().toString().equals("online")){
+                            ivOnlineStatus.setImageResource(R.drawable.online);
+                        }else{
+                            ivOnlineStatus.setImageResource(R.drawable.ic_offline);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
 }

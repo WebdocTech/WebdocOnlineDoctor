@@ -74,6 +74,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/hGuideline8Per_Consult"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/iv_onlineStatus_ConsultDoctor"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_name"
+                app:layout_constraintStart_toEndOf="@+id/tv_name"
+                app:layout_constraintTop_toBottomOf="@+id/user_image"
+                app:layout_constraintVertical_bias="1.0" />
+
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/hGuideline19Per_Consult"
                 android:layout_width="wrap_content"

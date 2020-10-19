@@ -11,8 +11,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.wmalick.webdoc_library.Dashboard.Fragments.ConsultDoctorFragments.DoctorConsult.DoctorConsultActivity;
 import com.wmalick.webdoc_library.Essentials.Global;
@@ -23,6 +29,8 @@ public class DoctorProfileFargment extends Fragment {
     TextView tv_DocName, textView_Speciality, textView_Education, text_Degree, text_College, textView_Years, text_ExpDetail;
     Button btnConsult;
     ImageView ivImgDoc;
+    DatabaseReference databaseReference;
+    ImageView ivOnlineStatus;
 
     public DoctorProfileFargment() {
         // Required empty public constructor
@@ -37,6 +45,7 @@ public class DoctorProfileFargment extends Fragment {
 
         InitControl(view);
         ActionControl(view);
+        doctorStatusRealTime();
 
         return view;
     }
@@ -72,7 +81,29 @@ public class DoctorProfileFargment extends Fragment {
         btnConsult = view.findViewById(R.id.btn_Consult);
         btnConsult.getBackground().setTint(Color.parseColor(Global.THEME_COLOR_CODE));
         ivImgDoc = view.findViewById(R.id.user_image);
+        ivOnlineStatus = view.findViewById(R.id.iv_onlineStatus_doctorProfile);
 
+    }
+    private void doctorStatusRealTime() {
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Doctors").child(Global.selectedDoctor.getEmail().replace(".", ""));
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    if (dataSnapshot.child("status").getValue() != null) {
+                        Global.selectedDoctor.setOnlineDoctor(dataSnapshot.child("status").getValue().toString());
+                        if (dataSnapshot.child("status").getValue().toString().equals("online")) {
+                            ivOnlineStatus.setImageResource(R.drawable.online);
+                        } else {
+                            ivOnlineStatus.setImageResource(R.drawable.ic_offline);
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
 }

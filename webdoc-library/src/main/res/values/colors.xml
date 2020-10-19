@@ -9,5 +9,6 @@
     <color name="gray">#E0E0E0</color>
     <color name="lightGray">#f6f6f6</color>
     <color name="localBackground">#827b92</color>
+    <color name="orange">#FFA500</color>
 
 </resources>
