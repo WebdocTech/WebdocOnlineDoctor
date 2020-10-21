@@ -1,6 +1,8 @@
 package com.wmalick.webdoc_library.Dashboard.Fragments.ConsultDoctorFragments.DoctorProfile;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,6 +16,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,8 +33,8 @@ public class DoctorProfileFargment extends Fragment {
     TextView tv_DocName, textView_Speciality, textView_Education, text_Degree, text_College, textView_Years, text_ExpDetail;
     Button btnConsult;
     ImageView ivImgDoc;
-    DatabaseReference databaseReference;
     ImageView ivOnlineStatus;
+    static Activity activity;
 
     public DoctorProfileFargment() {
         // Required empty public constructor
@@ -51,7 +55,7 @@ public class DoctorProfileFargment extends Fragment {
     }
 
     private void ActionControl(View view) {
-
+        activity = getActivity();
         tv_DocName.setText(Global.selectedDoctor.getFirstName() + " " + Global.selectedDoctor.getLastName());
         textView_Speciality.setText(Global.selectedDoctor.getDoctorSpecialty());
         textView_Education.setText(Global.selectedDoctor.getEducation());
@@ -85,8 +89,9 @@ public class DoctorProfileFargment extends Fragment {
 
     }
     private void doctorStatusRealTime() {
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Doctors").child(Global.selectedDoctor.getEmail().replace(".", ""));
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        FirebaseApp appReference = firebaseAppReference(activity);
+        FirebaseDatabase databaseReference = FirebaseDatabase.getInstance(appReference);
+        databaseReference.getReference().child("Doctors").child(Global.selectedDoctor.getEmail().replace(".", "")).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
@@ -104,6 +109,24 @@ public class DoctorProfileFargment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+    }
+
+    private static FirebaseApp firebaseAppReference(Context context)
+    {
+        FirebaseOptions options = new FirebaseOptions.Builder()
+                .setApiKey("AIzaSyAY2_N3ab_45ggVlisDcuOWxhbzVZZqN34")
+                .setApplicationId("1:642677587502:android:d0de10b1c22b1ee21a69bf")
+                .setDatabaseUrl("https://webdoc-896a8.firebaseio.com/")
+                .build();
+
+        try {
+            FirebaseApp app = FirebaseApp.initializeApp(context, options, "WebDocDoctorSDK");
+            return app;
+        }
+        catch (IllegalStateException e)
+        {
+            return FirebaseApp.getInstance("WebDocDoctorSDK");
+        }
     }
 
 }

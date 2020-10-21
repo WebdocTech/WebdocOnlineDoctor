@@ -1,5 +1,7 @@
 package com.wmalick.webdoc_library.Dashboard.Fragments.ConsultDoctorFragments.DoctorConsult;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -14,6 +16,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
+
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,10 +48,10 @@ public class DoctorConsultActivity extends BaseActivity {
     Button btn_Text,btn_Video,btn_Audio;
     String callingID = "";
     DatabaseReference reference;
-    DatabaseReference databaseReference;
     String token;
     AlertDialog alertDialog;
     ImageView ivOnlineStatus;
+    static Activity activity;
 
     public DoctorConsultActivity() {
         // Required empty public constructor
@@ -159,8 +164,11 @@ public class DoctorConsultActivity extends BaseActivity {
     protected void deInitUIandEvent() {
     }
 
-    private void    ActionControl() {
-        reference = FirebaseDatabase.getInstance().getReference().child("Tokens").child("Doctors");
+    private void ActionControl() {
+        activity = this;
+        FirebaseApp appReference = firebaseAppReference(activity);
+        FirebaseDatabase databaseReference1 = FirebaseDatabase.getInstance(appReference);
+        reference = databaseReference1.getReference().child("Tokens").child("Doctors");
         reference.child(Global.selectedDoctor.getEmail().replace(".","")).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -318,8 +326,9 @@ public class DoctorConsultActivity extends BaseActivity {
     }//alert
 
     private void doctorStatusRealTime() {
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Doctors").child(Global.selectedDoctor.getEmail().replace(".", ""));
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        FirebaseApp appReference = firebaseAppReference(activity);
+        FirebaseDatabase databaseReference = FirebaseDatabase.getInstance(appReference);
+        databaseReference.getReference().child("Doctors").child(Global.selectedDoctor.getEmail().replace(".", "")).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
@@ -338,5 +347,23 @@ public class DoctorConsultActivity extends BaseActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+    }
+
+    private static FirebaseApp firebaseAppReference(Context context)
+    {
+        FirebaseOptions options = new FirebaseOptions.Builder()
+                .setApiKey("AIzaSyAY2_N3ab_45ggVlisDcuOWxhbzVZZqN34")
+                .setApplicationId("1:642677587502:android:d0de10b1c22b1ee21a69bf")
+                .setDatabaseUrl("https://webdoc-896a8.firebaseio.com/")
+                .build();
+
+        try {
+            FirebaseApp app = FirebaseApp.initializeApp(context, options, "WebDocDoctorSDK");
+            return app;
+        }
+        catch (IllegalStateException e)
+        {
+            return FirebaseApp.getInstance("WebDocDoctorSDK");
+        }
     }
 }
