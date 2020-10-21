@@ -1,6 +1,8 @@
 package com.wmalick.webdoc_library.Dashboard.Fragments.ConsultDoctorFragments.DoctorConsultation;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,7 +33,7 @@ public class DoctorConsultationFragment extends Fragment {
 
     RecyclerView recyclerViewConsult;
     public static ConsultDoctorListAdapter doctorListConsultAdapter;
-    static DatabaseReference databaseReference;
+    static Activity activity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,6 +42,8 @@ public class DoctorConsultationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_doctor_consultation, container, false);
 
         WebdocDashboardActivity.toolbar.setTitle(getString(R.string.consult_doctor));
+
+        activity = getActivity();
 
         /*Global.doctorsList.clear();
         for(int i = 0; i < Global.doctorListResponse.getDoctorListResult().getDoctorprofiles().size(); i++)
@@ -65,8 +71,9 @@ public class DoctorConsultationFragment extends Fragment {
     }
 
     public static void UpdateRealTimeStatuses() {
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Doctors");
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        FirebaseApp appReference = firebaseAppReference(activity);
+        FirebaseDatabase databaseReference = FirebaseDatabase.getInstance(appReference);
+        databaseReference.getReference().child("Doctors").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -92,5 +99,23 @@ public class DoctorConsultationFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+    }
+
+    private static FirebaseApp firebaseAppReference(Context context)
+    {
+        FirebaseOptions options = new FirebaseOptions.Builder()
+                .setApiKey("AIzaSyAY2_N3ab_45ggVlisDcuOWxhbzVZZqN34")
+                .setApplicationId("1:642677587502:android:d0de10b1c22b1ee21a69bf")
+                .setDatabaseUrl("https://webdoc-896a8.firebaseio.com/")
+                .build();
+
+        try {
+            FirebaseApp app = FirebaseApp.initializeApp(context, options, "WebDocDoctorSDK");
+            return app;
+        }
+        catch (IllegalStateException e)
+        {
+            return FirebaseApp.getInstance("WebDocDoctorSDK");
+        }
     }
 }
