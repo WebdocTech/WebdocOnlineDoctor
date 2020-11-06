@@ -35,10 +35,8 @@ public class VoiceCall extends AppCompatActivity {
     String channelName;
     TextView tv_call_status, tv_call_time;
     int call_seconds = 0;
-
     Handler call_time_handler = new Handler();
     Runnable runnable;
-
     CircleImageView profile_image;
 
 
@@ -144,7 +142,6 @@ public class VoiceCall extends AppCompatActivity {
 
         Intent i = getIntent();
         channelName = i.getStringExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME);
-
         textChannelName.setText(channelName);
 
         Picasso.get().load(R.drawable.ic_placeholder_doctor).placeholder(R.color.gray_btn_bg_color).error(R.drawable.ic_user_black_24dp).into(profile_image);

@@ -33,6 +33,7 @@ public class Utils {
     public ProgressDialog progressDialog;
     public MediaPlayer mediaPlayer;
     public AudioManager audioManager;
+    public Boolean isProgressDialogShowing = false;
 
     public void showProgressDialog(Activity activity, String message)
     {

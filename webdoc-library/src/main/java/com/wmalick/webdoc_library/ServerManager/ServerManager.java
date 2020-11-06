@@ -10,6 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.wmalick.webdoc_library.Essentials.Constants;
+import com.wmalick.webdoc_library.Essentials.Global;
 import com.wmalick.webdoc_library.FormModels.SubmitWebdocFeedbackFormModel;
 
 import org.json.JSONException;
@@ -18,12 +19,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Admin on 7/3/2019.
- */
-
 public class ServerManager {
-    
     public static Activity ctx;
     public static RequestQueue requestQueue;
     VolleyListener volleyListener;
@@ -59,6 +55,21 @@ public class ServerManager {
         }
 
         jsonParse("abcjsdlkfjslajfkdsj", url, Constants.GET_CUSTOMER_DATA, params, Request.Method.POST);
+    }
+
+    public void GetCustomerAndDoctorData(String CustomerMobileNumber, String Corporate, String Doctorid) {
+        String url = Constants.BASE_URL+Constants.GET_CUSTOMER_AND_DOCTOR_DATA;
+        JSONObject params = new JSONObject();
+        try {
+            params.put("CustomerMobilenumber", CustomerMobileNumber);
+            params.put("Corporate", Corporate);
+            params.put("Doctorid", Doctorid);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            System.out.println("Error : GetCustomerAndDoctorData "+e.toString());
+        }
+
+        jsonParse("abcjsdlkfjslajfkdsj", url, Constants.GET_CUSTOMER_AND_DOCTOR_DATA, params, Request.Method.POST);
     }
 
     public void GetPrescriptionHistory(String userId) {
@@ -121,8 +132,20 @@ public class ServerManager {
             @Override
             public void onErrorResponse(VolleyError error)
             {
+                if(Global.utils.progressDialog.isShowing()){
+                    Global.utils.hideProgressDialog();
+                }
                 //Log.e("ErrorResponse", error.getMessage());
-                Toast.makeText(ctx, error.getMessage(), Toast.LENGTH_LONG).show();
+                if(error.getMessage() != null){
+                    if(error.getMessage().contains("No address associated with hostname")){
+                        Toast.makeText(ctx, "No internet connection", Toast.LENGTH_LONG).show();
+                        return;
+                    }else{
+                        Toast.makeText(ctx, error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }else{
+                    Toast.makeText(ctx, "Something went wrong!", Toast.LENGTH_LONG).show();
+                }
             }
         }) {
             /* Passing some request headers */
