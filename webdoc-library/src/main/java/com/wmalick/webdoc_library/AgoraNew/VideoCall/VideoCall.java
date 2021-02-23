@@ -1,6 +1,8 @@
 package com.wmalick.webdoc_library.AgoraNew.VideoCall;
 
 import android.Manifest;
+import android.app.KeyguardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -22,8 +25,13 @@ import androidx.core.content.ContextCompat;
 
 
 import com.wmalick.webdoc_library.Agora.ConstantApp;
+import com.wmalick.webdoc_library.AgoraNew.CallService.CallService;
+import com.wmalick.webdoc_library.AgoraNew.CallService.CheckServiceStatus;
 import com.wmalick.webdoc_library.Essentials.Global;
 import com.wmalick.webdoc_library.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
@@ -60,10 +68,12 @@ public class VideoCall extends AppCompatActivity {
     String channelName;
 
     TextView tv_call_status, tv_call_time;
-    int call_seconds = 0;
+    int call_seconds, ringing_seconds = 0;
 
     Handler call_time_handler = new Handler();
-    Runnable runnable;
+    Handler ringing_handler = new Handler();
+    Runnable runnable, ringing_runnable;
+    boolean callEndClicked = false;
 
     // Customized logger view
     //private LoggerRecyclerView mLogView;
@@ -157,15 +167,17 @@ public class VideoCall extends AppCompatActivity {
         public void onUserJoined(int uid, int elapsed) {
             super.onUserJoined(uid, elapsed);
 
+            ringing_handler.removeCallbacks(ringing_runnable);
+
             call_time_handler.postDelayed( runnable = new Runnable() {
                 public void run() {
                     //do something
-
                     call_seconds++;
 
                     String call_duration = convertSeconds(call_seconds);
-
                     tv_call_time.setText(call_duration);
+
+                    startService(call_duration);
 
                     call_time_handler.postDelayed(runnable, 1000);
                 }
@@ -223,19 +235,58 @@ public class VideoCall extends AppCompatActivity {
         }
         // Destroys remote view
         mRemoteView = null;
+
+        ringing_handler.removeCallbacks(ringing_runnable);
+        call_time_handler.removeCallbacks(runnable);
+
+        if(CheckServiceStatus.isServiceRunningInForeground(this, CallService.class)) {
+            stopService();
+        }
+
         finish();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
+                | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+                | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+
+        // to release screen lock
+        KeyguardManager keyguardManager = (KeyguardManager) getApplicationContext().getSystemService(Context.KEYGUARD_SERVICE);
+        KeyguardManager.KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("SCREEN LOCK");
+        keyguardLock.disableKeyguard();
+
         setContentView(R.layout.activity_video_call);
+
+        startService("Ringing...");
 
         tv_call_status =  (TextView) findViewById(R.id.tv_call_status);
         tv_call_time =  (TextView) findViewById(R.id.tv_call_time);
 
         Intent i = getIntent();
         channelName = i.getStringExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME);
+
+        if(tv_call_status.getText().equals("Ringing"))
+        {
+            ringing_handler.postDelayed( ringing_runnable = new Runnable() {
+                public void run() {
+                    ringing_seconds++;
+                    String call_duration = convertSeconds(ringing_seconds);
+
+                    if(call_duration.equalsIgnoreCase("00:00:20")) {
+                        Global.call_not_answered = true;
+                        endCall();
+                    } else {
+                        ringing_handler.postDelayed(ringing_runnable, 1000);
+                    }
+                }
+            }, 1000);
+        }
 
         initUI();
 
@@ -435,7 +486,16 @@ public class VideoCall extends AppCompatActivity {
         if(Global.utils.mediaPlayer != null) {
             Global.utils.stopMediaPlayer();
         }
-        call_time_handler.removeCallbacks(null);
+
+        if(tv_call_status.getText().equals("Ringing"))
+        {
+            if(!callEndClicked) {
+                Global.call_not_answered = true;
+            } else {
+                Global.call_not_answered = false;
+            }
+            missedCallNotification();
+        }
     }
 
     @Override
@@ -459,6 +519,21 @@ public class VideoCall extends AppCompatActivity {
         mSwitchCameraBtn.setVisibility(visibility);
     }
 
+    private void missedCallNotification()
+    {
+        JSONObject params = new JSONObject();
+        try {
+            params.put("to", Global.selectedDoctorDeviceToken);
+            params.put("data", new JSONObject()
+                    .put("title", "Missed Video Call")
+                    .put("body", Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getEmail())
+                    .put("channel", channelName));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Global.utils.sendNotification(this, params);
+    }
 
     String convertSeconds(int sec) {
         int seconds = sec % 60;
@@ -473,5 +548,19 @@ public class VideoCall extends AppCompatActivity {
             return String.format("%02d:%02d:%02d", hours, minutes, seconds);
         }
         return String.format("00:%02d:%02d", minutes, seconds);
+    }
+
+    private void startService(String body)
+    {
+        Intent serviceIntent = new Intent(this, CallService.class);
+        serviceIntent.putExtra("title", "Video Call");
+        serviceIntent.putExtra("body", body);
+        ContextCompat.startForegroundService(this, serviceIntent);
+    }
+
+    private void stopService()
+    {
+        Intent serviceIntent = new Intent(this, CallService.class);
+        stopService(serviceIntent);
     }
 }

@@ -5,7 +5,11 @@ package com.wmalick.webdoc_library.Essentials;
  */
 
 public class Constants {
-    public static final String BASE_URL = "https://webdocapiservice.webddocsystems.com/iOSApp.svc/";
+    /*TODO: REAL URL*/
+    //public static final String BASE_URL = "https://webdocapiservice.webddocsystems.com/iOSApp.svc/";
+
+    /*TODO: TESTING URL*/
+    public static final String BASE_URL = "https://webdoctesting.webddocsystems.com/iOSApp.svc/";
 
     public static final String DOCTORS_LIST_API = "DoctorList";
     public static final String CUSTOMER_CONSULTATION_API = "CustomerConsultation";

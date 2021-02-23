@@ -1,14 +1,19 @@
 package com.wmalick.webdoc_library.Essentials;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -25,6 +30,7 @@ import com.wmalick.webdoc_library.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,7 +38,6 @@ public class Utils {
 
     public ProgressDialog progressDialog;
     public MediaPlayer mediaPlayer;
-    public AudioManager audioManager;
     public Boolean isProgressDialogShowing = false;
 
     public void showProgressDialog(Activity activity, String message)
@@ -71,7 +76,7 @@ public class Utils {
         snackbar.show();
     }
 
-    public void sendNotification(Activity activity, String token, JSONObject params){
+    public void sendNotification(Activity activity, JSONObject params){
         final RequestQueue requestQueue = Volley.newRequestQueue(activity);
         String url= Constants.FIREBASE_NOTIFICATION_URL;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, params,
@@ -101,9 +106,15 @@ public class Utils {
 
     public void startMediaPlayer(Activity activity, int tone)
     {
-        mediaPlayer = MediaPlayer.create(activity, tone);
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mediaPlayer.start();
+        try {
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setDataSource(activity, Uri.parse("android.resource://com.wmalick.webdocandroidlibrary/" + tone));
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_VOICE_CALL);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -111,5 +122,31 @@ public class Utils {
     {
         mediaPlayer.stop();
     }
+
+    public void callNotAnsweredDialog(Activity activity, String doctorName) {
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
+        View v = activity.getLayoutInflater().inflate(R.layout.alert_call_not_answered, null);
+        dialogBuilder.setView(v);
+
+        AlertDialog callNotAnsweredAlertDialog = dialogBuilder.create();
+        callNotAnsweredAlertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        final TextView textView = v.findViewById(R.id.textView2);
+        textView.setText(doctorName + " couldn't receive call at the moment.");
+
+
+        Button submit = v.findViewById(R.id.btn_ok);
+        submit.getBackground().setTint(Color.parseColor(Global.THEME_COLOR_CODE));
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callNotAnsweredAlertDialog.dismiss();
+            }
+        });
+
+        callNotAnsweredAlertDialog.setCancelable(false);
+        callNotAnsweredAlertDialog.show();
+    }//alert
 
 }

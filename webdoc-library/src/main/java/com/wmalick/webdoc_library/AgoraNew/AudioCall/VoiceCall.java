@@ -1,12 +1,18 @@
 package com.wmalick.webdoc_library.AgoraNew.AudioCall;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -21,8 +27,14 @@ import androidx.core.content.ContextCompat;
 
 import com.squareup.picasso.Picasso;
 import com.wmalick.webdoc_library.Agora.ConstantApp;
+import com.wmalick.webdoc_library.AgoraNew.CallService.CallService;
+import com.wmalick.webdoc_library.AgoraNew.CallService.CheckServiceStatus;
+import com.wmalick.webdoc_library.Dashboard.Fragments.ConsultDoctorFragments.DoctorConsult.DoctorConsultActivity;
 import com.wmalick.webdoc_library.Essentials.Global;
 import com.wmalick.webdoc_library.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.agora.rtc.Constants;
@@ -30,14 +42,24 @@ import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.models.UserInfo;
 
-public class VoiceCall extends AppCompatActivity {
+public class VoiceCall extends AppCompatActivity implements SensorEventListener {
 
     String channelName;
     TextView tv_call_status, tv_call_time;
-    int call_seconds = 0;
+    int call_seconds, ringing_seconds = 0;
     Handler call_time_handler = new Handler();
-    Runnable runnable;
+    Handler ringing_handler = new Handler();
+    Runnable runnable, ringing_runnable;
     CircleImageView profile_image;
+    boolean callEndClicked = false;
+
+    private SensorManager mSensorManager;
+    private Sensor mProximity;
+    private static final int SENSOR_SENSITIVITY = 4;
+
+    private PowerManager powerManager;
+    private PowerManager.WakeLock wakeLock;
+    private int field = 0x00000020;
 
 
     private static final String LOG_TAG = VoiceCall.class.getSimpleName();
@@ -105,15 +127,17 @@ public class VoiceCall extends AppCompatActivity {
             userInfo.uid = uid;
             //String abc = worker().getUserInfoByUid(uid,  userInfo);
 
+            ringing_handler.removeCallbacks(ringing_runnable);
+
             call_time_handler.postDelayed( runnable = new Runnable() {
                 public void run() {
                     //do something
-
                     call_seconds++;
 
                     String call_duration = convertSeconds(call_seconds);
-
                     tv_call_time.setText(call_duration);
+
+                    startService(call_duration);
 
                     call_time_handler.postDelayed(runnable, 1000);
                 }
@@ -133,7 +157,21 @@ public class VoiceCall extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        try {
+            field = PowerManager.class.getField("PROXIMITY_SCREEN_OFF_WAKE_LOCK").getInt(null);
+        } catch (Throwable ignored) {
+        }
+
+        powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        wakeLock = powerManager.newWakeLock(field, getLocalClassName());
+
         setContentView(R.layout.activity_voice_call);
+
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+
+        startService("Ringing...");
 
         tv_call_status =  (TextView) findViewById(R.id.tv_call_status);
         tv_call_time =  (TextView) findViewById(R.id.tv_call_time);
@@ -146,10 +184,32 @@ public class VoiceCall extends AppCompatActivity {
 
         Picasso.get().load(R.drawable.ic_placeholder_doctor).placeholder(R.color.gray_btn_bg_color).error(R.drawable.ic_user_black_24dp).into(profile_image);
 
+        if(tv_call_status.getText().equals("Ringing"))
+        {
+            ringing_handler.postDelayed( ringing_runnable = new Runnable() {
+                public void run() {
+                    ringing_seconds++;
+                    String call_duration = convertSeconds(ringing_seconds);
+
+                    if(call_duration.equalsIgnoreCase("00:00:20")) {
+                        Global.call_not_answered = true;
+                        quitCall();
+                    } else {
+                        ringing_handler.postDelayed(ringing_runnable, 1000);
+                    }
+                }
+            }, 1000);
+        }
+
 
         if (checkSelfPermission(Manifest.permission.RECORD_AUDIO, PERMISSION_REQ_ID_RECORD_AUDIO)) {
             initAgoraEngineAndJoinChannel();
         }
+
+        Global.utils.startMediaPlayer(VoiceCall.this, R.raw.dialing_tone);
+
+        /*Starts ringing on earpiece by default*/
+        mRtcEngine.setEnableSpeakerphone(false);
     }
 
     private void initAgoraEngineAndJoinChannel() {
@@ -242,6 +302,7 @@ public class VoiceCall extends AppCompatActivity {
 
     // Tutorial Step 3
     public void onEncCallClicked(View view) {
+        callEndClicked = true;
         finish();
         quitCall();
     }
@@ -292,11 +353,28 @@ public class VoiceCall extends AppCompatActivity {
     private void quitCall() {
         /*Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);*/
+
+        if(CheckServiceStatus.isServiceRunningInForeground(this, CallService.class)) {
+            stopService();
+        }
+
         if(Global.utils.mediaPlayer != null)
         {
             Global.utils.stopMediaPlayer();
         }
-        call_time_handler.removeCallbacks(null);
+        ringing_handler.removeCallbacks(ringing_runnable);
+        call_time_handler.removeCallbacks(runnable);
+
+        if(tv_call_status.getText().equals("Ringing"))
+        {
+            if(!callEndClicked) {
+                Global.call_not_answered = true;
+            } else {
+                Global.call_not_answered = false;
+            }
+            missedCallNotification();
+        }
+
         finish();
     }
 
@@ -304,6 +382,22 @@ public class VoiceCall extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         quitCall();
+    }
+
+    private void missedCallNotification()
+    {
+        JSONObject params = new JSONObject();
+        try {
+            params.put("to", Global.selectedDoctorDeviceToken);
+            params.put("data", new JSONObject()
+                    .put("title", "Missed Audio Call")
+                    .put("body", Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getEmail())
+                    .put("channel", channelName));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Global.utils.sendNotification(this, params);
     }
 
     String convertSeconds(int sec) {
@@ -319,5 +413,52 @@ public class VoiceCall extends AppCompatActivity {
             return String.format("%02d:%02d:%02d", hours, minutes, seconds);
         }
         return String.format("00:%02d:%02d", minutes, seconds);
+    }
+
+    private void startService(String body)
+    {
+        Intent serviceIntent = new Intent(this, CallService.class);
+        serviceIntent.putExtra("title", "Audio Call");
+        serviceIntent.putExtra("body", body);
+        ContextCompat.startForegroundService(this, serviceIntent);
+    }
+
+    private void stopService()
+    {
+        Intent serviceIntent = new Intent(this, CallService.class);
+        stopService(serviceIntent);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if(event.sensor.getType()==Sensor.TYPE_PROXIMITY){
+            if(event.values[0] < mProximity.getMaximumRange()){
+                if(!wakeLock.isHeld()) {
+                    wakeLock.acquire();
+                }
+            }
+            else{
+                if(wakeLock.isHeld()) {
+                    wakeLock.release();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorManager.registerListener(this, mProximity, 2 * 1000 * 1000);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSensorManager.unregisterListener(this);
     }
 }

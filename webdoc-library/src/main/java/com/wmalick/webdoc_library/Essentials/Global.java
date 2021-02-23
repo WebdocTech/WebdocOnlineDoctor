@@ -33,4 +33,10 @@ public class Global {
     public static Doctorprofile selectedDoctor = new Doctorprofile();
     public static int selectedCustomerConsultationPosition;
 
+    /*TODO: Doctor didn't pick the call*/
+    public static boolean call_not_answered;
+
+    /*TODO: Device token of doctor*/
+    public static String selectedDoctorDeviceToken;
+
 }

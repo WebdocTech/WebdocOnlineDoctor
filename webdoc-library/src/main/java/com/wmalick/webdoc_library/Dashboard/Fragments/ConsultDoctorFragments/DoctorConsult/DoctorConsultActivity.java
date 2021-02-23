@@ -25,15 +25,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-import com.wmalick.webdoc_library.Agora.AudioCallScreenActivity;
 import com.wmalick.webdoc_library.Agora.BaseActivity;
 import com.wmalick.webdoc_library.Agora.ConstantApp;
-import com.wmalick.webdoc_library.Agora.VideoCallScreenActivity;
 import com.wmalick.webdoc_library.AgoraNew.AudioCall.VoiceCall;
 import com.wmalick.webdoc_library.AgoraNew.VideoCall.VideoCall;
 import com.wmalick.webdoc_library.Essentials.Global;
-import com.wmalick.webdoc_library.Essentials.Utils;
-import com.wmalick.webdoc_library.FormModels.SubmitWebdocFeedbackFormModel;
 import com.wmalick.webdoc_library.R;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -96,21 +92,21 @@ public class DoctorConsultActivity extends BaseActivity {
             if((!(Integer.parseInt(Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getFreecall()) <1))
                     || (!Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getPackageSubscribed().equalsIgnoreCase("none"))){
 
-                Global.utils.startMediaPlayer(DoctorConsultActivity.this, R.raw.dialing_tone);
-
                 JSONObject params = new JSONObject();
                 try {
                     params.put("to", token);
                     params.put("data", new JSONObject()
                             .put("title", "Incoming Audio Call")
                             .put("channel", callingID)
+                            .put("appointmentID", "0")
                             .put("body", Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getEmail()));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                Global.utils.sendNotification(this, token, params);
+                Global.utils.sendNotification(this, params);
                 vSettings().mChannelName = callingID;
+                Global.selectedDoctorDeviceToken = token;
                 /*Intent i = new Intent(this, AudioCallScreenActivity.class);
                 i.putExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME, callingID);
                 i.putExtra(ConstantApp.ACTION_KEY_USER_ACCOUNT, Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getEmail());
@@ -138,13 +134,15 @@ public class DoctorConsultActivity extends BaseActivity {
                 params.put("data", new JSONObject()
                         .put("title", "Incoming Video Call")
                         .put("channel", callingID)
+                        .put("appointmentID", "0")
                         .put("body", Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getEmail()));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-        Global.utils.sendNotification(this, token, params);
+        Global.utils.sendNotification(this, params);
         vSettings().mChannelName = callingID;
+        Global.selectedDoctorDeviceToken = token;
         /*Intent i = new Intent(this, VideoCallScreenActivity.class);
         i.putExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME, callingID);
         i.putExtra(ConstantApp.ACTION_KEY_USER_ACCOUNT, Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getEmail());
@@ -283,7 +281,7 @@ public class DoctorConsultActivity extends BaseActivity {
                                     })
                             .show();
                 } else {
-                    Toast.makeText(DoctorConsultActivity.this, "Doctor is Busy", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DoctorConsultActivity.this, "Doctor is busy please wait for your turn.", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -354,7 +352,7 @@ public class DoctorConsultActivity extends BaseActivity {
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setApiKey("AIzaSyAY2_N3ab_45ggVlisDcuOWxhbzVZZqN34")
                 .setApplicationId("1:642677587502:android:d0de10b1c22b1ee21a69bf")
-                .setDatabaseUrl("https://webdoc-896a8.firebaseio.com/")
+                .setDatabaseUrl("https://webdoc-896a8-70372.firebaseio.com/")
                 .build();
 
         try {
@@ -364,6 +362,17 @@ public class DoctorConsultActivity extends BaseActivity {
         catch (IllegalStateException e)
         {
             return FirebaseApp.getInstance("WebDocDoctorSDK");
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(Global.call_not_answered)
+        {
+            Global.utils.callNotAnsweredDialog(this, Global.selectedDoctor.getFirstName()+" "+Global.selectedDoctor.getLastName());
+            Global.call_not_answered = false;
         }
     }
 }
