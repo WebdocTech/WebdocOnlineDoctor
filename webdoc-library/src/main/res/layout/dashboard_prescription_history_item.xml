@@ -25,7 +25,7 @@
             android:layout_marginTop="8dp"
             android:text="Medicine Name"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/textSize_11"
+            android:textSize="@dimen/textSize_13"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,7 +36,7 @@
             android:layout_marginTop="8dp"
             android:text="Days"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/textSize_11"
+            android:textSize="@dimen/textSize_13"
             app:layout_constraintStart_toStartOf="@+id/textView12"
             app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:text="Panadol 20mg"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/textSize_11"
+            android:textSize="@dimen/textSize_13"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/view1"
             app:layout_constraintTop_toTopOf="@+id/textView12" />
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:text="7"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/textSize_11"
+            android:textSize="@dimen/textSize_13"
             app:layout_constraintStart_toStartOf="@+id/tv_MedicineName"
             app:layout_constraintTop_toTopOf="@+id/textView13" />
 
@@ -80,7 +80,7 @@
             android:layout_marginTop="12dp"
             android:text="Morning"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/textSize_11"
+            android:textSize="@dimen/textSize_13"
             app:layout_constraintEnd_toStartOf="@+id/tv_day"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:text="Noon"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/textSize_11"
+            android:textSize="@dimen/textSize_13"
             app:layout_constraintEnd_toStartOf="@+id/tv_night"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tv_Morning"
@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:text="Night"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/textSize_11"
+            android:textSize="@dimen/textSize_13"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tv_day"
@@ -117,7 +117,7 @@
             android:layout_marginEnd="8dp"
             android:text="Evening"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/textSize_11"
+            android:textSize="@dimen/textSize_13"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -131,7 +131,7 @@
             android:layout_marginTop="2dp"
             android:text="1"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/textSize_11"
+            android:textSize="@dimen/textSize_13"
             app:layout_constraintEnd_toEndOf="@+id/tv_Morning"
             app:layout_constraintStart_toStartOf="@+id/tv_Morning"
             app:layout_constraintTop_toBottomOf="@+id/tv_Morning" />
@@ -143,7 +143,7 @@
             android:layout_marginTop="2dp"
             android:text="1"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/textSize_11"
+            android:textSize="@dimen/textSize_13"
             app:layout_constraintEnd_toEndOf="@+id/tv_day"
             app:layout_constraintStart_toStartOf="@+id/tv_day"
             app:layout_constraintTop_toBottomOf="@+id/tv_day" />
@@ -155,7 +155,7 @@
             android:layout_marginTop="2dp"
             android:text="1"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/textSize_11"
+            android:textSize="@dimen/textSize_13"
             app:layout_constraintEnd_toEndOf="@+id/tv_night"
             app:layout_constraintStart_toStartOf="@+id/tv_night"
             app:layout_constraintTop_toBottomOf="@+id/tv_night" />
@@ -167,7 +167,7 @@
             android:layout_marginTop="2dp"
             android:text="1"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/textSize_11"
+            android:textSize="@dimen/textSize_13"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@+id/tv_Night"
             app:layout_constraintStart_toStartOf="@+id/tv_Night"
@@ -181,7 +181,7 @@
             android:layout_marginBottom="4dp"
             android:text="Note: "
             android:textColor="@android:color/holo_red_dark"
-            android:textSize="@dimen/textSize_11"
+            android:textSize="@dimen/textSize_13"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView13"
             app:layout_constraintTop_toBottomOf="@+id/tv_qntyMorning" />
@@ -193,7 +193,7 @@
             android:layout_height="wrap_content"
             android:text="+"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/textSize_11"
+            android:textSize="@dimen/textSize_13"
             app:layout_constraintBottom_toBottomOf="@+id/tv_qntyMorning"
             app:layout_constraintEnd_toStartOf="@+id/tv_qntyNoon"
             app:layout_constraintStart_toEndOf="@+id/tv_qntyMorning"
@@ -205,7 +205,7 @@
             android:layout_height="wrap_content"
             android:text="+"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/textSize_11"
+            android:textSize="@dimen/textSize_13"
             app:layout_constraintEnd_toStartOf="@+id/tv_qntyNight"
             app:layout_constraintStart_toEndOf="@+id/tv_qntyNoon"
             app:layout_constraintTop_toBottomOf="@+id/tv_day" />
@@ -230,7 +230,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="8dp"
                 android:textColor="#666666"
-                android:textSize="11sp" />
+                android:textSize="@dimen/textSize_13" />
 
             <ImageButton
                 android:id="@id/expand_collapse"

@@ -15,7 +15,7 @@
         android:layout_marginTop="10dp"
         android:hint="@string/drname"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/textSize_13"
+        android:textSize="@dimen/textSize_15"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textDegree"
         app:layout_constraintEnd_toEndOf="@+id/textDegree"
@@ -28,7 +28,9 @@
         android:layout_height="wrap_content"
         android:hint="@string/degree"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/textSize_11"
+        android:textSize="@dimen/textSize_13"
+        android:ellipsize="end"
+        android:maxLines="1"
         app:layout_constraintBottom_toTopOf="@+id/tv_speciality"
         app:layout_constraintEnd_toEndOf="@+id/tv_speciality"
         app:layout_constraintStart_toStartOf="@+id/tv_speciality"
@@ -42,7 +44,7 @@
         android:layout_marginBottom="10dp"
         android:hint="@string/speciality"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/textSize_11"
+        android:textSize="@dimen/textSize_13"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/user_image"
         app:layout_constraintTop_toBottomOf="@+id/textDegree" />
@@ -53,10 +55,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="10dp"
         android:hint="@string/city_name"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/textSize_11"
+        android:textSize="@dimen/textSize_13"
         app:layout_constraintEnd_toStartOf="@+id/view1"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -67,7 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="10dp"
         android:numStars="5"
         android:rating="2.0"
         android:scaleX="0.5"
@@ -81,7 +83,7 @@
         android:layout_height="62dp"
         android:layout_width="1dp"
         android:id="@+id/view1"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="10dp"
         android:orientation="vertical"
         android:background="#c0c0c0"
         android:layout_marginTop="5dp"
@@ -92,7 +94,7 @@
 
     <Button
         android:id="@+id/btn_Profile"
-        android:layout_width="65dp"
+        android:layout_width="70dp"
         android:layout_height="28dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
@@ -100,21 +102,21 @@
         android:padding="5dp"
         android:text="@string/profile"
         android:textColor="@android:color/holo_red_dark"
-        android:textSize="@dimen/textSize_11"
+        android:textSize="@dimen/textSize_13"
         app:layout_constraintBottom_toTopOf="@+id/btn_Consult"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_Consult"
-        android:layout_width="65dp"
+        android:layout_width="70dp"
         android:layout_height="28dp"
         android:layout_marginBottom="4dp"
         android:background="@drawable/buttonborder_white_red"
         android:padding="5dp"
         android:text="@string/consult"
         android:textColor="@android:color/holo_red_dark"
-        android:textSize="@dimen/textSize_11"
+        android:textSize="@dimen/textSize_13"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

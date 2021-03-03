@@ -116,7 +116,7 @@ public class DoctorProfileFargment extends Fragment {
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setApiKey("AIzaSyAY2_N3ab_45ggVlisDcuOWxhbzVZZqN34")
                 .setApplicationId("1:642677587502:android:d0de10b1c22b1ee21a69bf")
-                .setDatabaseUrl("https://webdoc-896a8-70372.firebaseio.com/")
+                .setDatabaseUrl("https://webdoc-896a8.firebaseio.com/")
                 .build();
 
         try {

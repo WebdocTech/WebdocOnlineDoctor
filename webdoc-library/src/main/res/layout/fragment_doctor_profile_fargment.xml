@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/drname"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/textSize_13"
+                android:textSize="@dimen/textSize_15"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/textView_Speciality"
                 app:layout_constraintStart_toStartOf="@+id/textView_Speciality" />
@@ -78,7 +78,7 @@
                 android:layout_marginBottom="2dp"
                 android:text="@string/speciality"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/textSize_11"
+                android:textSize="@dimen/textSize_13"
                 app:layout_constraintBottom_toBottomOf="@+id/hGuideline20Per_profile"
                 app:layout_constraintStart_toStartOf="@+id/textView_Education" />
 
@@ -92,7 +92,7 @@
                 android:lines="2"
                 android:text="@string/ProfileText"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/textSize_11"
+                android:textSize="@dimen/textSize_13"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/user_image"
                 app:layout_constraintTop_toBottomOf="@+id/hGuideline20Per_profile" />
@@ -176,7 +176,7 @@
                     android:layout_marginStart="10dp"
                     android:text="@string/education"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/textSize_13"
+                    android:textSize="@dimen/textSize_15"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/img_education"
                     app:layout_constraintStart_toEndOf="@+id/img_education"
@@ -187,7 +187,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/degree"
-                    android:textSize="@dimen/textSize_12"
+                    android:textSize="@dimen/textSize_14"
                     app:layout_constraintBottom_toTopOf="@+id/text_College"
                     app:layout_constraintStart_toStartOf="@+id/text_Education"
                     app:layout_constraintTop_toBottomOf="@+id/text_Education" />
@@ -197,7 +197,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/doctor_college"
-                    android:textSize="@dimen/textSize_12"
+                    android:textSize="@dimen/textSize_14"
                     app:layout_constraintStart_toStartOf="@+id/text_Degree"
                     app:layout_constraintTop_toBottomOf="@+id/text_Degree" />
 
@@ -237,7 +237,7 @@
                     android:layout_marginStart="5dp"
                     android:text="@string/experience"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/textSize_13"
+                    android:textSize="@dimen/textSize_15"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/img_experience"
                     app:layout_constraintStart_toEndOf="@+id/img_experience"
@@ -255,7 +255,7 @@
                     android:scrollbarThumbVertical="@android:color/darker_gray"
                     android:scrollbars="vertical"
                     android:text="@string/doctor_experience"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/textSize_14"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/textView_Years"
@@ -266,7 +266,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/ten_years"
-                    android:textSize="@dimen/textSize_12"
+                    android:textSize="@dimen/textSize_14"
                     app:layout_constraintStart_toStartOf="@+id/text_Experience"
                     app:layout_constraintTop_toBottomOf="@+id/text_Experience" />
 
@@ -294,7 +294,7 @@
                     android:layout_marginStart="8dp"
                     android:text="FeedBack"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/textSize_13"
+                    android:textSize="@dimen/textSize_15"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/imageView4"
                     app:layout_constraintStart_toEndOf="@+id/imageView4" />
@@ -341,7 +341,7 @@
                     android:layout_marginStart="8dp"
                     android:text="Availability"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/textSize_13"
+                    android:textSize="@dimen/textSize_15"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/imageView_availability"
                     app:layout_constraintStart_toEndOf="@+id/imageView_availability" />
@@ -353,7 +353,7 @@
                     android:layout_marginTop="8dp"
                     android:text="Available at 9:00AM to 5:00PM"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/textSize_12"
+                    android:textSize="@dimen/textSize_14"
                     app:layout_constraintStart_toStartOf="@+id/textView_availabilty"
                     app:layout_constraintTop_toBottomOf="@+id/textView_availabilty" />
 
