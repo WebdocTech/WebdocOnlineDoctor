@@ -61,8 +61,11 @@
     <string name="rating_4">Things are pretty good</string>
     <string name="rating_5">Feeling Great</string>
 
-    <!--TODO: CALLING-->
+    <!--TODO: Agora App ID (WebDoc Android Library)-->
     <string name="agora_app_id">f0924810ffd04733b7a726cb961157cd</string>
+
+    <!--TODO: Agora App ID (AgriExpert)-->
+    <string name="agora_app_id_agriexpert">d8f9391b4f8d4536aab94c853282b38a</string>
 
 
 </resources>

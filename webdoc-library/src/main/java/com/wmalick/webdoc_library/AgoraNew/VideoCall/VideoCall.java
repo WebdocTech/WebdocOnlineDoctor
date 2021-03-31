@@ -177,7 +177,7 @@ public class VideoCall extends AppCompatActivity {
                     String call_duration = convertSeconds(call_seconds);
                     tv_call_time.setText(call_duration);
 
-                    startService(call_duration);
+                    //startService(call_duration);
 
                     call_time_handler.postDelayed(runnable, 1000);
                 }
@@ -239,9 +239,9 @@ public class VideoCall extends AppCompatActivity {
         ringing_handler.removeCallbacks(ringing_runnable);
         call_time_handler.removeCallbacks(runnable);
 
-        if(CheckServiceStatus.isServiceRunningInForeground(this, CallService.class)) {
+        /*if(CheckServiceStatus.isServiceRunningInForeground(this, CallService.class)) {
             stopService();
-        }
+        }*/
 
         finish();
     }
@@ -263,13 +263,17 @@ public class VideoCall extends AppCompatActivity {
 
         setContentView(R.layout.activity_video_call);
 
-        startService("Ringing...");
+        //startService("Ringing...");
 
         tv_call_status =  (TextView) findViewById(R.id.tv_call_status);
         tv_call_time =  (TextView) findViewById(R.id.tv_call_time);
 
-        Intent i = getIntent();
-        channelName = i.getStringExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME);
+        if(Global.corporate.equalsIgnoreCase("KK")) {
+            channelName = Global.channel;
+        } else {
+            Intent i = getIntent();
+            channelName = i.getStringExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME);
+        }
 
         if(tv_call_status.getText().equals("Ringing"))
         {
@@ -377,7 +381,12 @@ public class VideoCall extends AppCompatActivity {
 
     private void initializeEngine() {
         try {
-            mRtcEngine = RtcEngine.create(getBaseContext(), getString(R.string.agora_app_id), mRtcEventHandler);
+            if(Global.corporate.equalsIgnoreCase("KK")) {
+                mRtcEngine = RtcEngine.create(getBaseContext(), getString(R.string.agora_app_id_agriexpert), mRtcEventHandler);
+                Toast.makeText(this, getString(R.string.agora_app_id_agriexpert), Toast.LENGTH_SHORT).show();
+            } else {
+                mRtcEngine = RtcEngine.create(getBaseContext(), getString(R.string.agora_app_id), mRtcEventHandler);
+            }
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
             throw new RuntimeException("NEED TO check rtc sdk init fatal error\n" + Log.getStackTraceString(e));
@@ -526,7 +535,8 @@ public class VideoCall extends AppCompatActivity {
             params.put("to", Global.selectedDoctorDeviceToken);
             params.put("data", new JSONObject()
                     .put("title", "Missed Video Call")
-                    .put("body", Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getEmail())
+                    //.put("body", Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getEmail())
+                    .put("body", Global.patientEmail)
                     .put("channel", channelName));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -550,7 +560,7 @@ public class VideoCall extends AppCompatActivity {
         return String.format("00:%02d:%02d", minutes, seconds);
     }
 
-    private void startService(String body)
+    /*private void startService(String body)
     {
         Intent serviceIntent = new Intent(this, CallService.class);
         serviceIntent.putExtra("title", "Video Call");
@@ -562,5 +572,5 @@ public class VideoCall extends AppCompatActivity {
     {
         Intent serviceIntent = new Intent(this, CallService.class);
         stopService(serviceIntent);
-    }
+    }*/
 }

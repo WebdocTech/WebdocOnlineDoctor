@@ -96,7 +96,12 @@ public class Utils {
             public Map<String, String> getHeaders() throws AuthFailureError {
 
                 Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", Constants.FIREBASE_SERVER_KEY);
+                if(Global.corporate.equalsIgnoreCase("KK")) {
+                    headers.put("Authorization", Constants.FIREBASE_SERVER_KEY_AGRIEXPERT);
+                } else {
+                    headers.put("Authorization", Constants.FIREBASE_SERVER_KEY);
+                }
+
                 headers.put("Content-Type", "application/json");
                 return headers;
             }

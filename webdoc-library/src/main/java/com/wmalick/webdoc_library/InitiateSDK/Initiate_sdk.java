@@ -1,14 +1,22 @@
 package com.wmalick.webdoc_library.InitiateSDK;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
-import com.wmalick.webdoc_library.Agora.Constant;
+import com.wmalick.webdoc_library.AgoraNew.VideoCall.VideoCall;
 import com.wmalick.webdoc_library.Dashboard.Fragments.ConsultDoctorFragments.DoctorConsult.DoctorConsultActivity;
 import com.wmalick.webdoc_library.Dashboard.WebdocDashboardActivity;
 import com.wmalick.webdoc_library.Essentials.Constants;
@@ -17,6 +25,7 @@ import com.wmalick.webdoc_library.Essentials.Global;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.wmalick.webdoc_library.ResponseModels.AllocateDoctorResult.AllocateDoctorResult;
 import com.wmalick.webdoc_library.ResponseModels.DoctorListResult.Doctorprofile;
 import com.wmalick.webdoc_library.ResponseModels.GetCustomerAndDoctorData.GetCustomerAndDoctorDataApiResponse;
 import com.wmalick.webdoc_library.ResponseModels.GetCustomerData.CustomerData;
@@ -27,7 +36,7 @@ import com.wmalick.webdoc_library.ServerManager.VolleyListener;
 
 public class Initiate_sdk implements VolleyListener {
     Activity ctx;
-    private String UserMobileNumber, Corporate, DoctorID;
+    private String UserMobileNumber, Corporate, DoctorID, token;
     ServerManager serverManager;
 
     /*Initialize SDK*/
@@ -68,6 +77,28 @@ public class Initiate_sdk implements VolleyListener {
         }
     }
 
+    public Initiate_sdk(Activity ctx, String patientEmail, String serviceName, String themeColorHexCode, boolean connection) {
+        if(TextUtils.isEmpty(themeColorHexCode)){
+            Toast.makeText(ctx, "Invalid Theme Code", Toast.LENGTH_SHORT).show();
+        }else if(themeColorHexCode.charAt(0) != '#'){
+            Toast.makeText(ctx, "Invalid Theme Code", Toast.LENGTH_SHORT).show();
+        }else if(themeColorHexCode.length() < 7){
+            Toast.makeText(ctx, "Invalid Theme Code", Toast.LENGTH_SHORT).show();
+        }else{
+            Global.THEME_COLOR_CODE = themeColorHexCode;
+            Global.corporate = serviceName;
+            this.ctx = ctx;
+
+            this.UserMobileNumber = patientEmail;
+            Global.patientEmail = this.UserMobileNumber;
+
+            this.Corporate = serviceName;
+            //this.DoctorID = doctorEmail;
+            serverManager = new ServerManager(ctx, this);
+            InitiateServicesConnection();
+        }
+    }
+
     private void InitiateShortFlowConnection() {
         Global.utils.showProgressDialog(ctx, "Initiating Connection");
         serverManager.GetCustomerAndDoctorData(UserMobileNumber, Corporate, DoctorID);
@@ -76,6 +107,33 @@ public class Initiate_sdk implements VolleyListener {
     private void InitiateConnection() {
         Global.utils.showProgressDialog(ctx, "Initiating Connection");
         serverManager.GetCustomerData(UserMobileNumber, Corporate);
+    }
+
+    private void InitiateServicesConnection()
+    {
+        Global.utils.showProgressDialog(ctx, "Initiating Connection");
+        if(this.Corporate.equalsIgnoreCase("KK"))
+        {
+            serverManager.GetDataKK();
+        }
+    }
+
+    private static FirebaseApp firebaseAppReference(Context context)
+    {
+        FirebaseOptions options = new FirebaseOptions.Builder()
+                .setApiKey("AIzaSyAY2_N3ab_45ggVlisDcuOWxhbzVZZqN34")
+                .setApplicationId("1:642677587502:android:d0de10b1c22b1ee21a69bf")
+                .setDatabaseUrl("https://webdoc-896a8.firebaseio.com/")
+                .build();
+
+        try {
+            FirebaseApp app = FirebaseApp.initializeApp(context, options, "WebDocDoctorSDK");
+            return app;
+        }
+        catch (IllegalStateException e)
+        {
+            return FirebaseApp.getInstance("WebDocDoctorSDK");
+        }
     }
 
     @Override
@@ -144,8 +202,24 @@ public class Initiate_sdk implements VolleyListener {
                 Global.getCustomerDataApiResponse = responseModel;
                 ctx.startActivity(new Intent(ctx, WebdocDashboardActivity.class));
                 /*ctx.finish();*/
-            }else{
+            } else {
                 Toast.makeText(ctx, responseModel.getGetcustomerDataResult().getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        } else if(requestType.equals(Constants.GET_DATA_KK))
+        {
+            AllocateDoctorResult allocateDoctorResult = gson.fromJson(response.toString(), AllocateDoctorResult.class);
+            if(allocateDoctorResult.getAllocateDoctorResult().getStatusCode().equals(Constants.FAILURECODE)){
+                Global.allocateDoctorResponse = allocateDoctorResult;
+
+                this.DoctorID = allocateDoctorResult.getAllocateDoctorResult().getDoctorEmail();
+                Global.channel = this.DoctorID;
+
+                Global.selectedDoctorDeviceToken = allocateDoctorResult.getAllocateDoctorResult().getDoctorDeviceToken();
+
+                ctx.startActivity(new Intent(ctx, VideoCall.class));
+                /*ctx.finish();*/
+            } else {
+                Toast.makeText(ctx, allocateDoctorResult.getAllocateDoctorResult().getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.wmalick.webdoc_library.Essentials;
 
 
+import com.wmalick.webdoc_library.ResponseModels.AllocateDoctorResult.AllocateDoctorResult;
 import com.wmalick.webdoc_library.ResponseModels.CustomerConsultationResult.Consultationdetail;
 import com.wmalick.webdoc_library.ResponseModels.CustomerConsultationResult.ConusltationList;
 import com.wmalick.webdoc_library.ResponseModels.CustomerConsultationResult.CustomerConsultationResult;
@@ -22,6 +23,7 @@ public class Global {
     public static DoctorListResult doctorListResponse = new DoctorListResult();
     public static CustomerConsultationResult customerConsultationResponse = new CustomerConsultationResult();
     public static GetCustomerDataApiResponse getCustomerDataApiResponse = new GetCustomerDataApiResponse();
+    public static AllocateDoctorResult allocateDoctorResponse = new AllocateDoctorResult();
 
     /* TODO: API Response Models Lists */
     public static ArrayList<Doctorprofile> doctorsList = new ArrayList<>();
@@ -32,6 +34,7 @@ public class Global {
     /* TODO: Selected Lists Index */
     public static Doctorprofile selectedDoctor = new Doctorprofile();
     public static int selectedCustomerConsultationPosition;
+    public static String patientEmail, channel;
 
     /*TODO: Doctor didn't pick the call*/
     public static boolean call_not_answered;
