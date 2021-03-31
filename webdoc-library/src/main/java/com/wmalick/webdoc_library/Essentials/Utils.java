@@ -98,10 +98,11 @@ public class Utils {
                 Map<String, String> headers = new HashMap<>();
                 if(Global.corporate.equalsIgnoreCase("KK")) {
                     headers.put("Authorization", Constants.FIREBASE_SERVER_KEY_AGRIEXPERT);
+                } else if(Global.corporate.equalsIgnoreCase("KM")) {
+                    headers.put("Authorization", Constants.FIREBASE_SERVER_KEY_VETDOC);
                 } else {
                     headers.put("Authorization", Constants.FIREBASE_SERVER_KEY);
                 }
-
                 headers.put("Content-Type", "application/json");
                 return headers;
             }

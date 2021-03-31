@@ -116,6 +116,10 @@ public class Initiate_sdk implements VolleyListener {
         {
             serverManager.GetDataKK();
         }
+        else if(this.Corporate.equalsIgnoreCase("KM"))
+        {
+            serverManager.GetDataKM();
+        }
     }
 
     private static FirebaseApp firebaseAppReference(Context context)
@@ -205,7 +209,7 @@ public class Initiate_sdk implements VolleyListener {
             } else {
                 Toast.makeText(ctx, responseModel.getGetcustomerDataResult().getMessage(), Toast.LENGTH_SHORT).show();
             }
-        } else if(requestType.equals(Constants.GET_DATA_KK))
+        } else if(requestType.equals(Constants.GET_DATA_KK) || requestType.equals(Constants.GET_DATA_KM))
         {
             AllocateDoctorResult allocateDoctorResult = gson.fromJson(response.toString(), AllocateDoctorResult.class);
             if(allocateDoctorResult.getAllocateDoctorResult().getStatusCode().equals(Constants.FAILURECODE)){

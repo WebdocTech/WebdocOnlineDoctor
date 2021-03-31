@@ -268,7 +268,7 @@ public class VideoCall extends AppCompatActivity {
         tv_call_status =  (TextView) findViewById(R.id.tv_call_status);
         tv_call_time =  (TextView) findViewById(R.id.tv_call_time);
 
-        if(Global.corporate.equalsIgnoreCase("KK")) {
+        if(Global.corporate.equalsIgnoreCase("KK") || Global.corporate.equalsIgnoreCase("KM")) {
             channelName = Global.channel;
         } else {
             Intent i = getIntent();
@@ -383,7 +383,8 @@ public class VideoCall extends AppCompatActivity {
         try {
             if(Global.corporate.equalsIgnoreCase("KK")) {
                 mRtcEngine = RtcEngine.create(getBaseContext(), getString(R.string.agora_app_id_agriexpert), mRtcEventHandler);
-                Toast.makeText(this, getString(R.string.agora_app_id_agriexpert), Toast.LENGTH_SHORT).show();
+            } else if(Global.corporate.equalsIgnoreCase("KM")) {
+                mRtcEngine = RtcEngine.create(getBaseContext(), getString(R.string.agora_app_id_vetdoc), mRtcEventHandler);
             } else {
                 mRtcEngine = RtcEngine.create(getBaseContext(), getString(R.string.agora_app_id), mRtcEventHandler);
             }

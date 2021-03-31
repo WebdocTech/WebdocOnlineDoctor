@@ -67,5 +67,8 @@
     <!--TODO: Agora App ID (AgriExpert)-->
     <string name="agora_app_id_agriexpert">d8f9391b4f8d4536aab94c853282b38a</string>
 
+    <!--TODO: Agora App ID (VetDoc)-->
+    <string name="agora_app_id_vetdoc">9ec4956765a745e2b95517615b391d29</string>
+
 
 </resources>

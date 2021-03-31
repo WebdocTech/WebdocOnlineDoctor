@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //new Initiate_sdk(MainActivity.this, "03165121519", "06ad39b1-131d-49f4-86fe-bb564adfca94","Alfa", "#F1A01F");
                 //new Initiate_sdk(MainActivity.this, "03008248148","TPL", "#F1A01F");
-                new Initiate_sdk(MainActivity.this, "03165121519", "KK", "#F1A01F", true);
+                new Initiate_sdk(MainActivity.this, "03165121519", "KM", "#F1A01F", true);
             }
         });
     }

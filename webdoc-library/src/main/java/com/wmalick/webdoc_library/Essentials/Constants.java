@@ -7,7 +7,7 @@ package com.wmalick.webdoc_library.Essentials;
 public class Constants {
     /*TODO: REAL URL*/
     public static final String BASE_URL = "https://webdocapiservice.webddocsystems.com/iOSApp.svc/";
-    public static final String BASE_URL_KK = "https://kz.webddocsystems.com/";
+    public static final String BASE_URL_SERVICES = "https://kz.webddocsystems.com/";
 
     /*TODO: TESTING URL*/
     //public static final String BASE_URL = "https://webdoctesting.webddocsystems.com/iOSApp.svc/";
@@ -19,6 +19,7 @@ public class Constants {
     public static final String WEBDOC_FEEDBACK = "WebdocFeedback";
 
     public static final String GET_DATA_KK = "Kk/v1/AllocateDoctor";
+    public static final String GET_DATA_KM = "Km/v1/AllocateDoctor";
 
     /*  TODO: Details api key */
     public static String doctorsKey = "f9ac31e833bd4eba815c89ea3ac5ae5a";
@@ -32,5 +33,6 @@ public class Constants {
     /*TODO: FIREBASE NOTIFICATIONS KEYS */
     public static final String FIREBASE_SERVER_KEY = "key=AAAAlaKRvi4:APA91bE3dXivguMI7ENzztZjd9vNx256Zx-h8-LsfNwFTl-nL6gZMNVKLTJ-Kkh4N7jTs_BVhnx0BV78cKCxU5XtSEOiS3lbJQKn0rfzRlhduMGC049iCJ9S3QUh_J-lKuX_1GQG4PmH";
     public static final String FIREBASE_SERVER_KEY_AGRIEXPERT = "key=AAAAtMoZmiI:APA91bHJuoliDNEv6IUix2RhjJ4JFTe3lrR0GSLys0uv9VqX5ePwlS-msdttGhsm7nc5blZvAQZvpUPx-oAm3ZEo_tR-RXBHQ6MFeasy6y0oz2dk-zTPe2D54meaWP-jWF6_PBzmmI9m";
+    public static final String FIREBASE_SERVER_KEY_VETDOC = "key=AAAAuxhmmz8:APA91bE1GjKQ3Qil3LXGdePf00Hj01wyXxOU3iaTtuxEXmSUbqYoyWWnVOI2SAxhEOvhiNkxDUKbBI1k9bM_OgbSklnsMNdiEhcd509pyY7tVHFZozPjETVgVPGN221kquBAGneVNfsh";
     public static final String  FIREBASE_NOTIFICATION_URL = "https://fcm.googleapis.com/fcm/send";
 }
