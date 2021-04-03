@@ -84,6 +84,12 @@ public class ServerManager {
         jsonParse("abcjsdlkfjslajfkdsj", url, Constants.GET_DATA_KM, params, Request.Method.POST);
     }
 
+    public void GetDataKS() {
+        String url = Constants.BASE_URL_SERVICES + Constants.GET_DATA_KS;
+        JSONObject params = new JSONObject();
+        jsonParse("abcjsdlkfjslajfkdsj", url, Constants.GET_DATA_KS, params, Request.Method.POST);
+    }
+
     public void GetPrescriptionHistory(String userId) {
         String url = Constants.BASE_URL+Constants.CUSTOMER_CONSULTATION_API;
         JSONObject params = new JSONObject();

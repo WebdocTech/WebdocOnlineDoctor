@@ -268,7 +268,7 @@ public class VideoCall extends AppCompatActivity {
         tv_call_status =  (TextView) findViewById(R.id.tv_call_status);
         tv_call_time =  (TextView) findViewById(R.id.tv_call_time);
 
-        if(Global.corporate.equalsIgnoreCase("KK") || Global.corporate.equalsIgnoreCase("KM")) {
+        if(Global.corporate.equalsIgnoreCase("KK") || Global.corporate.equalsIgnoreCase("KM") || Global.corporate.equalsIgnoreCase("KS")) {
             channelName = Global.channel;
         } else {
             Intent i = getIntent();

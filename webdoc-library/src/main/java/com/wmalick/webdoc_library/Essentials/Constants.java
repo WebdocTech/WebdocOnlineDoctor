@@ -20,6 +20,7 @@ public class Constants {
 
     public static final String GET_DATA_KK = "Kk/v1/AllocateDoctor";
     public static final String GET_DATA_KM = "Km/v1/AllocateDoctor";
+    public static final String GET_DATA_KS = "Ks/v1/AllocateDoctor";
 
     /*  TODO: Details api key */
     public static String doctorsKey = "f9ac31e833bd4eba815c89ea3ac5ae5a";
