@@ -1,6 +1,5 @@
 package com.wmalick.webdoc_library.Dashboard.Fragments.ConsultDoctorFragments.DoctorConsultation;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -45,12 +44,14 @@ public class DoctorConsultationFragment extends Fragment {
 
         activity = getActivity();
 
-        /*Global.doctorsList.clear();
-        for(int i = 0; i < Global.doctorListResponse.getDoctorListResult().getDoctorprofiles().size(); i++)
-        {
-            Global.doctorsList.add(Global.doctorListResponse.getDoctorListResult().getDoctorprofiles().get(i));
-        }*/
 
+        setAdapter(view);
+        UpdateRealTimeStatuses();
+
+        return view;
+    }
+
+    private void setAdapter(View view) {
         recyclerViewConsult=(RecyclerView)view.findViewById(R.id.rvConsultDoctor_DoctorConsultationFrag);
         LinearLayoutManager layoutManager1= new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL,false);
         recyclerViewConsult.setLayoutManager(layoutManager1);
@@ -58,9 +59,6 @@ public class DoctorConsultationFragment extends Fragment {
         recyclerViewConsult.setHasFixedSize(true);
         doctorListConsultAdapter =new ConsultDoctorListAdapter(getActivity(), getActivity().getSupportFragmentManager());
         recyclerViewConsult.setAdapter(doctorListConsultAdapter);
-        UpdateRealTimeStatuses();
-
-        return view;
     }
 
     @Override
@@ -84,9 +82,9 @@ public class DoctorConsultationFragment extends Fragment {
                         doctorStatusModelClass info = new doctorStatusModelClass();
                         info.setDoctorEmail(email);
                         info.setStatus(dataSnapshot1.child("status").getValue().toString());
-                        for(int w=0; w<Global.doctorListResponse.getDoctorListResult().getDoctorprofiles().size(); w++){
-                            if(Global.doctorListResponse.getDoctorListResult().getDoctorprofiles().get(w).getEmail().replace(".", "").equals(info.getDoctorEmail())){
-                                Global.doctorListResponse.getDoctorListResult().getDoctorprofiles().get(w).setOnlineDoctor(dataSnapshot1.child("status").getValue().toString());
+                        for(int w=0; w < Global.doctorListResponse.getDoctorprofiles().size(); w++){
+                            if(Global.doctorListResponse.getDoctorprofiles().get(w).getEmail().replace(".", "").equals(info.getDoctorEmail())){
+                                Global.doctorListResponse.getDoctorprofiles().get(w).setOnlineDoctor(dataSnapshot1.child("status").getValue().toString());
                             }
                         }
                         i ++;

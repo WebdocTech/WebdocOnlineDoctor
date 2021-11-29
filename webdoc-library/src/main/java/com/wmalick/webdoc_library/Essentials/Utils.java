@@ -8,12 +8,15 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -23,11 +26,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.JsonObject;
-import com.wmalick.webdoc_library.Agora.Constant;
 import com.wmalick.webdoc_library.R;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -39,6 +39,18 @@ public class Utils {
     public ProgressDialog progressDialog;
     public MediaPlayer mediaPlayer;
     public Boolean isProgressDialogShowing = false;
+
+    public boolean isInternerConnected(Activity cntx) {
+        ConnectivityManager cm = (ConnectivityManager) cntx.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null;
+    }
+
+    public void showToast(Context context, String msg){
+        Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.show();
+    }
 
     public void showProgressDialog(Activity activity, String message)
     {

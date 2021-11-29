@@ -5,110 +5,124 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RatingBar;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.wmalick.webdoc_library.Dashboard.modelclasses.FeedbackModel;
 import com.wmalick.webdoc_library.Essentials.Constants;
 import com.wmalick.webdoc_library.Essentials.Global;
-import com.wmalick.webdoc_library.FormModels.SubmitWebdocFeedbackFormModel;
 import com.wmalick.webdoc_library.R;
-import com.wmalick.webdoc_library.ResponseModels.WebdocFeedback.WebdocFeedbackApiResponse;
-import com.wmalick.webdoc_library.ServerManager.ServerManager;
-import com.wmalick.webdoc_library.ServerManager.VolleyListener;
+import com.wmalick.webdoc_library.api.APIClient;
+import com.wmalick.webdoc_library.api.APIInterface;
+import com.wmalick.webdoc_library.databinding.ActivityRateDoctorPopupBinding;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class RateDoctorPopupActivity extends AppCompatActivity implements VolleyListener {
-
-    TextView tvTitle, tvSubtitle, tvRatingTag;
-    EditText etReview;
-    Button btnLater, btnSubmit;
-    RatingBar ratingBar;
-    ServerManager serverManager;
+public class RateDoctorPopupActivity extends AppCompatActivity {
+    private ActivityRateDoctorPopupBinding layoutBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rate_doctor_popup);
+        layoutBinding = ActivityRateDoctorPopupBinding.inflate(getLayoutInflater());
+        setContentView(layoutBinding.getRoot());
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         int screenWidth = (int) (metrics.widthPixels * 0.80);
         getWindow().setLayout(screenWidth, WindowManager.LayoutParams.WRAP_CONTENT);
-        InitViews();
+
         ActionControls();
     }
 
     private void ActionControls() {
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
+        layoutBinding.btnSubmitRateDoctorPopupActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String userFeedBack = "";
-                if(!TextUtils.isEmpty(etReview.getText().toString())){
-                    userFeedBack = etReview.getText().toString();
+                if (!TextUtils.isEmpty(layoutBinding.etReviewRateDoctorPopupActivity.getText().toString())) {
+                    userFeedBack = layoutBinding.etReviewRateDoctorPopupActivity.getText().toString();
                 }
-                SubmitWebdocFeedbackFormModel dataModel = new SubmitWebdocFeedbackFormModel();
-                dataModel.setCustomerId(Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getApplicationUserId());
-                dataModel.setFeeback(userFeedBack);
-                dataModel.setRating(String.valueOf(ratingBar.getRating()));
-                Global.utils.showProgressDialog(RateDoctorPopupActivity.this, getString(R.string.submitting_feedback));
-                serverManager.SubmitWebdocFeedBack(dataModel);
+
+                callFeedbackApi(Global.getCustomerDataModel.getGetcustomerDataResult().getCustomerData().getApplicationUserId(),
+                        userFeedBack, String.valueOf(layoutBinding.ratingBarRateDoctorPopupActivity.getRating()));
             }
         });
 
-        btnLater.setOnClickListener(new View.OnClickListener() {
+        layoutBinding.btnLaterRateDoctorPopupActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
 
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+        layoutBinding.ratingBarRateDoctorPopupActivity.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                if(v <= 1){
-                    tvRatingTag.setText(getString(R.string.rating_1));
-                }else if(v <= 2){
-                    tvRatingTag.setText(getString(R.string.rating_2));
-                }else if(v <= 3){
-                    tvRatingTag.setText(getString(R.string.rating_3));
-                }else if(v <= 4){
-                    tvRatingTag.setText(getString(R.string.rating_4));
-                }else if(v <= 5){
-                    tvRatingTag.setText(getString(R.string.rating_5));
+                if (v <= 1) {
+                    layoutBinding.tvRatingTagRateDoctorPopupActivity.setText(getString(R.string.rating_1));
+                } else if (v <= 2) {
+                    layoutBinding.tvRatingTagRateDoctorPopupActivity.setText(getString(R.string.rating_2));
+                } else if (v <= 3) {
+                    layoutBinding.tvRatingTagRateDoctorPopupActivity.setText(getString(R.string.rating_3));
+                } else if (v <= 4) {
+                    layoutBinding.tvRatingTagRateDoctorPopupActivity.setText(getString(R.string.rating_4));
+                } else if (v <= 5) {
+                    layoutBinding.tvRatingTagRateDoctorPopupActivity.setText(getString(R.string.rating_5));
                 }
             }
         });
     }
 
-    private void InitViews() {
-        serverManager = new ServerManager(this, this);
-        tvTitle = findViewById(R.id.tvTitle_RateDoctorPopupActivity);
-        tvSubtitle = findViewById(R.id.tvSubtitle_RateDoctorPopupActivity);
-        tvRatingTag = findViewById(R.id.tvRatingTag_RateDoctorPopupActivity);
-        etReview = findViewById(R.id.etReview_RateDoctorPopupActivity);
-        btnSubmit = findViewById(R.id.btnSubmit_RateDoctorPopupActivity);
-        btnLater = findViewById(R.id.btnLater_RateDoctorPopupActivity);
-        ratingBar = findViewById(R.id.ratingBar_RateDoctorPopupActivity);
-    }
 
-    @Override
-    public void getRequestResponse(JSONObject response, String requestedApi) throws JSONException {
-        Gson gson = new Gson();
-         if(requestedApi.equalsIgnoreCase(Constants.WEBDOC_FEEDBACK)){
-            Global.utils.hideProgressDialog();
-            WebdocFeedbackApiResponse responseModel = gson.fromJson(response.toString(), WebdocFeedbackApiResponse.class);
-            if(responseModel.getWebdocSdkFeedbackResult().getResponseCode().equals(Constants.SUCCESSCODE)){
-                Global.utils.showSuccessSnakeBar(this, responseModel.getWebdocSdkFeedbackResult().getMessage());
-                finish();
-            }else{
-                Global.utils.showErrorSnakeBar(this, responseModel.getWebdocSdkFeedbackResult().getMessage());
-            }
+    public void callFeedbackApi(String cID, String feedback, String rating) {
+        if (!Global.utils.isInternerConnected(this)) {
+            Global.utils.showToast(this, "No internet connection !");
+        } else {
+
+            Global.utils.showProgressDialog(RateDoctorPopupActivity.this, getString(R.string.submitting_feedback));
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("CustomerId", cID);
+            jsonObject.addProperty("feeback", feedback);
+            jsonObject.addProperty("rating", rating);
+
+            Log.e("webdoc_doctors_sdk", jsonObject.toString());
+
+            APIInterface apiInterface = APIClient.getClient(Constants.BASE_URL);
+            Call<FeedbackModel> call = apiInterface.callFeedbackApi(jsonObject);
+
+            call.enqueue(new Callback<FeedbackModel>() {
+                @Override
+                public void onResponse(Call<FeedbackModel> call, Response<FeedbackModel> response) {
+                    Global.utils.hideProgressDialog();
+                    if (response.isSuccessful()) {
+                        try {
+                            FeedbackModel responseModel = response.body();
+                            if (responseModel.getWebdocSdkFeedbackResult().getResponseCode().equals(Constants.SUCCESSCODE)) {
+                                Global.utils.showSuccessSnakeBar(RateDoctorPopupActivity.this, responseModel.getWebdocSdkFeedbackResult().getMessage());
+                                finish();
+                            } else {
+                                Global.utils.showErrorSnakeBar(RateDoctorPopupActivity.this, responseModel.getWebdocSdkFeedbackResult().getMessage());
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<FeedbackModel> call, Throwable t) {
+                    Global.utils.hideProgressDialog();
+                    //Log.e(TAG, t.toString());
+                    Toast.makeText(RateDoctorPopupActivity.this, "Ooops! something went wrong !", Toast.LENGTH_LONG).show();
+
+                }
+            });
         }
     }
 }

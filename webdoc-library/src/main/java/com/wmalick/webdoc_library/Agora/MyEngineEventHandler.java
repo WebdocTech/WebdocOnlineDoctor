@@ -90,8 +90,6 @@ public class MyEngineEventHandler {
             }
         }
 
-
-
         /**
          * Reports the statistics of the RtcEngine once every two seconds.
          * @param stats RTC engine statistics: RtcStats.

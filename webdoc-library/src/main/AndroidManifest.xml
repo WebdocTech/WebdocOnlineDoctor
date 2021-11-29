@@ -3,7 +3,7 @@
     package="com.wmalick.webdoc_library">
 
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -17,41 +17,36 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
-
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".Agora.AGApplication"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".Dashboard.Fragments.ConsultDoctorFragments.RateDoctorPopupActivity"
-            android:theme="@style/Theme.Transparent"></activity>
-        <activity
-            android:name=".Agora.VideoCallScreenActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity
-            android:name=".Agora.AudioCallScreenActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".Agora.BaseActivity" />
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
 
+        <activity android:name=".Dashboard.Fragments.ConsultDoctorFragments.DoctorProfile.DoctorProfileActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".Dashboard.Fragments.ConsultDoctorFragments.RateDoctorPopupActivity"
+            android:theme="@style/Theme.Transparent"/>
+        <activity android:name=".Agora.BaseActivity"/>
         <activity
             android:name=".AgoraNew.AudioCall.VoiceCall"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".AgoraNew.VideoCall.VideoCall"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".Dashboard.WebdocDashboardActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".Dashboard.Fragments.ConsultDoctorFragments.DoctorConsult.DoctorConsultActivity"
             android:launchMode="singleTask"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <service android:name=".Services.FcmListenerService">
             <intent-filter>
@@ -60,6 +55,7 @@
         </service>
 
         <service android:name=".AgoraNew.CallService.CallService" />
+
     </application>
 
 </manifest>

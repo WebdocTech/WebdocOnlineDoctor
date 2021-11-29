@@ -29,7 +29,6 @@ import com.squareup.picasso.Picasso;
 import com.wmalick.webdoc_library.Agora.ConstantApp;
 import com.wmalick.webdoc_library.AgoraNew.CallService.CallService;
 import com.wmalick.webdoc_library.AgoraNew.CallService.CheckServiceStatus;
-import com.wmalick.webdoc_library.Dashboard.Fragments.ConsultDoctorFragments.DoctorConsult.DoctorConsultActivity;
 import com.wmalick.webdoc_library.Essentials.Global;
 import com.wmalick.webdoc_library.R;
 
@@ -122,14 +121,14 @@ public class VoiceCall extends AppCompatActivity implements SensorEventListener 
         public void onUserJoined(int uid, int elapsed) {
             super.onUserJoined(uid, elapsed);
 
-            int a= uid;
+            int a = uid;
             UserInfo userInfo = new UserInfo();
             userInfo.uid = uid;
             //String abc = worker().getUserInfoByUid(uid,  userInfo);
 
             ringing_handler.removeCallbacks(ringing_runnable);
 
-            call_time_handler.postDelayed( runnable = new Runnable() {
+            call_time_handler.postDelayed(runnable = new Runnable() {
                 public void run() {
                     //do something
                     call_seconds++;
@@ -173,8 +172,8 @@ public class VoiceCall extends AppCompatActivity implements SensorEventListener 
 
         startService("Ringing...");
 
-        tv_call_status =  (TextView) findViewById(R.id.tv_call_status);
-        tv_call_time =  (TextView) findViewById(R.id.tv_call_time);
+        tv_call_status = (TextView) findViewById(R.id.tv_call_status);
+        tv_call_time = (TextView) findViewById(R.id.tv_call_time);
         TextView textChannelName = (TextView) findViewById(R.id.channel_name);
         profile_image = (CircleImageView) findViewById(R.id.profile_image);
 
@@ -184,14 +183,13 @@ public class VoiceCall extends AppCompatActivity implements SensorEventListener 
 
         Picasso.get().load(R.drawable.ic_placeholder_doctor).placeholder(R.color.gray_btn_bg_color).error(R.drawable.ic_user_black_24dp).into(profile_image);
 
-        if(tv_call_status.getText().equals("Ringing"))
-        {
-            ringing_handler.postDelayed( ringing_runnable = new Runnable() {
+        if (tv_call_status.getText().equals("Ringing")) {
+            ringing_handler.postDelayed(ringing_runnable = new Runnable() {
                 public void run() {
                     ringing_seconds++;
                     String call_duration = convertSeconds(ringing_seconds);
 
-                    if(call_duration.equalsIgnoreCase("00:00:20")) {
+                    if (call_duration.equalsIgnoreCase("00:00:20")) {
                         Global.call_not_answered = true;
                         quitCall();
                     } else {
@@ -354,20 +352,18 @@ public class VoiceCall extends AppCompatActivity implements SensorEventListener 
         /*Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);*/
 
-        if(CheckServiceStatus.isServiceRunningInForeground(this, CallService.class)) {
+        if (CheckServiceStatus.isServiceRunningInForeground(this, CallService.class)) {
             stopService();
         }
 
-        if(Global.utils.mediaPlayer != null)
-        {
+        if (Global.utils.mediaPlayer != null) {
             Global.utils.stopMediaPlayer();
         }
         ringing_handler.removeCallbacks(ringing_runnable);
         call_time_handler.removeCallbacks(runnable);
 
-        if(tv_call_status.getText().equals("Ringing"))
-        {
-            if(!callEndClicked) {
+        if (tv_call_status.getText().equals("Ringing")) {
+            if (!callEndClicked) {
                 Global.call_not_answered = true;
             } else {
                 Global.call_not_answered = false;
@@ -384,14 +380,13 @@ public class VoiceCall extends AppCompatActivity implements SensorEventListener 
         quitCall();
     }
 
-    private void missedCallNotification()
-    {
+    private void missedCallNotification() {
         JSONObject params = new JSONObject();
         try {
             params.put("to", Global.selectedDoctorDeviceToken);
             params.put("data", new JSONObject()
                     .put("title", "Missed Audio Call")
-                    .put("body", Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getEmail())
+                    .put("body", Global.getCustomerDataModel.getGetcustomerDataResult().getCustomerData().getEmail())
                     .put("channel", channelName));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -406,39 +401,36 @@ public class VoiceCall extends AppCompatActivity implements SensorEventListener 
         if (minutes >= 60) {
             int hours = minutes / 60;
             minutes %= 60;
-            if( hours >= 24) {
+            if (hours >= 24) {
                 int days = hours / 24;
-                return String.format("%d days %02d:%02d:%02d", days,hours%24, minutes, seconds);
+                return String.format("%d days %02d:%02d:%02d", days, hours % 24, minutes, seconds);
             }
             return String.format("%02d:%02d:%02d", hours, minutes, seconds);
         }
         return String.format("00:%02d:%02d", minutes, seconds);
     }
 
-    private void startService(String body)
-    {
+    private void startService(String body) {
         Intent serviceIntent = new Intent(this, CallService.class);
         serviceIntent.putExtra("title", "Audio Call");
         serviceIntent.putExtra("body", body);
         ContextCompat.startForegroundService(this, serviceIntent);
     }
 
-    private void stopService()
-    {
+    private void stopService() {
         Intent serviceIntent = new Intent(this, CallService.class);
         stopService(serviceIntent);
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if(event.sensor.getType()==Sensor.TYPE_PROXIMITY){
-            if(event.values[0] < mProximity.getMaximumRange()){
-                if(!wakeLock.isHeld()) {
+        if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
+            if (event.values[0] < mProximity.getMaximumRange()) {
+                if (!wakeLock.isHeld()) {
                     wakeLock.acquire();
                 }
-            }
-            else{
-                if(wakeLock.isHeld()) {
+            } else {
+                if (wakeLock.isHeld()) {
                     wakeLock.release();
                 }
             }

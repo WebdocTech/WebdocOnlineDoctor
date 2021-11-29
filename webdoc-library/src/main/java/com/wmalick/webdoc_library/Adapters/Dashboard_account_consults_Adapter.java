@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.wmalick.webdoc_library.Essentials.Global;
 import com.wmalick.webdoc_library.R;
-import com.wmalick.webdoc_library.ResponseModels.CustomerConsultationResult.Consultationdetail;
+import com.wmalick.webdoc_library.InitiateSDK.modelclasses.CustomerConsultationResult.Consultationdetail;
 
 
 public class Dashboard_account_consults_Adapter extends RecyclerView.Adapter<Dashboard_account_consults_Adapter.ViewHolder> {

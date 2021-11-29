@@ -20,7 +20,7 @@ import com.wangjie.shadowviewhelper.ShadowViewDrawable;
 import com.wmalick.webdoc_library.Dashboard.Fragments.PrescriptionHistoryFragment.PrescriptionHistoryDetailsFragment;
 import com.wmalick.webdoc_library.Essentials.Global;
 import com.wmalick.webdoc_library.R;
-import com.wmalick.webdoc_library.ResponseModels.CustomerConsultationResult.ConusltationList;
+import com.wmalick.webdoc_library.InitiateSDK.modelclasses.CustomerConsultationResult.ConusltationList;
 
 import static android.graphics.Color.rgb;
 
@@ -48,7 +48,7 @@ public class PrescriptionHistoryAdapter extends RecyclerView.Adapter<Prescriptio
                 .setShadowDy(dip2px(context, 1.5f))
                 .setShadowRadius(dip2px(context, 3));
         //  .setShadowSide(ShadowProperty.ALL);
-        ShadowViewDrawable sd = new ShadowViewDrawable(sp, rgb(250,250,250), 30, 30);
+        ShadowViewDrawable sd = new ShadowViewDrawable(sp, rgb(250,250,250), 15, 15);
         ViewCompat.setBackground(holder.constraintLayout, sd);
         ViewCompat.setLayerType(holder.constraintLayout, View.LAYER_TYPE_SOFTWARE, null);
 

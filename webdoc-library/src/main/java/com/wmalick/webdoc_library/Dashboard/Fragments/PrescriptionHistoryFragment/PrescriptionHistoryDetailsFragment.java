@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.wmalick.webdoc_library.Adapters.Dashboard_account_consults_Adapter;
 import com.wmalick.webdoc_library.Essentials.Global;
 import com.wmalick.webdoc_library.R;
+import com.wmalick.webdoc_library.databinding.FragmentPrescriptionHistoryBinding;
+import com.wmalick.webdoc_library.databinding.FragmentPrescriptionHistoryDetailsBinding;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -23,12 +25,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * A simple {@link Fragment} subclass.
  */
 public class PrescriptionHistoryDetailsFragment extends Fragment {
-
-    RecyclerView recyclerView;
+    private FragmentPrescriptionHistoryDetailsBinding layoutBinding;
     Dashboard_account_consults_Adapter adapter;
-    CircleImageView iv_drImage;
-    TextView tvDocName;
-    TextView tv_Time, tv_Complaints, tv_Diagnosis, tv_ConsultationType, tv_Test;
 
     public PrescriptionHistoryDetailsFragment() {
         // Required empty public constructor
@@ -38,51 +36,39 @@ public class PrescriptionHistoryDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_prescription_history_details, container, false);
+        layoutBinding = FragmentPrescriptionHistoryDetailsBinding.inflate(inflater, container, false);
 
-        InitControl(view);
-        ActionControl(view);
 
-        return view;
+        InitControl();
+        ActionControl();
+
+        return layoutBinding.getRoot();
     }
 
-    private void ActionControl(View view)
-    {
-        tv_Time.setText(Global.customerConsultationList.get(Global.selectedCustomerConsultationPosition).getConsultationDate());
-        tv_Complaints.setText(Global.customerConsultationList.get(Global.selectedCustomerConsultationPosition).getCompliant());
-        if(Global.customerConsultationList.get(Global.selectedCustomerConsultationPosition).getDiagnosis() != null)
-        {
-            tv_Diagnosis.setText(Global.customerConsultationList.get(Global.selectedCustomerConsultationPosition).getDiagnosis().toString());
+    private void ActionControl() {
+        layoutBinding.tvTime.setText(Global.customerConsultationList.get(Global.selectedCustomerConsultationPosition).getConsultationDate());
+        layoutBinding.tvComplaints.setText(Global.customerConsultationList.get(Global.selectedCustomerConsultationPosition).getCompliant());
+        if (Global.customerConsultationList.get(Global.selectedCustomerConsultationPosition).getDiagnosis() != null) {
+            layoutBinding.tvDiagnosis.setText(Global.customerConsultationList.get(Global.selectedCustomerConsultationPosition).getDiagnosis().toString());
         }
-        tv_ConsultationType.setText(Global.customerConsultationList.get(Global.selectedCustomerConsultationPosition).getConsultationType());
-        tv_Test.setText(Global.customerConsultationList.get(Global.selectedCustomerConsultationPosition).getTests());
+        layoutBinding.tvConsultationType.setText(Global.customerConsultationList.get(Global.selectedCustomerConsultationPosition).getConsultationType());
+        layoutBinding.tvTest.setText(Global.customerConsultationList.get(Global.selectedCustomerConsultationPosition).getTests());
 
         Global.customerConsultationDetailsList.clear();
         for (int i = 0; i < Global.customerConsultationResponse.getCustomerConsultationResult().getConusltationList().get(Global.selectedCustomerConsultationPosition).getConsultationdetails().size(); i++) {
             Global.customerConsultationDetailsList.add(Global.customerConsultationResponse.getCustomerConsultationResult().getConusltationList().get(Global.selectedCustomerConsultationPosition).getConsultationdetails().get(i));
         }
 
-        recyclerView = view.findViewById(R.id.RecyclerViewConsults);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
-        recyclerView.setHasFixedSize(true);
-        //recyclerView.setNestedScrollingEnabled(false);
+        layoutBinding.RecyclerViewConsults.setLayoutManager(layoutManager);
+        layoutBinding.RecyclerViewConsults.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        layoutBinding.RecyclerViewConsults.setHasFixedSize(true);
         adapter = new Dashboard_account_consults_Adapter(getActivity()); //initialize main adapter
-        recyclerView.setAdapter(adapter);
+        layoutBinding.RecyclerViewConsults.setAdapter(adapter);
     }
 
-    private void InitControl(View view)
-    {
-        iv_drImage = view.findViewById(R.id.iv_drImage);
-        tv_Time = view.findViewById(R.id.tv_Time);
-        tv_Complaints = view.findViewById(R.id.tv_Complaints);
-        tv_Diagnosis = view.findViewById(R.id.tv_Diagnosis);
-        tv_ConsultationType = view.findViewById(R.id.tv_ConsultationType);
-        tv_Test = view.findViewById(R.id.tv_Test);
-        tvDocName = view.findViewById(R.id.tvDocName_PrescriptionHistoryDetailsFragment);
-        tvDocName.setBackgroundColor(Color.parseColor(Global.THEME_COLOR_CODE));
-        tvDocName.setText(Global.customerConsultationList.get(Global.selectedCustomerConsultationPosition).getDoctorName());
+    private void InitControl() {
+        layoutBinding.tvDocNamePrescriptionHistoryDetailsFragment.setBackgroundColor(Color.parseColor(Global.THEME_COLOR_CODE));
+        layoutBinding.tvDocNamePrescriptionHistoryDetailsFragment.setText(Global.customerConsultationList.get(Global.selectedCustomerConsultationPosition).getDoctorName());
     }
 }

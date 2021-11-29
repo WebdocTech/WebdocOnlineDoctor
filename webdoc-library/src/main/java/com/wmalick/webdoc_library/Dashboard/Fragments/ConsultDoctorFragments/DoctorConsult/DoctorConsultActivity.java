@@ -1,4 +1,4 @@
- package com.wmalick.webdoc_library.Dashboard.Fragments.ConsultDoctorFragments.DoctorConsult;
+package com.wmalick.webdoc_library.Dashboard.Fragments.ConsultDoctorFragments.DoctorConsult;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,32 +30,28 @@ import com.wmalick.webdoc_library.AgoraNew.AudioCall.VoiceCall;
 import com.wmalick.webdoc_library.AgoraNew.VideoCall.VideoCall;
 import com.wmalick.webdoc_library.Essentials.Global;
 import com.wmalick.webdoc_library.R;
+import com.wmalick.webdoc_library.databinding.FragmentDoctorConsultBinding;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-import de.hdodenhof.circleimageview.CircleImageView;
+
 import libs.mjn.prettydialog.PrettyDialog;
 import libs.mjn.prettydialog.PrettyDialogCallback;
 
 public class DoctorConsultActivity extends BaseActivity {
+    private FragmentDoctorConsultBinding layoutBinding;
     public static Toolbar toolbar;
-    TextView tv_name, tv_speciality;
-    CircleImageView profile_image;
-    Button btn_Text,btn_Video,btn_Audio;
     String callingID = "";
     DatabaseReference reference;
     String token;
     AlertDialog alertDialog;
-    ImageView ivOnlineStatus;
-    static Activity activity;
-
-    public DoctorConsultActivity() {
-        // Required empty public constructor
-    }
+    Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_doctor_consult);
+        layoutBinding = FragmentDoctorConsultBinding.inflate(getLayoutInflater());
+        setContentView(layoutBinding.getRoot());
         getWindow().setStatusBarColor(Color.parseColor(Global.THEME_COLOR_CODE));
 
         toolbar = findViewById(R.id.toolbar_DoctorConsultActivity);
@@ -89,24 +84,24 @@ public class DoctorConsultActivity extends BaseActivity {
     }
 
     public void forwardToAudioRoom() {
-            if((!(Integer.parseInt(Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getFreecall()) <1))
-                    || (!Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getPackageSubscribed().equalsIgnoreCase("none"))){
+        if ((!(Integer.parseInt(Global.getCustomerDataModel.getGetcustomerDataResult().getCustomerData().getFreecall()) < 1))
+                || (!Global.getCustomerDataModel.getGetcustomerDataResult().getCustomerData().getPackageSubscribed().equalsIgnoreCase("none"))) {
 
-                JSONObject params = new JSONObject();
-                try {
-                    params.put("to", token);
-                    params.put("data", new JSONObject()
-                            .put("title", "Incoming Audio Call")
-                            .put("channel", callingID)
-                            .put("appointmentID", "0")
-                            .put("body", Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getEmail()));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            JSONObject params = new JSONObject();
+            try {
+                params.put("to", token);
+                params.put("data", new JSONObject()
+                        .put("title", "Incoming Audio Call")
+                        .put("channel", callingID)
+                        .put("appointmentID", "0")
+                        .put("body", Global.getCustomerDataModel.getGetcustomerDataResult().getCustomerData().getEmail()));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-                Global.utils.sendNotification(this, params);
-                vSettings().mChannelName = callingID;
-                Global.selectedDoctorDeviceToken = token;
+            Global.utils.sendNotification(this, params);
+            vSettings().mChannelName = callingID;
+            Global.selectedDoctorDeviceToken = token;
                 /*Intent i = new Intent(this, AudioCallScreenActivity.class);
                 i.putExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME, callingID);
                 i.putExtra(ConstantApp.ACTION_KEY_USER_ACCOUNT, Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getEmail());
@@ -114,17 +109,17 @@ public class DoctorConsultActivity extends BaseActivity {
                 i.putExtra(ConstantApp.ACTION_KEY_USER_TOKEN, "");
                 startActivity(i);*/
 
-                Intent i = new Intent(this, VoiceCall.class);
-                i.putExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME, callingID);
-                startActivity(i);
-            }else{
-                FeedBackDialog();
-            }
+            Intent i = new Intent(this, VoiceCall.class);
+            i.putExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME, callingID);
+            startActivity(i);
+        } else {
+            FeedBackDialog();
+        }
     }
 
     public void forwardToVideoRoom() {
-        if((!(Integer.parseInt(Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getFreecall()) <1))
-                || (!Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getPackageSubscribed().equalsIgnoreCase("none"))){
+        if ((!(Integer.parseInt(Global.getCustomerDataModel.getGetcustomerDataResult().getCustomerData().getFreecall()) < 1))
+                || (!Global.getCustomerDataModel.getGetcustomerDataResult().getCustomerData().getPackageSubscribed().equalsIgnoreCase("none"))) {
 
             Global.utils.startMediaPlayer(DoctorConsultActivity.this, R.raw.dialing_tone);
 
@@ -135,14 +130,14 @@ public class DoctorConsultActivity extends BaseActivity {
                         .put("title", "Incoming Video Call")
                         .put("channel", callingID)
                         .put("appointmentID", "0")
-                        .put("body", Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getEmail()));
+                        .put("body", Global.getCustomerDataModel.getGetcustomerDataResult().getCustomerData().getEmail()));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-        Global.utils.sendNotification(this, params);
-        vSettings().mChannelName = callingID;
-        Global.selectedDoctorDeviceToken = token;
+            Global.utils.sendNotification(this, params);
+            vSettings().mChannelName = callingID;
+            Global.selectedDoctorDeviceToken = token;
         /*Intent i = new Intent(this, VideoCallScreenActivity.class);
         i.putExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME, callingID);
         i.putExtra(ConstantApp.ACTION_KEY_USER_ACCOUNT, Global.getCustomerDataApiResponse.getGetcustomerDataResult().getCustomerData().getEmail());
@@ -153,7 +148,7 @@ public class DoctorConsultActivity extends BaseActivity {
             Intent i = new Intent(this, VideoCall.class);
             i.putExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME, callingID);
             startActivity(i);
-        }else{
+        } else {
             FeedBackDialog();
         }
     }
@@ -167,7 +162,7 @@ public class DoctorConsultActivity extends BaseActivity {
         FirebaseApp appReference = firebaseAppReference(activity);
         FirebaseDatabase databaseReference1 = FirebaseDatabase.getInstance(appReference);
         reference = databaseReference1.getReference().child("Tokens").child("Doctors");
-        reference.child(Global.selectedDoctor.getEmail().replace(".","")).addValueEventListener(new ValueEventListener() {
+        reference.child(Global.selectedDoctor.getEmail().replace(".", "")).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 token = dataSnapshot.child("token").getValue().toString();
@@ -181,19 +176,24 @@ public class DoctorConsultActivity extends BaseActivity {
         });
 
 
-        tv_name.setText(Global.selectedDoctor.getFirstName() + " " + Global.selectedDoctor.getLastName());
-        tv_speciality.setText(Global.selectedDoctor.getDoctorSpecialty());
-        Picasso.get().load(Global.selectedDoctor.getImgLink()).placeholder(R.drawable.ic_placeholder_doctor).error(R.drawable.ic_placeholder_doctor).into(profile_image);
-        btn_Audio.setOnClickListener(new View.OnClickListener() {
+        layoutBinding.tvName.setText(Global.selectedDoctor.getFirstName() + " " + Global.selectedDoctor.getLastName());
+        layoutBinding.tvSpeciality.setText(Global.selectedDoctor.getDoctorSpecialty());
+
+        Picasso.get().load(Global.selectedDoctor.getImgLink())
+                .placeholder(R.drawable.ic_placeholder_doctor)
+                .error(R.drawable.ic_placeholder_doctor)
+                .into(layoutBinding.userImage);
+
+        layoutBinding.btnAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Global.selectedDoctor.getOnlineDoctor().equalsIgnoreCase("online")){
-                    btn_Audio.setBackgroundResource(R.drawable.buttonborder_black_gray);
-                    btn_Audio.setTextColor(Color.parseColor(Global.THEME_COLOR_CODE));
-                    btn_Video.setBackgroundResource(R.drawable.buttonborder_black);
-                    btn_Video.setTextColor(getResources().getColor(R.color.black));
-                    btn_Text.setBackgroundResource(R.drawable.buttonborder_black);
-                    btn_Text.setTextColor(getResources().getColor(R.color.black));
+                if (Global.selectedDoctor.getOnlineDoctor().equalsIgnoreCase("online")) {
+                    layoutBinding.btnAudio.setBackgroundResource(R.drawable.buttonborder_black_gray);
+                    layoutBinding.btnAudio.setTextColor(Color.parseColor(Global.THEME_COLOR_CODE));
+                    layoutBinding.btnVideo.setBackgroundResource(R.drawable.buttonborder_black);
+                    layoutBinding.btnVideo.setTextColor(getResources().getColor(R.color.black));
+                    layoutBinding.btnText.setBackgroundResource(R.drawable.buttonborder_black);
+                    layoutBinding.btnText.setTextColor(getResources().getColor(R.color.black));
                     final PrettyDialog pDialog = new PrettyDialog(DoctorConsultActivity.this);
                     Integer color = Color.parseColor(Global.THEME_COLOR_CODE);
                     pDialog.setMessage("Are you sure you want to audio call to the doctor?")
@@ -218,7 +218,7 @@ public class DoctorConsultActivity extends BaseActivity {
                                         public void onClick() {
                                             pDialog.dismiss();
                                         }
-                                    } )
+                                    })
                             .setIcon(
                                     R.drawable.ic_dialer,     // icon resource
                                     R.color.pdlg_color_green,     // icon tint
@@ -229,23 +229,23 @@ public class DoctorConsultActivity extends BaseActivity {
                                         }
                                     })
                             .show();
-                }else{
+                } else {
                     Toast.makeText(DoctorConsultActivity.this, "Doctor is busy please wait for your turn.", Toast.LENGTH_LONG).show();
                 }
 
             }
         });
 
-        btn_Video.setOnClickListener(new View.OnClickListener() {
+        layoutBinding.btnVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (Global.selectedDoctor.getOnlineDoctor().equalsIgnoreCase("online")) {
-                    btn_Video.setBackgroundResource(R.drawable.buttonborder_black_gray);
-                    btn_Video.setTextColor(Color.parseColor(Global.THEME_COLOR_CODE));
-                    btn_Audio.setBackgroundResource(R.drawable.buttonborder_black);
-                    btn_Audio.setTextColor(getResources().getColor(R.color.black));
-                    btn_Text.setBackgroundResource(R.drawable.buttonborder_black);
-                    btn_Text.setTextColor(getResources().getColor(R.color.black));
+                    layoutBinding.btnVideo.setBackgroundResource(R.drawable.buttonborder_black_gray);
+                    layoutBinding.btnVideo.setTextColor(Color.parseColor(Global.THEME_COLOR_CODE));
+                    layoutBinding.btnAudio.setBackgroundResource(R.drawable.buttonborder_black);
+                    layoutBinding.btnAudio.setTextColor(getResources().getColor(R.color.black));
+                    layoutBinding.btnText.setBackgroundResource(R.drawable.buttonborder_black);
+                    layoutBinding.btnText.setTextColor(getResources().getColor(R.color.black));
                     final PrettyDialog pDialog = new PrettyDialog(DoctorConsultActivity.this);
                     pDialog.setMessage("Are you sure you want to video call to the doctor?")
                             .setAnimationEnabled(true)
@@ -259,7 +259,7 @@ public class DoctorConsultActivity extends BaseActivity {
                                             forwardToVideoRoom();
                                             pDialog.dismiss();
                                         }
-                                    } )
+                                    })
                             .addButton(
                                     "No",
                                     R.color.pdlg_color_white,
@@ -269,7 +269,7 @@ public class DoctorConsultActivity extends BaseActivity {
                                         public void onClick() {
                                             pDialog.dismiss();
                                         }
-                                    } )
+                                    })
                             .setIcon(
                                     R.drawable.ic_videocam_black_24dp,     // icon resource
                                     R.color.pdlg_color_green,      // icon tint
@@ -289,13 +289,6 @@ public class DoctorConsultActivity extends BaseActivity {
 
     private void InitControl() {
         callingID = Global.selectedDoctor.getEmail();
-        tv_name = findViewById(R.id.tv_name);
-        tv_speciality = findViewById(R.id.tv_speciality);
-        profile_image = findViewById(R.id.user_image);
-        btn_Text = findViewById(R.id.btn_Text);
-        btn_Video = findViewById(R.id.btn_Video);
-        btn_Audio = findViewById(R.id.btn_Audio);
-        ivOnlineStatus = findViewById(R.id.iv_onlineStatus_ConsultDoctor);
     }
 
     private void FeedBackDialog() {
@@ -330,12 +323,12 @@ public class DoctorConsultActivity extends BaseActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
-                    if(dataSnapshot.child("status").getValue() != null){
+                    if (dataSnapshot.child("status").getValue() != null) {
                         Global.selectedDoctor.setOnlineDoctor(dataSnapshot.child("status").getValue().toString());
-                        if(dataSnapshot.child("status").getValue().toString().equals("online")){
-                            ivOnlineStatus.setImageResource(R.drawable.online);
-                        }else{
-                            ivOnlineStatus.setImageResource(R.drawable.ic_offline);
+                        if (dataSnapshot.child("status").getValue().toString().equals("online")) {
+                            layoutBinding.ivOnlineStatusConsultDoctor.setImageResource(R.drawable.online);
+                        } else {
+                            layoutBinding.ivOnlineStatusConsultDoctor.setImageResource(R.drawable.ic_offline);
                         }
                     }
                 }
@@ -347,8 +340,7 @@ public class DoctorConsultActivity extends BaseActivity {
         });
     }
 
-    private static FirebaseApp firebaseAppReference(Context context)
-    {
+    private static FirebaseApp firebaseAppReference(Context context) {
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setApiKey("AIzaSyAY2_N3ab_45ggVlisDcuOWxhbzVZZqN34")
                 .setApplicationId("1:642677587502:android:d0de10b1c22b1ee21a69bf")
@@ -358,9 +350,7 @@ public class DoctorConsultActivity extends BaseActivity {
         try {
             FirebaseApp app = FirebaseApp.initializeApp(context, options, "WebDocDoctorSDK");
             return app;
-        }
-        catch (IllegalStateException e)
-        {
+        } catch (IllegalStateException e) {
             return FirebaseApp.getInstance("WebDocDoctorSDK");
         }
     }
@@ -369,9 +359,8 @@ public class DoctorConsultActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        if(Global.call_not_answered)
-        {
-            Global.utils.callNotAnsweredDialog(this, Global.selectedDoctor.getFirstName()+" "+Global.selectedDoctor.getLastName());
+        if (Global.call_not_answered) {
+            Global.utils.callNotAnsweredDialog(this, Global.selectedDoctor.getFirstName() + " " + Global.selectedDoctor.getLastName());
             Global.call_not_answered = false;
         }
     }

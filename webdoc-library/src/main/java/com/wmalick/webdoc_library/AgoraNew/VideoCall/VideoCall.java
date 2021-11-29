@@ -23,10 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-
 import com.wmalick.webdoc_library.Agora.ConstantApp;
-import com.wmalick.webdoc_library.AgoraNew.CallService.CallService;
-import com.wmalick.webdoc_library.AgoraNew.CallService.CheckServiceStatus;
 import com.wmalick.webdoc_library.Essentials.Global;
 import com.wmalick.webdoc_library.R;
 
@@ -169,7 +166,7 @@ public class VideoCall extends AppCompatActivity {
 
             ringing_handler.removeCallbacks(ringing_runnable);
 
-            call_time_handler.postDelayed( runnable = new Runnable() {
+            call_time_handler.postDelayed(runnable = new Runnable() {
                 public void run() {
                     //do something
                     call_seconds++;
@@ -257,7 +254,8 @@ public class VideoCall extends AppCompatActivity {
                 | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
 
         // to release screen lock
-        KeyguardManager keyguardManager = (KeyguardManager) getApplicationContext().getSystemService(Context.KEYGUARD_SERVICE);
+        KeyguardManager keyguardManager = (KeyguardManager) getApplicationContext()
+                .getSystemService(Context.KEYGUARD_SERVICE);
         KeyguardManager.KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("SCREEN LOCK");
         keyguardLock.disableKeyguard();
 
@@ -265,24 +263,26 @@ public class VideoCall extends AppCompatActivity {
 
         //startService("Ringing...");
 
-        tv_call_status =  (TextView) findViewById(R.id.tv_call_status);
-        tv_call_time =  (TextView) findViewById(R.id.tv_call_time);
+        tv_call_status = (TextView) findViewById(R.id.tv_call_status);
+        tv_call_time = (TextView) findViewById(R.id.tv_call_time);
 
-        if(Global.corporate.equalsIgnoreCase("KK") || Global.corporate.equalsIgnoreCase("KM") || Global.corporate.equalsIgnoreCase("KS")) {
+        if (Global.corporate.equalsIgnoreCase("KK")
+                || Global.corporate.equalsIgnoreCase("KM")
+                || Global.corporate.equalsIgnoreCase("KS")
+                || Global.corporate.equalsIgnoreCase("QMS")) {
             channelName = Global.channel;
         } else {
             Intent i = getIntent();
             channelName = i.getStringExtra(ConstantApp.ACTION_KEY_CHANNEL_NAME);
         }
 
-        if(tv_call_status.getText().equals("Ringing"))
-        {
-            ringing_handler.postDelayed( ringing_runnable = new Runnable() {
+        if (tv_call_status.getText().equals("Ringing")) {
+            ringing_handler.postDelayed(ringing_runnable = new Runnable() {
                 public void run() {
                     ringing_seconds++;
                     String call_duration = convertSeconds(ringing_seconds);
 
-                    if(call_duration.equalsIgnoreCase("00:00:20")) {
+                    if (call_duration.equalsIgnoreCase("00:00:20")) {
                         Global.call_not_answered = true;
                         endCall();
                     } else {
@@ -381,10 +381,12 @@ public class VideoCall extends AppCompatActivity {
 
     private void initializeEngine() {
         try {
-            if(Global.corporate.equalsIgnoreCase("KK")) {
+            if (Global.corporate.equalsIgnoreCase("KK")) {
                 mRtcEngine = RtcEngine.create(getBaseContext(), getString(R.string.agora_app_id_agriexpert), mRtcEventHandler);
-            } else if(Global.corporate.equalsIgnoreCase("KM")) {
+            } else if (Global.corporate.equalsIgnoreCase("KM")) {
                 mRtcEngine = RtcEngine.create(getBaseContext(), getString(R.string.agora_app_id_vetdoc), mRtcEventHandler);
+            } else if (Global.corporate.equalsIgnoreCase("QMS")) {
+                mRtcEngine = RtcEngine.create(getBaseContext(), getString(R.string.agora_app_id_agriexpert), mRtcEventHandler);
             } else {
                 mRtcEngine = RtcEngine.create(getBaseContext(), getString(R.string.agora_app_id), mRtcEventHandler);
             }
@@ -493,13 +495,12 @@ public class VideoCall extends AppCompatActivity {
         removeRemoteVideo();
         leaveChannel();
 
-        if(Global.utils.mediaPlayer != null) {
+        if (Global.utils.mediaPlayer != null) {
             Global.utils.stopMediaPlayer();
         }
 
-        if(tv_call_status.getText().equals("Ringing"))
-        {
-            if(!callEndClicked) {
+        if (tv_call_status.getText().equals("Ringing")) {
+            if (!callEndClicked) {
                 Global.call_not_answered = true;
             } else {
                 Global.call_not_answered = false;
@@ -529,8 +530,7 @@ public class VideoCall extends AppCompatActivity {
         mSwitchCameraBtn.setVisibility(visibility);
     }
 
-    private void missedCallNotification()
-    {
+    private void missedCallNotification() {
         JSONObject params = new JSONObject();
         try {
             params.put("to", Global.selectedDoctorDeviceToken);
@@ -552,9 +552,9 @@ public class VideoCall extends AppCompatActivity {
         if (minutes >= 60) {
             int hours = minutes / 60;
             minutes %= 60;
-            if( hours >= 24) {
+            if (hours >= 24) {
                 int days = hours / 24;
-                return String.format("%d days %02d:%02d:%02d", days,hours%24, minutes, seconds);
+                return String.format("%d days %02d:%02d:%02d", days, hours % 24, minutes, seconds);
             }
             return String.format("%02d:%02d:%02d", hours, minutes, seconds);
         }

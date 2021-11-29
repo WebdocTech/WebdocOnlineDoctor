@@ -12,8 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewConfigurationCompat;
-import com.wmalick.webdoc_library.BuildConfig;
 import com.wmalick.webdoc_library.R;
 import io.agora.rtc.RtcEngine;
 import org.slf4j.Logger;
@@ -131,8 +129,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 break;
             }
             case ConstantApp.PERMISSION_REQ_ID_WRITE_EXTERNAL_STORAGE: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 } else {
                     finish();
                 }
@@ -143,26 +140,5 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected CurrentUserSettings vSettings() {
         return AGApplication.mAudioSettings;
-    }
-
-    protected int virtualKeyHeight() {
-        boolean hasPermanentMenuKey = ViewConfigurationCompat.hasPermanentMenuKey(ViewConfiguration.get(getApplication()));
-        DisplayMetrics metrics = new DisplayMetrics();
-        Display display = getWindowManager().getDefaultDisplay();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            display.getRealMetrics(metrics);
-        } else {
-            display.getMetrics(metrics);
-        }
-
-        int fullHeight = metrics.heightPixels;
-        display.getMetrics(metrics);
-        return fullHeight - metrics.heightPixels;
-    }
-
-    protected void initVersionInfo() {
-        String version = "V " + BuildConfig.VERSION_NAME + "(Build: " + BuildConfig.VERSION_CODE
-                + ", " + ConstantApp.APP_BUILD_DATE + ", SDK: " + Constant.MEDIA_SDK_VERSION + ")";
     }
 }

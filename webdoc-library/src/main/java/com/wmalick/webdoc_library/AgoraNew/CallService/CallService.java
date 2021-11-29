@@ -54,18 +54,17 @@ public class CallService extends Service {
         return null;
     }
 
-    public void showNotification()
-    {
-        if(title.equalsIgnoreCase("Audio Call")) {
+    public void showNotification() {
+        if (title.equalsIgnoreCase("Audio Call")) {
             callingIntent = new Intent(this, VoiceCall.class);
-        } else if(title.equalsIgnoreCase("Video Call")) {
+        } else if (title.equalsIgnoreCase("Video Call")) {
             callingIntent = new Intent(this, VideoCall.class);
         }
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, callingIntent, 0);
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,CHANNEL_ID)
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.logored)
                 .setContentTitle(title)
                 .setContentText(body)
@@ -82,11 +81,11 @@ public class CallService extends Service {
         startForeground(notificationID, notificationBuilder.build());
     }
 
-    public void createChannel(NotificationManager notificationManager){
+    public void createChannel(NotificationManager notificationManager) {
         if (Build.VERSION.SDK_INT < 26) {
             return;
         }
-        NotificationChannel channel = new NotificationChannel(CHANNEL_ID,CHANNEL_NAME, NotificationManager.IMPORTANCE_LOW);
+        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_LOW);
         channel.setDescription("Handles calling in the background");
         notificationManager.createNotificationChannel(channel);
     }

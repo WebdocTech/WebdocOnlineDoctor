@@ -3,6 +3,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
 
+    <string name="doctor_profile">Doctor Profile</string>
     <string name="consult_doctor">Consult Doctor</string>
     <string name="prescription_history">Prescription History</string>
     <string name="feedback">Feedback</string>
@@ -69,6 +70,8 @@
 
     <!--TODO: Agora App ID (VetDoc)-->
     <string name="agora_app_id_vetdoc">9ec4956765a745e2b95517615b391d29</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

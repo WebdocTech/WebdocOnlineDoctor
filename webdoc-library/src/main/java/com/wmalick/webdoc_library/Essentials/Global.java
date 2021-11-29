@@ -1,13 +1,14 @@
 package com.wmalick.webdoc_library.Essentials;
 
 
-import com.wmalick.webdoc_library.ResponseModels.AllocateDoctorResult.AllocateDoctorResult;
-import com.wmalick.webdoc_library.ResponseModels.CustomerConsultationResult.Consultationdetail;
-import com.wmalick.webdoc_library.ResponseModels.CustomerConsultationResult.ConusltationList;
-import com.wmalick.webdoc_library.ResponseModels.CustomerConsultationResult.CustomerConsultationResult;
-import com.wmalick.webdoc_library.ResponseModels.DoctorListResult.DoctorListResult;
-import com.wmalick.webdoc_library.ResponseModels.DoctorListResult.Doctorprofile;
-import com.wmalick.webdoc_library.ResponseModels.GetCustomerData.GetCustomerDataApiResponse;
+import com.wmalick.webdoc_library.Dashboard.modelclasses.AllocateLawyerResult;
+import com.wmalick.webdoc_library.Dashboard.modelclasses.DoctorListResult;
+import com.wmalick.webdoc_library.Dashboard.modelclasses.Doctorprofile;
+import com.wmalick.webdoc_library.InitiateSDK.modelclasses.KK_modelclasses.AllocateDoctorResult;
+import com.wmalick.webdoc_library.InitiateSDK.modelclasses.TPL_modelclasses.CustomerDataModel;
+import com.wmalick.webdoc_library.InitiateSDK.modelclasses.CustomerConsultationResult.Consultationdetail;
+import com.wmalick.webdoc_library.InitiateSDK.modelclasses.CustomerConsultationResult.ConusltationList;
+import com.wmalick.webdoc_library.InitiateSDK.modelclasses.CustomerConsultationResult.CustomerConsultationResult;
 
 import java.util.ArrayList;
 
@@ -22,8 +23,9 @@ public class Global {
     /* TODO: API Response Models Objects */
     public static DoctorListResult doctorListResponse = new DoctorListResult();
     public static CustomerConsultationResult customerConsultationResponse = new CustomerConsultationResult();
-    public static GetCustomerDataApiResponse getCustomerDataApiResponse = new GetCustomerDataApiResponse();
+    public static CustomerDataModel getCustomerDataModel = new CustomerDataModel();
     public static AllocateDoctorResult allocateDoctorResponse = new AllocateDoctorResult();
+    public static AllocateLawyerResult allocateLawyerResult = new AllocateLawyerResult();
 
     /* TODO: API Response Models Lists */
     public static ArrayList<Doctorprofile> doctorsList = new ArrayList<>();
