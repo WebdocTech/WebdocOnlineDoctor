@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
                 //new Initiate_sdk(MainActivity.this, "03165121519", "06ad39b1-131d-49f4-86fe-bb564adfca94","Alfa", "#F1A01F");
                 //new Initiate_sdk(MainActivity.this, "03412060022","TPL", "#F1A01F");
                 new Initiate_sdk(MainActivity.this, "03165121519", "KS", "#F1A01F", true);
-               // new Initiate_sdk(MainActivity.this, "03145362496", "QMS", "#F1A01F", true);
+               new Initiate_sdk(MainActivity.this, "03145362496", "QMS", "#F1A01F", true);
             }
 
         });
