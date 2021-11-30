@@ -13,6 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class APIClient{
 
     public static APIInterface getClient(String BASE_URL) {
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
